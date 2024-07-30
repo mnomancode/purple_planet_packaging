@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 
 import '../generated/l10n.dart';
 import 'core/router/router.dart';
@@ -16,6 +17,7 @@ class App extends ConsumerWidget {
 
     return MaterialApp.router(
       title: 'Purple Planet Packaging',
+      color: AppColors.primaryColor,
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,

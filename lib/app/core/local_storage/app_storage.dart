@@ -25,6 +25,13 @@ class AppStorage {
   // Future<void> putHelloWorld(String helloWorld) async {
   //   await _box?.put(_helloWorld, helloWorld);
   // }
+  Future<void> putString(String key, String value) async {
+    await _box?.put(key, value);
+  }
+
+  Future<String?> getString(String key) async {
+    return _box?.get(key) as String?;
+  }
 
   /// for clearing all data in box
   Future<void> clearAllData() async {
