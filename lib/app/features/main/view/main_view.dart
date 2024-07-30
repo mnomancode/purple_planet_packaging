@@ -4,63 +4,33 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../generated/l10n.dart';
 import '../../../core/local_storage/app_storage.dart';
 
-class MainView extends ConsumerStatefulWidget {
-  const MainView({super.key});
+class DashboardView extends ConsumerStatefulWidget {
+  const DashboardView({super.key});
 
-  static const routeName = '/main';
+  static const routeName = '/';
 
   @override
-  ConsumerState<MainView> createState() => _MainViewState();
+  ConsumerState<DashboardView> createState() => _MainViewState();
 }
 
-class _MainViewState extends ConsumerState<MainView> {
-  TextEditingController _textEditingController = TextEditingController();
-
+class _MainViewState extends ConsumerState<DashboardView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TextField(
-            controller: _textEditingController,
-            decoration: InputDecoration(
-              hintText: S.of(context).okGotIt,
+      appBar: AppBar(
+        title: Text('DashboardView'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(S.of(context).okGotIt),
+            ElevatedButton(
+              onPressed: () {},
+              child: Text(S.of(context).okGotIt),
             ),
-          ),
-          ElevatedButton(
-            child: Text(S.of(context).okGotIt),
-            onPressed: () {
-              ref
-                  .read(appStorageProvider)
-                  .putString('hi', _textEditingController.text)
-                  .then((value) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Saved'),
-                  ),
-                );
-              });
-            },
-          ),
-          ElevatedButton(
-            child: const Text('Read'),
-            onPressed: () {
-              ref
-                  .read(appStorageProvider)
-                  .getString(
-                    'hi',
-                  )
-                  .then((value) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Read: $value'),
-                  ),
-                );
-              });
-            },
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
