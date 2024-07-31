@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/features/auth/providers/auth_providers.dart';
 import 'package:purple_planet_packaging/app/features/home/view/home_view.dart';
-import 'package:purple_planet_packaging/app/features/main/view/main_view.dart';
+import 'package:purple_planet_packaging/app/features/main/view/dashboard_view.dart';
 
 class AuthView extends ConsumerWidget {
   const AuthView({super.key});

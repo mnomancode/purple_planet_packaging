@@ -11,17 +11,15 @@ import 'package:purple_planet_packaging/app/features/profile/view/profile_view.d
 import 'package:purple_planet_packaging/app/features/shop/view/shop_view.dart';
 import 'package:purple_planet_packaging/app/features/splash/view/splash_view.dart';
 
-import '../../features/main/view/main_view.dart';
+import '../../features/main/view/dashboard_view.dart';
 
 ///
 /// for getting routers that are present in the app
 ///
 ///
-final GlobalKey<NavigatorState> _rootNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'root');
+final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 
-final GlobalKey<NavigatorState> _sectionANavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
+final GlobalKey<NavigatorState> _sectionANavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
 
 // GoRouter.of(_rootNavigatorKey.currentContext!).go('/a'))
 final routerProvider = Provider<GoRouter>(
@@ -59,8 +57,7 @@ final routerProvider = Provider<GoRouter>(
           builder: (context, state) => const AuthView(),
         ),
         StatefulShellRoute.indexedStack(
-          builder: (BuildContext context, GoRouterState state,
-              StatefulNavigationShell navigationShell) {
+          builder: (BuildContext context, GoRouterState state, StatefulNavigationShell navigationShell) {
             return DashboardView(navigationShell: navigationShell);
           },
           branches: <StatefulShellBranch>[

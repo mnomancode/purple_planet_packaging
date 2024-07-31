@@ -3,9 +3,9 @@ flutter_native_splash:
   web: true
   android: true
   ios: true
-  image: assets/icon/ppp_logo.png
+  image: assets/icon/ppp_icon_transparent.png
   android_12: 
-    image: assets/icon/ppp_logo.png
+    image: assets/icon/ppp_icon_transparent.png
 
 
 

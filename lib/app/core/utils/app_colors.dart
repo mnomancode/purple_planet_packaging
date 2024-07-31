@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 class AppColors {
   static Color white = Colors.white;
 
+  static Color scaffoldBackground = const Color(0xFFF5F5F5);
+
+  static Color greyColor = Colors.grey;
+
   AppColors._();
 
   static const Color primaryColor = Color(0xFF4F266B);
@@ -10,8 +14,7 @@ class AppColors {
   static const Color lightPurple = Color(0xFF951B81);
   static const Color lightGreen = Color(0xFF8FC03C);
 
-  static const MaterialColor primaryMaterial =
-      MaterialColor(_palettePrimaryValue, <int, Color>{
+  static const MaterialColor primaryMaterial = MaterialColor(_palettePrimaryValue, <int, Color>{
     50: Color(0xFFEAE5ED),
     100: Color(0xFFCABED3),
     200: Color(0xFFA793B5),
@@ -25,8 +28,7 @@ class AppColors {
   });
   static const int _palettePrimaryValue = 0xFF4F266B;
 
-  static const MaterialColor palette0Accent =
-      MaterialColor(_paletteAccentValue, <int, Color>{
+  static const MaterialColor palette0Accent = MaterialColor(_paletteAccentValue, <int, Color>{
     100: Color(0xFFB976FF),
     200: Color(_paletteAccentValue),
     400: Color(0xFF8410FF),

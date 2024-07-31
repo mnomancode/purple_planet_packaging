@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
+import 'package:purple_planet_packaging/app/core/utils/app_utils.dart';
 
 import '../generated/l10n.dart';
 import 'core/router/router.dart';
@@ -17,7 +18,7 @@ class App extends ConsumerWidget {
     final router = ref.read(routerProvider);
 
     return ScreenUtilInit(
-        designSize: const Size(360, 690),
+        designSize: AppUtils.isTablet(context) ? const Size(768, 1024) : const Size(390, 884),
         minTextAdapt: true,
         splitScreenMode: true,
         // Use builder only if you need to use library outside ScreenUtilInit context

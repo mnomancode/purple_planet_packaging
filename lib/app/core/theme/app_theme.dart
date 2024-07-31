@@ -7,9 +7,8 @@ class AppTheme {
   ThemeData get lightTheme {
     // TODO: add light theme here
     return ThemeData(
-      scaffoldBackgroundColor: AppColors.white,
-      colorScheme:
-          ColorScheme.fromSwatch(primarySwatch: AppColors.primaryMaterial),
+      scaffoldBackgroundColor: AppColors.scaffoldBackground,
+      colorScheme: ColorScheme.fromSwatch(primarySwatch: AppColors.primaryMaterial),
     );
   }
 
@@ -17,9 +16,8 @@ class AppTheme {
   ThemeData get darkTheme {
     // TODO: add dark theme here
     return ThemeData(
-      scaffoldBackgroundColor: AppColors.white,
-      colorScheme:
-          ColorScheme.fromSwatch(primarySwatch: AppColors.primaryMaterial),
+      scaffoldBackgroundColor: AppColors.scaffoldBackground,
+      colorScheme: ColorScheme.fromSwatch(primarySwatch: AppColors.primaryMaterial),
     );
   }
 }
