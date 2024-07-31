@@ -16,6 +16,9 @@ import '../../features/main/view/main_view.dart';
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
 
+final GlobalKey<NavigatorState> _sectionANavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'sectionANav');
+
 // GoRouter.of(_rootNavigatorKey.currentContext!).go('/a'))
 final routerProvider = Provider<GoRouter>(
   (ref) {
@@ -55,6 +58,7 @@ final routerProvider = Provider<GoRouter>(
           path: DashboardView.routeName,
           builder: (context, state) => const DashboardView(),
         ),
+        // StatefulShellRoute.indexedStack()
       ],
     );
   },
