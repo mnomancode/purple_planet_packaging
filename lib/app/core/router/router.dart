@@ -5,6 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/features/auth/providers/auth_providers.dart';
 import 'package:purple_planet_packaging/app/features/auth/view/auth_view.dart';
+import 'package:purple_planet_packaging/app/features/cart/view/cart_view.dart';
+import 'package:purple_planet_packaging/app/features/home/view/home_view.dart';
+import 'package:purple_planet_packaging/app/features/profile/view/profile_view.dart';
+import 'package:purple_planet_packaging/app/features/shop/view/shop_view.dart';
 import 'package:purple_planet_packaging/app/features/splash/view/splash_view.dart';
 
 import '../../features/main/view/main_view.dart';
@@ -27,8 +31,8 @@ final routerProvider = Provider<GoRouter>(
 
     return GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: SplashView.routeName,
-      // refreshListenable: authState,
+      initialLocation: HomeView.routeName,
+      refreshListenable: authState,
       redirect: (context, state) {
         /**
       * Your Redirection Logic Code  Here..........
@@ -54,11 +58,51 @@ final routerProvider = Provider<GoRouter>(
           path: AuthView.routeName,
           builder: (context, state) => const AuthView(),
         ),
-        GoRoute(
-          path: DashboardView.routeName,
-          builder: (context, state) => const DashboardView(),
-        ),
-        // StatefulShellRoute.indexedStack()
+        StatefulShellRoute.indexedStack(
+          builder: (BuildContext context, GoRouterState state,
+              StatefulNavigationShell navigationShell) {
+            return DashboardView(navigationShell: navigationShell);
+          },
+          branches: <StatefulShellBranch>[
+            StatefulShellBranch(
+              navigatorKey: _sectionANavigatorKey,
+              routes: [
+                GoRoute(
+                  path: HomeView.routeName,
+                  builder: (context, state) => const HomeView(),
+                  routes: [],
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: ShopView.routeName,
+                  builder: (context, state) => const ShopView(),
+                  routes: [],
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: CartView.routeName,
+                  builder: (context, state) => const CartView(),
+                  routes: [],
+                ),
+              ],
+            ),
+            StatefulShellBranch(
+              routes: [
+                GoRoute(
+                  path: ProfileView.routeName,
+                  builder: (context, state) => const ProfileView(),
+                  routes: [],
+                ),
+              ],
+            ),
+          ],
+        )
       ],
     );
   },

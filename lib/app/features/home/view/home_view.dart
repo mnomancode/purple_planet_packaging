@@ -8,6 +8,6 @@ class HomeView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const SizedBox();
+    return const SizedBox(child: Text(routeName));
   }
 }
