@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static Color white = Colors.white;
+  static const Color white = Colors.white;
 
-  static Color scaffoldBackground = const Color(0xFFF5F5F5);
+  static const Color scaffoldBackground = Color(0xFFF5F5F5);
 
-  static Color greyColor = Colors.grey;
+  static const Color greyColor = Colors.grey;
+
+  static const Color blackColor = Colors.black;
 
   AppColors._();
 

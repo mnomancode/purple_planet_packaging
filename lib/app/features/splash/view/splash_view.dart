@@ -33,6 +33,6 @@ class _SplashViewState extends State<SplashView> {
   }
 
   void _gotoNextScreen() {
-    Future.delayed(const Duration(seconds: 2)).then((value) => GoRouter.of(context).go(AuthView.routeName));
+    Future.delayed(const Duration(seconds: 1)).then((value) => GoRouter.of(context).go(AuthView.routeName));
   }
 }

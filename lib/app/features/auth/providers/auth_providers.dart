@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AuthController with ChangeNotifier {
-//Within this section, you can integrate authentication methods
-//such as Firebase, SharedPreferences, and more.
+// TODO: Implement the AuthController class. This class will be used to manage the state of the authentication process.
 
   bool isLoggedIn = false;
+  bool isRegistering = false;
 
   void signIn() {
     isLoggedIn = true;
@@ -15,6 +15,12 @@ class AuthController with ChangeNotifier {
 
   void signOut() {
     isLoggedIn = false;
+    notifyListeners();
+  }
+
+  void register() {
+    isRegistering = !isRegistering;
+
     notifyListeners();
   }
 }

@@ -1,10 +1,10 @@
-import 'dart:developer';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/features/auth/providers/auth_providers.dart';
 import 'package:purple_planet_packaging/app/features/auth/view/auth_view.dart';
+import 'package:purple_planet_packaging/app/features/auth/view/lost_pass_view.dart';
 import 'package:purple_planet_packaging/app/features/cart/view/cart_view.dart';
 import 'package:purple_planet_packaging/app/features/home/view/home_view.dart';
 import 'package:purple_planet_packaging/app/features/profile/view/profile_view.dart';
@@ -32,15 +32,22 @@ final routerProvider = Provider<GoRouter>(
       initialLocation: HomeView.routeName,
       refreshListenable: authState,
       redirect: (context, state) {
+        if (kDebugMode) return null;
+
         /**
       * Your Redirection Logic Code  Here..........
       */
         final isAuthenticated = authState.isLoggedIn;
 
         /// [state.fullPath] will give current  route Path
+        ///
+        ///
 
         if (state.fullPath == AuthView.routeName) {
           return isAuthenticated ? null : AuthView.routeName;
+        }
+        if (state.fullPath!.contains(LostView.routeName)) {
+          return null;
         }
 
         /// null redirects to Initial Location
@@ -55,6 +62,9 @@ final routerProvider = Provider<GoRouter>(
         GoRoute(
           path: AuthView.routeName,
           builder: (context, state) => const AuthView(),
+          routes: [
+            GoRoute(name: LostView.routeName, path: LostView.routeName, builder: (context, state) => const LostView()),
+          ],
         ),
         StatefulShellRoute.indexedStack(
           builder: (BuildContext context, GoRouterState state, StatefulNavigationShell navigationShell) {
@@ -67,7 +77,7 @@ final routerProvider = Provider<GoRouter>(
                 GoRoute(
                   path: HomeView.routeName,
                   builder: (context, state) => const HomeView(),
-                  routes: [],
+                  routes: const [],
                 ),
               ],
             ),
@@ -76,7 +86,7 @@ final routerProvider = Provider<GoRouter>(
                 GoRoute(
                   path: ShopView.routeName,
                   builder: (context, state) => const ShopView(),
-                  routes: [],
+                  routes: const [],
                 ),
               ],
             ),
@@ -85,7 +95,7 @@ final routerProvider = Provider<GoRouter>(
                 GoRoute(
                   path: CartView.routeName,
                   builder: (context, state) => const CartView(),
-                  routes: [],
+                  routes: const [],
                 ),
               ],
             ),
@@ -94,7 +104,7 @@ final routerProvider = Provider<GoRouter>(
                 GoRoute(
                   path: ProfileView.routeName,
                   builder: (context, state) => const ProfileView(),
-                  routes: [],
+                  routes: const [],
                 ),
               ],
             ),
