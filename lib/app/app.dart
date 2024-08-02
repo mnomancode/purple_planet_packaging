@@ -14,15 +14,14 @@ class App extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final appTheme = ref.read(appThemeProvider);
     final router = ref.read(routerProvider);
-
     return ScreenUtilInit(
         designSize: AppUtils.isTablet(context) ? const Size(768, 1024) : const Size(390, 884),
         minTextAdapt: true,
         splitScreenMode: true,
         // Use builder only if you need to use library outside ScreenUtilInit context
         builder: (_, child) {
+          final appTheme = ref.read(appThemeProvider);
           return MaterialApp.router(
             title: 'Purple Planet Packaging',
             color: AppColors.primaryColor,

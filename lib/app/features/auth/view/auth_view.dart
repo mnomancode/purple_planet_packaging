@@ -31,7 +31,7 @@ class AuthView extends ConsumerWidget {
               0.15.sh.verticalSpace,
               Center(child: Image.asset(AppImages.pppIcon, width: 0.8.sw)),
               30.verticalSpace,
-              Center(child: Text('LOGIN', style: AppStyles.largeStyle())),
+              Center(child: Text('LOGIN', style: AppStyles().largeStyle())),
               30.verticalSpace,
               TextField(
                   decoration: InputDecoration(
@@ -59,7 +59,7 @@ class AuthView extends ConsumerWidget {
                       onPressed: () {
                         context.goNamed(LostView.routeName);
                       },
-                      child: Text('Forgot Password?', style: AppStyles.boldStyle(color: AppColors.secondaryColor)),
+                      child: Text('Forgot Password?', style: AppStyles().boldStyle(color: AppColors.secondaryColor)),
                     ),
                   ],
                 ),
@@ -81,13 +81,13 @@ class AuthView extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(!isRegistering ? 'Don\'t have an account?' : 'Already have an account?',
-                      style: AppStyles.mediumStyle()),
+                      style: AppStyles().mediumStyle()),
                   TextButton(
                     onPressed: () {
                       ref.read(authProvider.notifier).register();
                     },
                     child: Text(!isRegistering ? 'Register' : 'Sign In',
-                        style: AppStyles.boldStyle(color: AppColors.secondaryColor)),
+                        style: AppStyles().boldStyle(color: AppColors.secondaryColor)),
                   ),
                 ],
               ),
@@ -98,7 +98,7 @@ class AuthView extends ConsumerWidget {
                     ref.read(authProvider.notifier).signIn();
                     context.go(HomeView.routeName);
                   },
-                  child: Text('Login', style: AppStyles.boldStyle()),
+                  child: Text('Login', style: AppStyles().boldStyle()),
                 ),
               ),
             ],

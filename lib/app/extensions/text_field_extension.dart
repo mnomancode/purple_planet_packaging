@@ -8,7 +8,7 @@ extension TextFieldExtension on TextField {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: AppStyles.mediumBoldStyle()),
+        Text(label, style: AppStyles().mediumBoldStyle()),
         const SizedBox(height: 5),
         this,
       ],

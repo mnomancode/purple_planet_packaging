@@ -24,7 +24,7 @@ class PPPAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       elevation: 0,
-      title: Text(title, style: AppStyles.largeStyle()),
+      title: Text(title, style: AppStyles().largeStyle()),
     );
   }
 

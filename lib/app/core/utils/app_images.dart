@@ -15,4 +15,10 @@ class AppImages {
   static const String svgUserSelected = 'assets/icon/selected-user.svg';
   static const String svgCart = 'assets/icon/shopping-cart.svg';
   static const String svgCartSelected = 'assets/icon/selected-shopping-cart.svg';
+  static const String svgSampleCart = 'assets/icon/cart.svg';
+  static const String svgPrinter = 'assets/icon/printer.svg';
+  static const String svgTruck = 'assets/icon/truck.svg';
+  static const String svgSearch = 'assets/icon/search.svg';
+  static const String svgFilter = 'assets/icon/filter.svg';
+  static const String svgAddCard = 'assets/icon/cart-add.svg';
 }

@@ -39,18 +39,18 @@ class AppTheme {
     fillColor: AppColors.white,
     // filled: true,
     // floatingLabelBehavior: FloatingLabelBehavior.auto,
-    hintStyle: AppStyles.hintStyle(),
-    labelStyle: AppStyles.mediumStyle(),
+    hintStyle: AppStyles().hintStyle(),
+    labelStyle: AppStyles().mediumStyle(),
     border: OutlineInputBorder(borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: Colors.red)),
     enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8), borderSide: const BorderSide(color: AppColors.primaryColor)),
     contentPadding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 1.0),
-    prefixStyle: AppStyles.lightStyle(),
+    prefixStyle: AppStyles().lightStyle(),
   );
 
   final ElevatedButtonThemeData elevatedButtonTheme = ElevatedButtonThemeData(
     style: ButtonStyle(
-      textStyle: WidgetStateProperty.all(AppStyles.mediumStyle(color: Colors.white)),
+      textStyle: WidgetStateProperty.all(AppStyles().mediumStyle(color: Colors.white)),
       backgroundColor: WidgetStateProperty.all(AppColors.primaryColor),
       maximumSize: WidgetStateProperty.all(const Size(double.infinity, 60)),
       minimumSize: WidgetStateProperty.all(const Size(double.infinity, 50)),

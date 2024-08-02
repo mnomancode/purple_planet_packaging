@@ -28,11 +28,11 @@ class LostView extends ConsumerWidget {
             RichText(
               text: TextSpan(
                   text: 'Lost your password?',
-                  style: AppStyles.mediumStyle(color: AppColors.primaryColor),
+                  style: AppStyles().mediumStyle(color: AppColors.primaryColor),
                   children: [
                     TextSpan(
                         text: ' Enter your email address below and we will send you a link to reset your password.',
-                        style: AppStyles.mediumStyle(color: AppColors.blackColor)),
+                        style: AppStyles().mediumStyle(color: AppColors.blackColor)),
                   ]),
             ),
             20.verticalSpace,
@@ -49,7 +49,7 @@ class LostView extends ConsumerWidget {
               onPressed: () {},
               child: Text(
                 'Reset password',
-                style: AppStyles.mediumBoldStyle(),
+                style: AppStyles().mediumBoldStyle(),
               ),
             ),
           ],
