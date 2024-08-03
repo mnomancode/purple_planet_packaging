@@ -16,7 +16,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+        padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 16.h),
         height: height,
         decoration: const BoxDecoration(
             color: AppColors.primaryColor,
@@ -29,8 +29,8 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Hello,', style: AppStyles().largeStyle(color: AppColors.white)),
-                    Text('John Doe', style: AppStyles().largeStyle(color: AppColors.white)),
+                    Text('Hello,', style: AppStyles.largeStyle(color: AppColors.white)),
+                    Text('John Doe', style: AppStyles.largeStyle(color: AppColors.white)),
                   ],
                 ),
                 Spacer(),
@@ -41,7 +41,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                     SvgPicture.asset(AppImages.svgSampleCart),
                     3.verticalSpace,
                     Text('Order\nSample',
-                        style: AppStyles().lightStyle(color: AppColors.white), textAlign: TextAlign.center)
+                        style: AppStyles.lightStyle(color: AppColors.white), textAlign: TextAlign.center)
                   ],
                 ),
                 5.horizontalSpace,
@@ -51,7 +51,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                     SvgPicture.asset(AppImages.svgPrinter),
                     3.verticalSpace,
                     Text('Custom\nPrint',
-                        style: AppStyles().lightStyle(color: AppColors.white), textAlign: TextAlign.center)
+                        style: AppStyles.lightStyle(color: AppColors.white), textAlign: TextAlign.center)
                   ],
                 ),
               ],

@@ -11,6 +11,7 @@ class PPPAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      elevation: 0,
       toolbarHeight: 70,
       leadingWidth: 65,
       leading: Padding(
@@ -23,8 +24,7 @@ class PPPAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ),
-      elevation: 0,
-      title: Text(title, style: AppStyles().largeStyle()),
+      title: Text(title, style: AppStyles.largeStyle()),
     );
   }
 
