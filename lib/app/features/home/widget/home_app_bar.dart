@@ -9,21 +9,21 @@ import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import '../../../core/utils/app_colors.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const HomeAppBar({super.key, this.height = 180});
+  const HomeAppBar({super.key, this.height = 150});
   final double height;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 16.h),
-        height: height,
+        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+        height: height.sp,
         decoration: const BoxDecoration(
             color: AppColors.primaryColor,
             borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))),
         child: Column(
           children: [
-            20.verticalSpace,
+            16.verticalSpace,
             Row(
               children: [
                 Column(
@@ -56,7 +56,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ],
             ),
-            16.verticalSpace,
+            8.verticalSpace,
             TextField(
               decoration: InputDecoration(
                 hintText: 'Search Products',

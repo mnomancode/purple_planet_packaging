@@ -6,8 +6,11 @@ class AppColors {
   static const Color scaffoldBackground = Color(0xFFF5F5F5);
 
   static const Color greyColor = Colors.grey;
+  static const Color lightGreyColor = Color(0xFFEEEEEE);
 
   static const Color blackColor = Colors.black;
+
+  static const Color darkGrey = Color(0xFF333333);
 
   AppColors._();
 
@@ -15,6 +18,8 @@ class AppColors {
   static const Color secondaryColor = Color(0xFF108035);
   static const Color lightPurple = Color(0xFF951B81);
   static const Color lightGreen = Color(0xFF8FC03C);
+
+  static const Color lightPrimaryColor = Color(0x184F266B);
 
   static const MaterialColor primaryMaterial = MaterialColor(_palettePrimaryValue, <int, Color>{
     50: Color(0xFFEAE5ED),

@@ -1,0 +1,34 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "purple_planet_packaging",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "purple_planet_packaging (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "purple_planet_packaging (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "Web Flutter development",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--web-port=8080",
+                "web-browser-flag=--disable-web-security"
+            ]
+        },
+    ]
+}

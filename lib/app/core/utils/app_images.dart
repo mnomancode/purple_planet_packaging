@@ -2,6 +2,7 @@ class AppImages {
   static const String appIcon = 'assets/icon/ppp_icon.png';
   static const String pppLogo = 'assets/icon/PPP_logo.png';
   static const String pppIcon = 'assets/icon/PPP_logo.png';
+  static const String cup = 'assets/images/cup.png';
 
   static const String svgArrowLeft = 'assets/icon/arrow-left.svg';
   static const String svgHome = 'assets/icon/home.svg';

@@ -7,9 +7,9 @@ import 'app_colors.dart';
 class AppStyles {
   // write instance code
 
-  static EdgeInsetsGeometry scaffoldPadding = const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0);
+  static EdgeInsetsGeometry scaffoldPadding = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0);
 
-  static TextStyle hintStyle({Color? color, double fontSize = 13.0}) {
+  static TextStyle hintStyle({Color? color, double fontSize = 12.0}) {
     return GoogleFonts.montserrat(color: color ?? Colors.grey, fontSize: fontSize.sp);
   }
 
@@ -17,21 +17,33 @@ class AppStyles {
     return GoogleFonts.montserrat(color: color, fontSize: fontSize.sp);
   }
 
-  static TextStyle mediumStyle({Color? color, double fontSize = 16.0}) {
-    return GoogleFonts.montserrat(color: color, fontSize: fontSize.sp, fontWeight: FontWeight.w400);
+  static TextStyle mediumStyle(
+      {Color? color, double fontSize = 14.0, double? letterSpacing, double? height, FontWeight? fontWeight}) {
+    return GoogleFonts.montserrat(
+      color: color,
+      fontSize: fontSize.sp,
+      fontWeight: fontWeight ?? FontWeight.w400,
+      letterSpacing: letterSpacing,
+      height: height,
+    );
   }
 
-  static TextStyle mediumBoldStyle({Color? color, double fontSize = 16.0}) {
-    return GoogleFonts.montserrat(color: color, fontSize: fontSize.sp, fontWeight: FontWeight.bold);
+  static TextStyle mediumBoldStyle({Color? color, double fontSize = 14.0}) {
+    return GoogleFonts.montserrat(color: color, fontSize: fontSize.sp, fontWeight: FontWeight.w500);
   }
 
-  static TextStyle boldStyle({Color? color, double fontSize = 16.0, FontWeight? fontWeight}) {
-    return GoogleFonts.montserrat(color: color, fontSize: fontSize.sp, fontWeight: fontWeight ?? FontWeight.w600);
+  static TextStyle boldStyle({Color? color, double fontSize = 15.0, FontWeight? fontWeight, double? height}) {
+    return GoogleFonts.montserrat(
+      color: color,
+      fontSize: fontSize.sp,
+      fontWeight: fontWeight ?? FontWeight.w600,
+      height: height,
+    );
   }
 
   static TextStyle largeStyle({
     Color color = Colors.black,
-    double fontSize = 20.0,
+    double fontSize = 18.0,
     FontWeight fontWeight = FontWeight.bold,
   }) {
     return GoogleFonts.montserrat(
