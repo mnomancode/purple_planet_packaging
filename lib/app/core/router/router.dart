@@ -12,6 +12,8 @@ import 'package:purple_planet_packaging/app/features/shop/view/shop_view.dart';
 import 'package:purple_planet_packaging/app/features/splash/view/splash_view.dart';
 
 import '../../features/main/view/dashboard_view.dart';
+import '../../features/shop/view/product_details/product_details_view.dart';
+import '../../features/shop/view/products_view.dart';
 
 ///
 /// for getting routers that are present in the app
@@ -29,7 +31,7 @@ final routerProvider = Provider<GoRouter>(
 
     return GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: HomeView.routeName,
+      initialLocation: kDebugMode ? ShopView.routeName : HomeView.routeName,
       refreshListenable: authState,
       redirect: (context, state) {
         if (kDebugMode) return null;
@@ -86,7 +88,29 @@ final routerProvider = Provider<GoRouter>(
                 GoRoute(
                   path: ShopView.routeName,
                   builder: (context, state) => const ShopView(),
-                  routes: const [],
+                  routes: [
+                    GoRoute(
+                      name: ProductsView.routeName,
+                      path: ProductsView.routeName,
+                      builder: (context, state) {
+                        final title =
+                            state.uri.queryParameters['title'] ?? 'Error  OP ${state.uri.queryParameters['title']}';
+                        final categoryId = state.uri.queryParameters['categoryId'] ?? '0000';
+                        return ProductsView(title: title, categoryId: categoryId);
+                      },
+                      routes: [
+                        GoRoute(
+                          name: ProductDetailsView.routeName,
+                          path: '${ProductDetailsView.routeName}/:title',
+                          builder: (context, state) {
+                            final title = state.pathParameters['title'] ?? 'Error${state.uri.queryParameters['title']}';
+                            final productId = state.uri.queryParameters['productId'] ?? '0000';
+                            return ProductDetailsView(title: title, productId: productId);
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),

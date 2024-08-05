@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,13 +20,15 @@ class HomeView extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            ResponsiblePackaging(),
+            const ResponsiblePackaging(),
             16.verticalSpace,
-            OrderByWidgetHome(),
+            const OrderByWidgetHome(),
             16.verticalSpace,
-            CategoriesSection(),
+            const CategoriesSection(),
             16.verticalSpace,
-            FeaturedProducts(),
+            const FeaturedProducts(
+              title: 'Popular Products',
+            ),
             16.verticalSpace,
           ],
         ),

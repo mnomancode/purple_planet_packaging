@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:purple_planet_packaging/app/commons/search_text_field.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 
@@ -57,17 +58,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
               ],
             ),
             8.verticalSpace,
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Search Products',
-                fillColor: AppColors.white,
-                filled: true,
-                prefixIcon: Padding(
-                  padding: const EdgeInsets.only(left: 12, right: 5),
-                  child: SvgPicture.asset(AppImages.svgSearch),
-                ),
-              ),
-            ),
+            SearchTextField()
           ],
         ),
       ),
@@ -77,3 +68,42 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Size get preferredSize => Size.fromHeight(height);
 }
+
+
+
+// Dummy code snippet
+
+// DefaultTabController(
+//   length: 5,
+//   child: Scaffold(
+//       body: NestedScrollView(
+//     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+//       return <Widget>[
+//         new SliverAppBar(
+//           title: Text('Tabs Demo'),
+//           pinned: true,
+//           floating: true,
+//           bottom: TabBar(
+//             isScrollable: true,
+//             tabs: [
+//               Tab(child: Text('Flight')),
+//               Tab(child: Text('Train')),
+//               Tab(child: Text('Car')),
+//               Tab(child: Text('Cycle')),
+//               Tab(child: Text('Boat')),
+//             ],
+//           ),
+//         ),
+//       ];
+//     },
+//     body: TabBarView(
+//       children: <Widget>[
+//         Icon(Icons.flight, size: 350),
+//         Icon(Icons.directions_transit, size: 350),
+//         Icon(Icons.directions_car, size: 350),
+//         Icon(Icons.directions_bike, size: 350),
+//         Icon(Icons.directions_boat, size: 350),
+//       ],
+//     ),
+//   )),
+// );

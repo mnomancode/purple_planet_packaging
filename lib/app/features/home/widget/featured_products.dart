@@ -6,7 +6,15 @@ import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_styles.dart';
 
 class FeaturedProducts extends StatelessWidget {
-  const FeaturedProducts({super.key});
+  const FeaturedProducts({
+    super.key,
+    this.padding = const EdgeInsets.symmetric(horizontal: 16),
+    this.leftMargin = 16,
+    required this.title,
+  });
+  final EdgeInsets padding;
+  final double leftMargin;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +22,7 @@ class FeaturedProducts extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          padding: padding,
           child: SizedBox(
             height: 30.h,
             child: Row(
@@ -22,7 +30,7 @@ class FeaturedProducts extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Popular Products',
+                  title,
                   style: AppStyles.mediumBoldStyle(
                     color: AppColors.primaryColor,
                     fontSize: 16.sp,
@@ -36,7 +44,7 @@ class FeaturedProducts extends StatelessWidget {
         6.verticalSpace,
         Container(
           alignment: Alignment.topCenter,
-          margin: EdgeInsets.only(left: 16.w),
+          margin: EdgeInsets.only(left: leftMargin.w),
           height: 250.h,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,

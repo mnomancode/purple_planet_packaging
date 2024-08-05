@@ -7,11 +7,22 @@ import 'app_colors.dart';
 class AppStyles {
   // write instance code
 
-  static EdgeInsetsGeometry scaffoldPadding = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0);
+  static EdgeInsetsGeometry scaffoldPadding = const EdgeInsets.fromLTRB(16, 10, 16, 0);
 
   static TextStyle hintStyle({Color? color, double fontSize = 12.0}) {
     return GoogleFonts.montserrat(color: color ?? Colors.grey, fontSize: fontSize.sp);
   }
+
+  static BoxDecoration roundBorderWithShadow = BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(10),
+    boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 5))],
+  );
+  static BoxDecoration roundBorder = BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(10),
+    border: Border.all(color: Colors.grey.shade300, width: 2),
+  );
 
   static TextStyle lightStyle({Color? color, double fontSize = 12.0}) {
     return GoogleFonts.montserrat(color: color, fontSize: fontSize.sp);
@@ -29,7 +40,7 @@ class AppStyles {
   }
 
   static TextStyle mediumBoldStyle({Color? color, double fontSize = 14.0}) {
-    return GoogleFonts.montserrat(color: color, fontSize: fontSize.sp, fontWeight: FontWeight.w500);
+    return GoogleFonts.montserrat(color: color, fontSize: fontSize.sp, fontWeight: FontWeight.w600);
   }
 
   static TextStyle boldStyle({Color? color, double fontSize = 15.0, FontWeight? fontWeight, double? height}) {

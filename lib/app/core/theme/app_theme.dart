@@ -29,9 +29,11 @@ class AppTheme {
     );
   }
 
-  final AppBarTheme appBarTheme = const AppBarTheme(
+  final AppBarTheme appBarTheme = AppBarTheme(
     backgroundColor: AppColors.scaffoldBackground,
     elevation: 0,
+    titleTextStyle: AppStyles.largeStyle(color: AppColors.primaryColor),
+    surfaceTintColor: Colors.transparent,
   );
 
   final InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
@@ -50,7 +52,7 @@ class AppTheme {
 
   final ElevatedButtonThemeData elevatedButtonTheme = ElevatedButtonThemeData(
     style: ButtonStyle(
-      textStyle: WidgetStateProperty.all(AppStyles.mediumStyle(color: Colors.white)),
+      textStyle: WidgetStateProperty.all(AppStyles.mediumBoldStyle(color: Colors.white)),
       backgroundColor: WidgetStateProperty.all(AppColors.primaryColor),
       maximumSize: WidgetStateProperty.all(const Size(double.infinity, 60)),
       minimumSize: WidgetStateProperty.all(const Size(double.infinity, 50)),
