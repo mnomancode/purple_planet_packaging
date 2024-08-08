@@ -16,7 +16,7 @@ class HomeView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: HomeAppBar(height: 160.h),
+      appBar: const HomeAppBar(),
       body: SingleChildScrollView(
         child: Column(
           children: [
