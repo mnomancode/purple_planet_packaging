@@ -36,7 +36,7 @@ final routerProvider = Provider<GoRouter>(
 
     return GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: kDebugMode ? HomeView.routeName : HomeView.routeName,
+      initialLocation: kDebugMode ? AuthView.routeName : HomeView.routeName,
       refreshListenable: authState,
       redirect: (context, state) {
         if (kDebugMode) return null;

@@ -1,6 +1,8 @@
 import 'package:purple_planet_packaging/app/features/custom_print/model/app_faq_model.dart';
 
 class AppConstants {
+  static String baseUrl = 'https://purpleplanetpackaging.co.uk/';
+
   AppConstants._();
 
   static const List<AppFAQ> appFaqs = [
