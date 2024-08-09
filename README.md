@@ -11,14 +11,15 @@ This project is a starting point for a Flutter application.
 
 
 
-# added to the settings.json
-hide all generated files from view
+# Added to the settings.json
+hide all generated files from the view
 ```  
 "files.exclude": {
-    "**/*.freezed.dart": true,
-    "**/*.g.dart": true
-     },
-     ```
+"**/*.freezed.dart": true,
+"**/*.g.dart": true
+    },
+
+```
 
 
 
