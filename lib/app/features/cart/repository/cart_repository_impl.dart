@@ -1,10 +1,16 @@
+import 'dart:developer';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'cart_repository.dart';
 
 class CartRepositoryImpl extends CartRepository {
-  // TODO add your methods here
+  // @override
+  // void toggleBasket() {
+  //   isBasketExpanded = !isBasketExpanded;
+  //   log('isBasketExpanded: $isBasketExpanded');
+  //   notifyListeners();
+  // }
 }
 
-final cartRepositoryProvider = Provider<CartRepository>((ref) {
+final cartRepositoryProvider = ChangeNotifierProvider<CartRepository>((ref) {
   return CartRepositoryImpl();
 });

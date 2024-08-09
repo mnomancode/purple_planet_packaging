@@ -15,3 +15,16 @@ extension TextFieldExtension on TextField {
     );
   }
 }
+
+extension TextFormFieldExtension on TextFormField {
+  Widget withLabel(String label) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: AppStyles.mediumBoldStyle()),
+        const SizedBox(height: 5),
+        this,
+      ],
+    );
+  }
+}

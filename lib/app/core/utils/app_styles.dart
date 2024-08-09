@@ -72,4 +72,37 @@ class AppStyles {
     shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
     foregroundColor: WidgetStateProperty.all(AppColors.white),
   );
+
+  static heading(String s) {
+    return Text(
+      s,
+      style: GoogleFonts.montserrat(
+        color: Colors.black,
+        fontSize: 18.sp,
+        fontWeight: FontWeight.w600,
+      ),
+    );
+  }
+
+  static normalText(String s) {
+    return Text(
+      s,
+      style: GoogleFonts.montserrat(
+        color: Colors.black,
+        fontSize: 14.sp,
+        fontWeight: FontWeight.w400,
+      ),
+    );
+  }
+
+  static normalBoldText(String s) {
+    return Text(
+      s,
+      style: GoogleFonts.montserrat(
+        color: Colors.black,
+        fontSize: 14.sp,
+        fontWeight: FontWeight.w600,
+      ),
+    );
+  }
 }

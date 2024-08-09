@@ -6,11 +6,16 @@ import 'package:purple_planet_packaging/app/features/auth/providers/auth_provide
 import 'package:purple_planet_packaging/app/features/auth/view/auth_view.dart';
 import 'package:purple_planet_packaging/app/features/auth/view/lost_pass_view.dart';
 import 'package:purple_planet_packaging/app/features/cart/view/cart_view.dart';
+import 'package:purple_planet_packaging/app/features/custom_print/view/faqs_view.dart';
 import 'package:purple_planet_packaging/app/features/home/view/home_view.dart';
+import 'package:purple_planet_packaging/app/features/order_samples/view/order_samples_view.dart';
+import 'package:purple_planet_packaging/app/features/profile/view/about_us_view.dart';
 import 'package:purple_planet_packaging/app/features/profile/view/profile_view.dart';
 import 'package:purple_planet_packaging/app/features/shop/view/shop_view.dart';
 import 'package:purple_planet_packaging/app/features/splash/view/splash_view.dart';
+import 'package:purple_planet_packaging/app/features/custom_print/view/get_started_view.dart';
 
+import '../../features/custom_print/view/custom_print_view.dart';
 import '../../features/main/view/dashboard_view.dart';
 import '../../features/shop/view/product_details/product_details_view.dart';
 import '../../features/shop/view/products_view.dart';
@@ -31,7 +36,7 @@ final routerProvider = Provider<GoRouter>(
 
     return GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: kDebugMode ? ShopView.routeName : HomeView.routeName,
+      initialLocation: kDebugMode ? AuthView.routeName : HomeView.routeName,
       refreshListenable: authState,
       redirect: (context, state) {
         if (kDebugMode) return null;
@@ -78,8 +83,28 @@ final routerProvider = Provider<GoRouter>(
               routes: [
                 GoRoute(
                   path: HomeView.routeName,
+                  name: HomeView.routeName,
                   builder: (context, state) => const HomeView(),
-                  routes: const [],
+                  routes: [
+                    GoRoute(
+                        name: CustomPrintView.routeName,
+                        path: CustomPrintView.routeName,
+                        builder: (context, state) => const CustomPrintView(),
+                        routes: [
+                          GoRoute(
+                              name: GetStarted.routeName,
+                              path: GetStarted.routeName,
+                              builder: (context, state) => const GetStarted()),
+                          GoRoute(
+                              name: FaqsView.routeName,
+                              path: FaqsView.routeName,
+                              builder: (context, state) => const FaqsView()),
+                        ]),
+                    GoRoute(
+                        path: OrderSamplesView.routeName,
+                        name: OrderSamplesView.routeName,
+                        builder: (context, state) => const OrderSamplesView())
+                  ],
                 ),
               ],
             ),
@@ -128,7 +153,13 @@ final routerProvider = Provider<GoRouter>(
                 GoRoute(
                   path: ProfileView.routeName,
                   builder: (context, state) => const ProfileView(),
-                  routes: const [],
+                  routes: [
+                    GoRoute(
+                      name: AboutUsView.routeName,
+                      path: AboutUsView.routeName,
+                      builder: (context, state) => const AboutUsView(),
+                    ),
+                  ],
                 ),
               ],
             ),

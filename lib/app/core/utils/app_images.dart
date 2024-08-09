@@ -3,6 +3,10 @@ class AppImages {
   static const String pppLogo = 'assets/icon/PPP_logo.png';
   static const String pppIcon = 'assets/icon/PPP_logo.png';
   static const String cup = 'assets/images/cup.png';
+  static const String customPrintCup = 'assets/images/custom-print.png';
+  static const String about1 = 'assets/images/about1.png';
+  static const String about2 = 'assets/images/about2.png';
+  static const String about3 = 'assets/images/about3.png';
 
   static const String svgArrowLeft = 'assets/icon/arrow-left.svg';
   static const String svgHome = 'assets/icon/home.svg';
@@ -22,4 +26,12 @@ class AppImages {
   static const String svgSearch = 'assets/icon/search.svg';
   static const String svgFilter = 'assets/icon/filter.svg';
   static const String svgAddCard = 'assets/icon/cart-add.svg';
+  static const String svgPhone = 'assets/icon/phone.svg';
+  static const String svgUpload = 'assets/icon/image-upload.svg';
+  static const String svgDelete = 'assets/icon/delete.svg';
+  static const String svgEdit = 'assets/icon/edit.svg';
+  static const String svgIdea = 'assets/icon/idea.svg';
+  static const String svgLogout = 'assets/icon/logout.svg';
+  static const String svgInfo = 'assets/icon/information-circle.svg';
+  static const String svgArrowForward = 'assets/icon/arrow-forward.svg';
 }

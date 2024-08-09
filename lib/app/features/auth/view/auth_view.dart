@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,6 +8,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/extensions/text_field_extension.dart';
 import 'package:purple_planet_packaging/app/features/auth/providers/auth_providers.dart';
+import 'package:purple_planet_packaging/app/features/auth/repository/auth_repository_impl.dart';
 import 'package:purple_planet_packaging/app/features/auth/view/lost_pass_view.dart';
 
 import '../../../commons/elevated_button.dart';
@@ -22,6 +25,13 @@ class AuthView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     bool isRegistering = ref.watch(authProvider).isRegistering;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          var data = await ref.watch(authRepositoryProvider).getUser(name: 'chnoman503', pass: '1234567');
+          log(data.token);
+        },
+        child: const Text('Dummy'),
+      ),
       body: SafeArea(
         child: Padding(
           padding: AppStyles.scaffoldPadding,

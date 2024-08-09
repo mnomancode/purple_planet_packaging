@@ -3,39 +3,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:purple_planet_packaging/app/commons/search_text_field.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
+import 'package:purple_planet_packaging/app/features/custom_print/view/custom_print_view.dart';
+import 'package:purple_planet_packaging/app/features/order_samples/view/order_samples_view.dart';
 
 import '../../../core/utils/app_colors.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const HomeAppBar({super.key, this.height = 150});
+  const HomeAppBar({super.key, this.height = 180});
   final double height;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-        height: height.sp,
-        decoration: const BoxDecoration(
-            color: AppColors.primaryColor,
-            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))),
-        child: Column(
-          children: [
-            16.verticalSpace,
-            Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Hello,', style: AppStyles.largeStyle(color: AppColors.white)),
-                    Text('John Doe', style: AppStyles.largeStyle(color: AppColors.white)),
-                  ],
-                ),
-                Spacer(),
-                Column(
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+      height: height.h,
+      decoration: const BoxDecoration(
+          color: AppColors.primaryColor,
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20))),
+      child: Column(
+        children: [
+          32.verticalSpace,
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Hello,', style: AppStyles.largeStyle(color: AppColors.white)),
+                  Text('John Doe', style: AppStyles.largeStyle(color: AppColors.white)),
+                ],
+              ),
+              Spacer(),
+              GestureDetector(
+                onTap: () => context.pushNamed(OrderSamplesView.routeName),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -45,8 +49,11 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                         style: AppStyles.lightStyle(color: AppColors.white), textAlign: TextAlign.center)
                   ],
                 ),
-                5.horizontalSpace,
-                Column(
+              ),
+              5.horizontalSpace,
+              GestureDetector(
+                onTap: () => context.pushNamed(CustomPrintView.routeName),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SvgPicture.asset(AppImages.svgPrinter),
@@ -55,12 +62,12 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                         style: AppStyles.lightStyle(color: AppColors.white), textAlign: TextAlign.center)
                   ],
                 ),
-              ],
-            ),
-            8.verticalSpace,
-            SearchTextField()
-          ],
-        ),
+              ),
+            ],
+          ),
+          8.verticalSpace,
+          SearchTextField()
+        ],
       ),
     );
   }
