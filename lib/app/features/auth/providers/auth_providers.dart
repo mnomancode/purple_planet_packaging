@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AuthController with ChangeNotifier {
-// TODO: Implement the AuthController class. This class will be used to manage the state of the authentication process.
-
   bool isLoggedIn = false;
   bool isRegistering = false;
+  bool isLoading = false;
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   void signIn() {
     isLoggedIn = true;
@@ -21,6 +23,11 @@ class AuthController with ChangeNotifier {
   void register() {
     isRegistering = !isRegistering;
 
+    notifyListeners();
+  }
+
+  updateLoading([bool value = false]) {
+    isLoading = value;
     notifyListeners();
   }
 }

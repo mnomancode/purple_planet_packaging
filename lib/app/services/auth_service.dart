@@ -9,4 +9,8 @@ abstract class AuthService {
     @Path('user_login') required String userLogin,
     @Path('password') required String password,
   });
+
+  @POST('/wp-login.php?action=lostpassword')
+  @FormUrlEncoded()
+  Future<HttpResponse> lostPassword(@Field('user_login') String userLogin);
 }

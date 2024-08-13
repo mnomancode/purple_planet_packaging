@@ -7,7 +7,6 @@ import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 class AppTheme {
   /// for getting light theme
   ThemeData get lightTheme {
-    // TODO: add light theme here
     return ThemeData(
       fontFamily: GoogleFonts.montserrat().fontFamily,
       scaffoldBackgroundColor: AppColors.scaffoldBackground,
@@ -39,6 +38,7 @@ class AppTheme {
   final InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
     alignLabelWithHint: true,
     fillColor: AppColors.white,
+
     // filled: true,
     // floatingLabelBehavior: FloatingLabelBehavior.auto,
     hintStyle: AppStyles.hintStyle(),

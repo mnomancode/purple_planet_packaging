@@ -12,6 +12,8 @@ Dio http(HttpRef ref) {
     responseType: ResponseType.json,
     connectTimeout: const Duration(milliseconds: 3000),
     receiveTimeout: const Duration(milliseconds: 3000),
+    followRedirects: false,
+    maxRedirects: 0,
   );
 
   return Dio(options)
@@ -20,6 +22,7 @@ Dio http(HttpRef ref) {
       if (kDebugMode)
         PrettyDioLogger(
           requestHeader: true,
+          request: true,
           requestBody: true,
           responseBody: true,
         )
@@ -35,5 +38,6 @@ InterceptorsWrapper dummyInterceptor(DummyInterceptorRef ref) {
       handler.next(options);
     },
     onResponse: (options, handler) => handler.next(options),
+    onError: (error, handler) => handler.next(error),
   );
 }

@@ -14,4 +14,6 @@ class AuthUserModel with _$AuthUserModel {
   }) = _AuthUserModel;
 
   factory AuthUserModel.fromJson(Map<String, dynamic> json) => _$AuthUserModelFromJson(json);
+
+  factory AuthUserModel.empty() => const AuthUserModel(token: '', userEmail: '', userNicename: '', userDisplayName: '');
 }

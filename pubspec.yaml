@@ -47,7 +47,7 @@ dependencies:
   smooth_page_indicator: ^1.2.0+3
   flutter_widget_from_html: ^0.14.11
   dotted_border: ^2.1.0
-  woocommerce_flutter_api: ^1.0.1
+  # woocommerce_flutter_api: ^1.0.1
   # network
   retrofit: ^4.1.0
   dio: ^5.5.0+1
@@ -61,6 +61,7 @@ dependencies:
   flutter_hooks: ^0.20.5
   hooks_riverpod: ^2.5.1
   equatable: ^2.0.5
+  loading_animation_widget: ^1.2.1
  
 
 

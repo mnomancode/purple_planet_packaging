@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -5,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/extensions/text_field_extension.dart';
+import 'package:purple_planet_packaging/app/features/auth/repository/auth_repository_impl.dart';
 
 import '../../../commons/ppp_app_bar.dart';
 import '../../../core/utils/app_images.dart';
@@ -41,12 +44,17 @@ class LostView extends ConsumerWidget {
               hintText: '',
               suffixIcon: Padding(
                 padding: const EdgeInsets.only(right: 12),
-                child: SvgPicture.asset(AppImages.svgEmail),
+                child: SvgPicture.asset(AppImages.svgEmail, width: 20, height: 20),
               ),
             )).withLabel('Username or Email address'),
             30.verticalSpace,
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () =>
+                  ref.read(authRepositoryProvider).lostPassword(userLogin: 'chnoman503@gmail.com').then((value) {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text('${value.response.statusCode} it is a success'),
+                ));
+              }),
               child: Text(
                 'Reset password',
                 style: AppStyles.mediumBoldStyle(),
