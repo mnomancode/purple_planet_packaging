@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:purple_planet_packaging/app/features/auth/providers/auth_providers.dart';
+import 'package:purple_planet_packaging/app/features/auth/providers/auth_state_notifier.dart';
 import 'package:purple_planet_packaging/app/features/auth/view/auth_view.dart';
 import 'package:purple_planet_packaging/app/features/auth/view/lost_pass_view.dart';
 import 'package:purple_planet_packaging/app/features/cart/view/cart_view.dart';
@@ -15,10 +15,12 @@ import 'package:purple_planet_packaging/app/features/shop/view/shop_view.dart';
 import 'package:purple_planet_packaging/app/features/splash/view/splash_view.dart';
 import 'package:purple_planet_packaging/app/features/custom_print/view/get_started_view.dart';
 
+import '../../commons/loading/loading_screen.dart';
 import '../../features/custom_print/view/custom_print_view.dart';
 import '../../features/main/view/dashboard_view.dart';
 import '../../features/shop/view/product_details/product_details_view.dart';
 import '../../features/shop/view/products_view.dart';
+import '../../provider/is_loading_provider.dart';
 
 ///
 /// for getting routers that are present in the app
@@ -32,35 +34,35 @@ final GlobalKey<NavigatorState> _sectionANavigatorKey = GlobalKey<NavigatorState
 final routerProvider = Provider<GoRouter>(
   (ref) {
     // final bool loggedIn = ref.watch(authProvider).isLoggedIn;
-    final authState = ref.watch(authProvider);
+    // final authState = ref.watch(authStateNotifierProvider);
 
     return GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: kDebugMode ? AuthView.routeName : HomeView.routeName,
-      refreshListenable: authState,
-      redirect: (context, state) {
-        if (kDebugMode) return null;
+      initialLocation: kDebugMode ? AuthView.routeName : AuthView.routeName,
+      // refreshListenable: authState,
+      // redirect: (context, state) {
+      //   if (kDebugMode) return null;
 
-        /**
-      * Your Redirection Logic Code  Here..........
-      */
-        final isAuthenticated = authState.isLoggedIn;
+      //   /**
+      // * Your Redirection Logic Code  Here..........
+      // */
+      //   final isAuthenticated = authState.isLoggedIn;
 
-        /// [state.fullPath] will give current  route Path
-        ///
-        ///
+      //   /// [state.fullPath] will give current  route Path
+      //   ///
+      //   ///
 
-        if (state.fullPath == AuthView.routeName) {
-          return isAuthenticated ? null : AuthView.routeName;
-        }
-        if (state.fullPath!.contains(LostView.routeName)) {
-          return null;
-        }
+      //   if (state.fullPath == AuthView.routeName) {
+      //     return isAuthenticated ? null : AuthView.routeName;
+      //   }
+      //   if (state.fullPath!.contains(LostView.routeName)) {
+      //     return null;
+      //   }
 
-        /// null redirects to Initial Location
+      //   /// null redirects to Initial Location
 
-        return isAuthenticated ? null : SplashView.routeName;
-      },
+      //   return isAuthenticated ? null : SplashView.routeName;
+      // },
       routes: [
         GoRoute(
           path: SplashView.routeName,
@@ -68,7 +70,22 @@ final routerProvider = Provider<GoRouter>(
         ),
         GoRoute(
           path: AuthView.routeName,
-          builder: (context, state) => const AuthView(),
+          builder: (context, state) => Consumer(builder: (context, ref, child) {
+            ref.listen<bool>(
+              isLoadingProvider,
+              (_, isLoading) {
+                if (isLoading) {
+                  LoadingScreen.instance().show(
+                    context: context,
+                  );
+                } else {
+                  LoadingScreen.instance().hide();
+                }
+              },
+            );
+
+            return const AuthView();
+          }),
           routes: [
             GoRoute(name: LostView.routeName, path: LostView.routeName, builder: (context, state) => const LostView()),
           ],

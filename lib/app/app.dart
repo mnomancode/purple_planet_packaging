@@ -44,6 +44,7 @@ class App extends ConsumerWidget {
             },
             theme: appTheme.lightTheme,
             // darkTheme: appTheme.darkTheme,
+
             debugShowCheckedModeBanner: false,
             onGenerateTitle: (context) => 'Purple Planet Packaging',
             routeInformationParser: router.routeInformationParser,

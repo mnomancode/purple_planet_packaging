@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:purple_planet_packaging/app/features/auth/model/auth_user_model.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../provider/http_provider.dart';
 import '../../../services/service.dart';
+import '../model/auth_response.dart';
 import 'auth_repository.dart';
 
 part 'auth_repository_impl.g.dart';
@@ -13,8 +13,15 @@ class AuthRepositoryImpl extends AuthRepository {
   final AuthService _authService;
 
   @override
-  Future<AuthUserModel> getUser({required String name, required String pass}) =>
-      _authService.getUserDetail(userLogin: name, password: pass);
+  FutureOr<AuthResponse?> getUser({required String name, required String pass}) async {
+    final AuthResponse response = await _authService.getUserDetail(userLogin: name, password: pass);
+
+    if (response.statusCode == 200) {
+      return response;
+    } else {
+      return AuthResponse.failure();
+    }
+  }
 
   @override
   Future<HttpResponse> lostPassword({required String userLogin}) => _authService.lostPassword(userLogin).onError(

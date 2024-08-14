@@ -14,6 +14,10 @@ Dio http(HttpRef ref) {
     receiveTimeout: const Duration(milliseconds: 3000),
     followRedirects: false,
     maxRedirects: 0,
+    validateStatus: (int? status) {
+      // return status != null;
+      return status != null && status >= 200;
+    },
   );
 
   return Dio(options)

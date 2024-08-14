@@ -53,11 +53,21 @@ class AppTheme {
   final ElevatedButtonThemeData elevatedButtonTheme = ElevatedButtonThemeData(
     style: ButtonStyle(
       textStyle: WidgetStateProperty.all(AppStyles.mediumBoldStyle(color: Colors.white)),
-      backgroundColor: WidgetStateProperty.all(AppColors.primaryColor),
+      backgroundColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.disabled)) {
+          return AppColors.lightPrimaryColor;
+        }
+        return AppColors.primaryColor;
+      }),
       maximumSize: WidgetStateProperty.all(const Size(double.infinity, 60)),
       minimumSize: WidgetStateProperty.all(const Size(double.infinity, 50)),
       shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-      foregroundColor: WidgetStateProperty.all(AppColors.white),
+      foregroundColor: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.disabled)) {
+          return AppColors.primaryColor;
+        }
+        return AppColors.white;
+      }),
     ),
   );
 }

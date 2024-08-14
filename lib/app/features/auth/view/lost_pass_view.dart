@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,14 +12,19 @@ import 'package:purple_planet_packaging/app/features/auth/repository/auth_reposi
 
 import '../../../commons/ppp_app_bar.dart';
 import '../../../core/utils/app_images.dart';
+import '../model/auth_result.dart';
+import '../providers/auth_state_notifier.dart';
+import '../providers/login_form_notifier.dart';
 
-class LostView extends ConsumerWidget {
+class LostView extends HookConsumerWidget {
   const LostView({super.key});
 
   static const routeName = 'lost-password';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final nameController = useTextEditingController();
+
     return Scaffold(
       appBar: const PPPAppBar(title: 'Forgot Password?'),
       body: Padding(
@@ -39,27 +45,41 @@ class LostView extends ConsumerWidget {
                   ]),
             ),
             20.verticalSpace,
-            TextField(
-                decoration: InputDecoration(
-              hintText: '',
-              suffixIcon: Padding(
-                padding: const EdgeInsets.only(right: 12),
-                child: SvgPicture.asset(AppImages.svgEmail, width: 20, height: 20),
-              ),
-            )).withLabel('Username or Email address'),
-            30.verticalSpace,
-            ElevatedButton(
-              onPressed: () =>
-                  ref.read(authRepositoryProvider).lostPassword(userLogin: 'chnoman503@gmail.com').then((value) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('${value.response.statusCode} it is a success'),
-                ));
-              }),
-              child: Text(
-                'Reset password',
-                style: AppStyles.mediumBoldStyle(),
-              ),
-            ),
+            TextFormField(
+                    controller: nameController,
+                    onChanged: (value) => ref.read(loginFormNotifierProvider.notifier).setEmail(value),
+                    decoration: InputDecoration(
+                      hintText: 'Username or Email address',
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: SvgPicture.asset(AppImages.svgEmail, width: 20, height: 20),
+                      ),
+                    ))
+                .withLabel('Username or Email address',
+                    errorMessage: ref.watch(loginFormNotifierProvider).form.email.errorMessage),
+            50.verticalSpace,
+            Consumer(builder: (BuildContext context, WidgetRef ref, Widget? child) {
+              final field = ref.watch(loginFormNotifierProvider).form;
+
+              bool isDisabled = !(field.email.isValid);
+
+              return ElevatedButton(
+                onPressed: isDisabled
+                    ? null
+                    : () async {
+                        final authState =
+                            await ref.read(authStateNotifierProvider.notifier).forgotPassword(nameController.text);
+
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(authState),
+                        ));
+                      },
+                child: Text(
+                  'Reset password',
+                  style: AppStyles.mediumBoldStyle(),
+                ),
+              );
+            }),
           ],
         ),
       ),
