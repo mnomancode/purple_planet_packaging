@@ -19,7 +19,7 @@ class AuthRepositoryImpl extends AuthRepository {
     if (response.statusCode == 200) {
       return response;
     } else {
-      return AuthResponse.failure();
+      return AuthResponse.failure(message: response.message);
     }
   }
 

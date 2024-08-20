@@ -67,12 +67,10 @@ class LostView extends HookConsumerWidget {
                 onPressed: isDisabled
                     ? null
                     : () async {
-                        final authState =
+                        final response =
                             await ref.read(authStateNotifierProvider.notifier).forgotPassword(nameController.text);
 
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(authState),
-                        ));
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(response)));
                       },
                 child: Text(
                   'Reset password',
