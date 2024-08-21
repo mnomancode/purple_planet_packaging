@@ -38,10 +38,16 @@ class CategoryGridItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.0.r),
                 ),
                 child: SvgNetwork(url: url, padding: const EdgeInsets.all(20))),
-            8.verticalSpace,
+            6.verticalSpace,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(title, style: AppStyles.mediumStyle(fontWeight: FontWeight.w600)),
+              child: Text(
+                title,
+                style: AppStyles.mediumStyle(fontWeight: FontWeight.w600),
+                maxLines: 2,
+                textAlign: TextAlign.start,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),

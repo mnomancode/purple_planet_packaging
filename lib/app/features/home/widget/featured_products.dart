@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:purple_planet_packaging/app/models/products/products.dart';
 
 import '../../../commons/product_list_item.dart';
 import '../../../core/utils/app_colors.dart';
@@ -51,7 +52,9 @@ class FeaturedProducts extends StatelessWidget {
             separatorBuilder: (context, index) => 14.horizontalSpace,
             itemCount: 7,
             itemBuilder: (context, index) {
-              return const ProductListItem();
+              return ProductListItem(
+                product: ProductsModel.empty(),
+              );
             },
           ),
         ),

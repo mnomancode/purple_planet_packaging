@@ -1,15 +1,18 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
+import 'package:purple_planet_packaging/app/models/products/products.dart';
 
 class ProductListItem extends StatelessWidget {
-  const ProductListItem({super.key, this.onTap});
+  const ProductListItem({super.key, this.onTap, required this.product});
   final void Function()? onTap;
+  final ProductsModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +35,8 @@ class ProductListItem extends StatelessWidget {
               alignment: Alignment.topRight,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                image: const DecorationImage(image: AssetImage(AppImages.cup), fit: BoxFit.contain),
+                image:
+                    DecorationImage(image: CachedNetworkImageProvider(product.images!.first.src), fit: BoxFit.contain),
               ),
               child: GestureDetector(
                 onTap: () {
@@ -50,7 +54,7 @@ class ProductListItem extends StatelessWidget {
               ),
             ),
             10.verticalSpace,
-            Text('Planetware™ 8oz Double Wall Takeaway Cup',
+            Text(product.name,
                 style: AppStyles.mediumBoldStyle(color: AppColors.primaryColor),
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis),

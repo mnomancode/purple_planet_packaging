@@ -1,3 +1,9 @@
+import 'package:purple_planet_packaging/app/models/categories/category.dart';
+import 'package:purple_planet_packaging/app/models/products/products.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 abstract class ShopRepository {
-  // TODO: add your impl here
+  FutureOr<List<CategoryModel>> getShopCategories();
+
+  FutureOr<List<ProductsModel>> getProducts(int? categoryId);
 }

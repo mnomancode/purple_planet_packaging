@@ -30,7 +30,7 @@ class PPPAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             )
           : null,
-      title: Text(title, style: AppStyles.largeStyle(fontSize: 20.sp)),
+      title: Text(title, style: AppStyles.largeStyle(fontSize: 16.sp)),
       actions: [if (action != null) action!, const SizedBox(width: 16)],
     );
   }
