@@ -13,4 +13,9 @@ abstract class AuthService {
   @POST('/wp-login.php?action=lostpassword')
   @FormUrlEncoded()
   Future<HttpResponse> lostPassword(@Field('user_login') String userLogin);
+
+  @GET('/wp-json/wc/store/cart')
+  Future<HttpResponse> getCart(
+    @Header('Authorization') String token,
+  );
 }

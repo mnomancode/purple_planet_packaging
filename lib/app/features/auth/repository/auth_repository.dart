@@ -8,4 +8,5 @@ abstract class AuthRepository {
   FutureOr<AuthResponse?> getUser({required String name, required String pass});
 
   Future<HttpResponse> lostPassword({required String userLogin});
+  Future<HttpResponse> getCart(String token);
 }

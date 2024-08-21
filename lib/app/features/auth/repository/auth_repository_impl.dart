@@ -34,6 +34,9 @@ class AuthRepositoryImpl extends AuthRepository {
               'Error', Response(requestOptions: RequestOptions(validateStatus: (_) => false), statusCode: 500));
         },
       );
+
+  @override
+  Future<HttpResponse> getCart(token) => _authService.getCart(token);
 }
 
 @riverpod
