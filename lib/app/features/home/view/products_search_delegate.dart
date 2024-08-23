@@ -51,45 +51,51 @@ class ProductsSearchDelegate extends SearchDelegate<ProductsModel?> {
 
     return Consumer(
       builder: (context, ref, child) {
-        var products = ref.watch(searchProductsNotifierProvider(query: query));
+        final data = ref.watch(searchProductsNotifierProvider(query));
+        final isLoading = ref.watch(searchProductsNotifierProvider(query)).value?.isLoading ?? false;
 
         scrollController.addListener(() {
           if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-            products = ref.watch(searchProductsNotifierProvider(query: query));
-            log('load more');
+            ref.read(searchProductsNotifierProvider(query).notifier).loadMore(query: query);
           }
         });
 
-        return products.when(
+        return data.when(
           data: (data) => Padding(
             padding: EdgeInsets.only(top: 10.h),
             child: ListView.builder(
                 controller: scrollController,
-                itemCount: data.length,
-                itemBuilder: (context, index) => ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-                      // onTap: () => close(context, data[index]),
-                      onTap: () => context.pushNamed(
-                        ProductDetailsView.routeName,
-                        pathParameters: {'title': data[index].name},
-                        extra: data[index],
+                itemCount: data.products.length,
+                itemBuilder: (context, index) {
+                  if (isLoading && index == data.products.length - 1) {
+                    return const Center(child: LinearProgressIndicator());
+                  }
+
+                  return ListTile(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                    // onTap: () => close(context, data[index]),
+                    onTap: () => context.pushNamed(
+                      ProductDetailsView.routeName,
+                      pathParameters: {'title': data.products[index].name},
+                      extra: data.products[index],
+                    ),
+                    leading: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.r),
+                        border: Border.all(color: AppColors.primaryColor),
                       ),
-                      leading: Container(
-                        decoration: BoxDecoration(
+                      child: ClipRRect(
                           borderRadius: BorderRadius.circular(10.r),
-                          border: Border.all(color: AppColors.primaryColor),
-                        ),
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10.r),
-                            child: CachedNetworkImage(
-                              imageUrl: data[index].images?.first.src ?? '',
-                              fit: BoxFit.contain,
-                              height: 57.r,
-                              width: 57.r,
-                            )),
-                      ),
-                      title: Text(data[index].name, style: AppStyles.mediumBoldStyle()),
-                    )),
+                          child: CachedNetworkImage(
+                            imageUrl: data.products[index].images?.first.src ?? '',
+                            fit: BoxFit.contain,
+                            height: 57.r,
+                            width: 57.r,
+                          )),
+                    ),
+                    title: Text(data.products[index].name, style: AppStyles.mediumBoldStyle()),
+                  );
+                }),
           ),
           error: (error, stackTrace) => Text(error.toString()),
           loading: () => Center(
@@ -128,8 +134,15 @@ class ProductsSearchDelegate extends SearchDelegate<ProductsModel?> {
     //   },
     // );
   }
+}
 
-  void _refetchProducts(WidgetRef ref) {
-    log('refetching');
+class _Loading extends StatelessWidget {
+  const _Loading();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
   }
 }

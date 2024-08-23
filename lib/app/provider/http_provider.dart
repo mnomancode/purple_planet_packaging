@@ -26,9 +26,9 @@ Dio http(HttpRef ref) {
       if (kDebugMode)
         PrettyDioLogger(
           requestHeader: true,
-          request: true,
-          requestBody: true,
-          responseBody: true,
+          // request: true,
+          // requestBody: true,
+          // responseBody: true,
         )
     ]);
 }
