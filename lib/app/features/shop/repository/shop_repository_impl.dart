@@ -23,6 +23,11 @@ class ShopRepositoryImpl extends ShopRepository {
 
         return [];
       });
+
+  @override
+  FutureOr<List<ProductsModel>> searchProducts(String query, {int offset = 0}) {
+    return _categoryService.searchProducts(query, offset: offset);
+  }
 }
 
 @riverpod

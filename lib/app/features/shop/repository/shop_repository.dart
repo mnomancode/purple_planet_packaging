@@ -6,4 +6,6 @@ abstract class ShopRepository {
   FutureOr<List<CategoryModel>> getShopCategories();
 
   FutureOr<List<ProductsModel>> getProducts(int? categoryId);
+
+  FutureOr<List<ProductsModel>> searchProducts(String query, {int offset = 0});
 }

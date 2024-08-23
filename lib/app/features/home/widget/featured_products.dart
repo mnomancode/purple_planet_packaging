@@ -43,21 +43,21 @@ class FeaturedProducts extends StatelessWidget {
           ),
         ),
         6.verticalSpace,
-        Container(
-          alignment: Alignment.topCenter,
-          margin: EdgeInsets.only(left: leftMargin.w),
-          height: 250.h,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            separatorBuilder: (context, index) => 14.horizontalSpace,
-            itemCount: 7,
-            itemBuilder: (context, index) {
-              return ProductListItem(
-                product: ProductsModel.empty(),
-              );
-            },
-          ),
-        ),
+        // Container(
+        //   alignment: Alignment.topCenter,
+        //   margin: EdgeInsets.only(left: leftMargin.w),
+        //   height: 250.h,
+        //   child: ListView.separated(
+        //     scrollDirection: Axis.horizontal,
+        //     separatorBuilder: (context, index) => 14.horizontalSpace,
+        //     itemCount: 7,
+        //     itemBuilder: (context, index) {
+        //       return ProductListItem(
+        //         product: ProductsModel.empty(),
+        //       );
+        //     },
+        //   ),
+        // ),
       ],
     );
   }

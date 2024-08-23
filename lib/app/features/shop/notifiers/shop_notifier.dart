@@ -32,3 +32,14 @@ class ProductsNotifier extends _$ProductsNotifier {
     return products;
   }
 }
+
+@riverpod
+class SearchProductsNotifier extends _$SearchProductsNotifier {
+  @override
+  FutureOr<List<ProductsModel>> build({String? query, int offset = 0}) async {
+    final products = ref.watch(shopRepositoryProvider).searchProducts(query ?? '', offset: offset);
+    ref.keepAlive();
+
+    return products;
+  }
+}

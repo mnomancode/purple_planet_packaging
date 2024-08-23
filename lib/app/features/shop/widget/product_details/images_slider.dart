@@ -80,7 +80,7 @@ class _ImagesSliderViewState extends State<ImagesSliderView> {
                       imageUrl: widget.images[index]!,
                       width: double.infinity,
                       height: double.infinity,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.contain,
                       progressIndicatorBuilder: (context, url, downloadProgress) =>
                           Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
                       errorWidget: (context, url, error) => const Icon(Icons.error),

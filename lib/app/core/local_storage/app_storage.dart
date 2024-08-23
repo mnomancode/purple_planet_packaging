@@ -5,6 +5,10 @@ class AppStorage {
   // ignore: unused_field
   Box? _box;
 
+  static AppStorage? instance;
+
+  static AppStorage getInstance() => instance ??= AppStorage();
+
   /// for initialling app local storage
   Future<void> initAppStorage() async {
     await Hive.initFlutter();
@@ -41,6 +45,6 @@ class AppStorage {
 
 final appStorageProvider = Provider<AppStorage>(
   (_) {
-    throw UnimplementedError();
+    return AppStorage.getInstance();
   },
 );

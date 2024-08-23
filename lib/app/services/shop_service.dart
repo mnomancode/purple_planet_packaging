@@ -11,4 +11,9 @@ abstract class ShopService {
   Future<List<ProductsModel>> getProducts(@Path('categoryId') int? categoryId);
 
   // /wp-json/wc/store/v1/products/categories?category=535
+
+  // search products
+  // /wp-json/wc/store/v1/products?search=red
+  @GET('/wp-json/wc/store/v1/products?search={search}&offset={offset}')
+  Future<List<ProductsModel>> searchProducts(@Path('search') String search, {@Path('offset') int offset = 0});
 }

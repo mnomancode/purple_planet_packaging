@@ -10,8 +10,8 @@ Dio http(HttpRef ref) {
   final options = BaseOptions(
     baseUrl: 'https://purpleplanetpackaging.co.uk/',
     responseType: ResponseType.json,
-    connectTimeout: const Duration(milliseconds: 3000),
-    receiveTimeout: const Duration(milliseconds: 3000),
+    connectTimeout: const Duration(seconds: 60),
+    receiveTimeout: const Duration(seconds: 60),
     followRedirects: false,
     maxRedirects: 0,
     validateStatus: (int? status) {

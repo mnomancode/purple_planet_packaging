@@ -13,13 +13,13 @@ import '../notifiers/shop_notifier.dart';
 import 'product_details/product_details_view.dart';
 
 class ProductsView extends ConsumerWidget {
-  const ProductsView({super.key, required this.title, required this.categoryId});
+  const ProductsView({super.key, required this.pageTitle, required this.categoryId});
 
   static const routeName = 'products';
   static const titleParm = 'title';
   static const categoryIdParm = 'categoryId';
 
-  final String title;
+  final String pageTitle;
   final String categoryId;
 
   @override
@@ -28,7 +28,7 @@ class ProductsView extends ConsumerWidget {
 
     return Scaffold(
       appBar: PPPAppBar(
-        title: title,
+        title: pageTitle,
         action: CircleAvatar(backgroundColor: Colors.white, child: SvgPicture.asset(AppImages.svgFilter)),
       ),
       body: Padding(
@@ -56,8 +56,9 @@ class ProductsView extends ConsumerWidget {
                     onTap: () {
                       context.pushNamed(
                         ProductDetailsView.routeName,
-                        pathParameters: {'title': title},
-                        queryParameters: {'productId': 'product_$index'},
+                        pathParameters: {'title': pageTitle},
+                        // queryParameters: {'productId': 'product_$index'},
+                        extra: data[index],
                       );
                     },
                   ),

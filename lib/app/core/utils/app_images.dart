@@ -34,4 +34,6 @@ class AppImages {
   static const String svgLogout = 'assets/icon/logout.svg';
   static const String svgInfo = 'assets/icon/information-circle.svg';
   static const String svgArrowForward = 'assets/icon/arrow-forward.svg';
+
+  static const String searchLottie = 'assets/lottie/search.json';
 }

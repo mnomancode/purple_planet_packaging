@@ -24,8 +24,8 @@ class AppStyles {
     border: Border.all(color: Colors.grey.shade300, width: 2),
   );
 
-  static TextStyle lightStyle({Color? color, double fontSize = 12.0}) {
-    return GoogleFonts.montserrat(color: color, fontSize: fontSize.sp);
+  static TextStyle lightStyle({Color? color, double fontSize = 12.0, FontWeight? fontWeight = FontWeight.normal}) {
+    return GoogleFonts.montserrat(color: color, fontSize: fontSize.sp, fontWeight: fontWeight);
   }
 
   static TextStyle mediumStyle(
@@ -53,9 +53,9 @@ class AppStyles {
   }
 
   static TextStyle largeStyle({
-    Color color = Colors.black,
+    Color? color = Colors.black,
     double fontSize = 18.0,
-    FontWeight fontWeight = FontWeight.bold,
+    FontWeight? fontWeight = FontWeight.bold,
   }) {
     return GoogleFonts.montserrat(
       color: color,

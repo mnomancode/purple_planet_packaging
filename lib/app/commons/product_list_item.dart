@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:purple_planet_packaging/app/commons/price_widget.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
@@ -27,7 +28,7 @@ class ProductListItem extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               height: 130.h,
@@ -53,19 +54,13 @@ class ProductListItem extends StatelessWidget {
                 ),
               ),
             ),
-            10.verticalSpace,
+            5.verticalSpace,
             Text(product.name,
-                style: AppStyles.mediumBoldStyle(color: AppColors.primaryColor),
+                style: AppStyles.mediumBoldStyle(color: AppColors.primaryColor, fontSize: 13.sp),
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis),
             const Divider(color: AppColors.lightGreyColor),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Price', style: AppStyles.boldStyle(color: AppColors.primaryColor)),
-                Text('£ 10.00', style: AppStyles.boldStyle(color: AppColors.primaryColor)),
-              ],
-            ),
+            PriceWidget(product.prices),
           ],
         ),
       ),

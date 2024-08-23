@@ -14,6 +14,7 @@ import 'package:purple_planet_packaging/app/features/profile/view/profile_view.d
 import 'package:purple_planet_packaging/app/features/shop/view/shop_view.dart';
 import 'package:purple_planet_packaging/app/features/splash/view/splash_view.dart';
 import 'package:purple_planet_packaging/app/features/custom_print/view/get_started_view.dart';
+import 'package:purple_planet_packaging/app/models/products/products.dart';
 
 import '../../commons/loading/loading_screen.dart';
 import '../../features/custom_print/view/custom_print_view.dart';
@@ -128,6 +129,7 @@ final routerProvider = Provider<GoRouter>(
             StatefulShellBranch(
               routes: [
                 GoRoute(
+                  name: ShopView.routeName,
                   path: ShopView.routeName,
                   builder: (context, state) => const ShopView(),
                   routes: [
@@ -138,7 +140,7 @@ final routerProvider = Provider<GoRouter>(
                         final title =
                             state.uri.queryParameters['title'] ?? 'Error  OP ${state.uri.queryParameters['title']}';
                         final categoryId = state.uri.queryParameters['categoryId'] ?? '0000';
-                        return ProductsView(title: title, categoryId: categoryId);
+                        return ProductsView(pageTitle: title, categoryId: categoryId);
                       },
                       routes: [
                         GoRoute(
@@ -146,8 +148,9 @@ final routerProvider = Provider<GoRouter>(
                           path: '${ProductDetailsView.routeName}/:title',
                           builder: (context, state) {
                             final title = state.pathParameters['title'] ?? 'Error${state.uri.queryParameters['title']}';
-                            final productId = state.uri.queryParameters['productId'] ?? '0000';
-                            return ProductDetailsView(title: title, productId: productId);
+                            // final productId = state.uri.queryParameters['productId'] ?? '0000';
+                            final product = state.extra as ProductsModel;
+                            return ProductDetailsView(title: title, product: product);
                           },
                         ),
                       ],
