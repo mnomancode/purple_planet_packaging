@@ -37,32 +37,39 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ],
               ),
               Spacer(),
-              GestureDetector(
-                onTap: () => context.pushNamed(OrderSamplesView.routeName),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(AppImages.svgSampleCart),
-                    3.verticalSpace,
-                    Text('Order\nSample',
-                        style: AppStyles.lightStyle(color: AppColors.white), textAlign: TextAlign.center)
-                  ],
-                ),
-              ),
+              CircleAvatar(
+                  backgroundColor: AppColors.lightGreyColor,
+                  child: SvgPicture.asset(
+                    AppImages.svgUser,
+                    colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+                  )),
               5.horizontalSpace,
-              GestureDetector(
-                onTap: () => context.pushNamed(CustomPrintView.routeName),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(AppImages.svgPrinter),
-                    3.verticalSpace,
-                    Text('Custom\nPrint',
-                        style: AppStyles.lightStyle(color: AppColors.white), textAlign: TextAlign.center)
-                  ],
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: () => context.pushNamed(OrderSamplesView.routeName),
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       SvgPicture.asset(AppImages.svgSampleCart),
+              //       3.verticalSpace,
+              //       Text('Order\nSample',
+              //           style: AppStyles.lightStyle(color: AppColors.white), textAlign: TextAlign.center)
+              //     ],
+              //   ),
+              // ),
+              // 5.horizontalSpace,
+              // GestureDetector(
+              //   onTap: () => context.pushNamed(CustomPrintView.routeName),
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     children: [
+              //       SvgPicture.asset(AppImages.svgPrinter),
+              //       3.verticalSpace,
+              //       Text('Custom\nPrint',
+              //           style: AppStyles.lightStyle(color: AppColors.white), textAlign: TextAlign.center)
+              //     ],
+              //   ),
+              // ),
             ],
           ),
           8.verticalSpace,

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:purple_planet_packaging/app/models/categories/category.dart';
 import 'package:purple_planet_packaging/app/models/products/products.dart';

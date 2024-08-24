@@ -18,7 +18,7 @@ class ProductListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 210.w,
+      // width: 210.w,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -60,7 +60,7 @@ class ProductListItem extends StatelessWidget {
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis),
             const Divider(color: AppColors.lightGreyColor),
-            PriceWidget(product.prices),
+            PriceWidget(product.prices, columnView: true),
           ],
         ),
       ),

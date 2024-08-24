@@ -14,10 +14,11 @@ class PriceWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RichText(
+      textAlign: TextAlign.start,
       text: TextSpan(
         children: [
           ...getPriceSpan(includeTax: false),
-          if (!columnView) TextSpan(text: ' \n ', style: AppStyles.lightStyle(color: AppColors.greyColor)),
+          if (columnView) TextSpan(text: ' \n ', style: AppStyles.lightStyle(color: AppColors.greyColor)),
           ...getPriceSpan(includeTax: true),
         ],
         style: AppStyles.largeStyle(),
@@ -49,6 +50,7 @@ class PriceWidget extends StatelessWidget {
           child: Text(
             includeTax ? 'inc. VAT' : 'exc. VAT  ',
             textScaler: const TextScaler.linear(0.6),
+            textAlign: TextAlign.left,
             style: AppStyles.lightStyle(
               fontWeight: includeTax ? null : FontWeight.bold,
               color: includeTax ? AppColors.greyColor : null,
