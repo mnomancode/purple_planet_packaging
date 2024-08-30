@@ -13,7 +13,7 @@ import '../../../../commons/price_widget.dart';
 class ProductDetailsView extends StatelessWidget {
   const ProductDetailsView({super.key, required this.title, required this.product});
 
-  static const routeName = 'productDetails';
+  static const routeName = '/productDetails';
   final String title;
   final ProductsModel product;
 
@@ -36,7 +36,6 @@ class ProductDetailsView extends StatelessWidget {
                     product.name,
                     style: AppStyles.mediumBoldStyle(fontSize: 16.sp),
                   )),
-                  // Text(product.id.toString())
                 ],
               ),
               10.verticalSpace,

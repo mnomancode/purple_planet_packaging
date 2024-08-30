@@ -29,9 +29,17 @@ class ProductsNotifier extends _$ProductsNotifier {
   @override
   FutureOr<List<ProductsModel>> build({int? categoryId}) async {
     final products = ref.watch(shopRepositoryProvider).getProducts(categoryId);
-    // ref.keepAlive();
+    ref.keepAlive();
 
     return products;
+  }
+
+  // get feature products
+  FutureOr<List<ProductsModel>> getFeatureProducts() {
+    final featured = ref.watch(shopRepositoryProvider).getFeatureProducts();
+    ref.keepAlive();
+
+    return featured;
   }
 }
 
@@ -49,10 +57,10 @@ class ProductSearchSate with _$ProductSearchSate {
 class SearchProductsNotifier extends _$SearchProductsNotifier {
   @override
   Future<ProductSearchSate> build(String? query) {
-    return _loadPosts(query: query);
+    return _loadProducts(query: query);
   }
 
-  Future<ProductSearchSate> _loadPosts({String? query, int offset = 0}) async {
+  Future<ProductSearchSate> _loadProducts({String? query, int offset = 0}) async {
     final products = await ref.watch(shopRepositoryProvider).searchProducts(query ?? '', offset: offset);
 
     return ProductSearchSate(products: products, offset: offset);

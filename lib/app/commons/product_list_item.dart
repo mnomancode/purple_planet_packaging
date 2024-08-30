@@ -1,24 +1,24 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:purple_planet_packaging/app/commons/price_widget.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/models/products/products.dart';
 
+import '../features/shop/view/product_details/product_details_view.dart';
+
 class ProductListItem extends StatelessWidget {
-  const ProductListItem({super.key, this.onTap, required this.product});
-  final void Function()? onTap;
+  const ProductListItem({super.key, required this.product});
   final ProductsModel product;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: 210.w,
+      width: 210.w,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -26,7 +26,11 @@ class ProductListItem extends StatelessWidget {
         boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 5))],
       ),
       child: GestureDetector(
-        onTap: onTap,
+        onTap: () => context.pushNamed(
+          ProductDetailsView.routeName,
+          pathParameters: {'title': product.name},
+          extra: product,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -39,19 +43,13 @@ class ProductListItem extends StatelessWidget {
                 image:
                     DecorationImage(image: CachedNetworkImageProvider(product.images!.first.src), fit: BoxFit.contain),
               ),
-              child: GestureDetector(
-                onTap: () {
-                  //TODO: Add to cart
-                  log('Add to cart');
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: AppColors.lightPrimaryColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: SvgPicture.asset(AppImages.svgAddCard, width: 20),
+              child: Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: AppColors.lightPrimaryColor,
+                  borderRadius: BorderRadius.circular(8),
                 ),
+                child: SvgPicture.asset(AppImages.svgAddCard, width: 20),
               ),
             ),
             5.verticalSpace,

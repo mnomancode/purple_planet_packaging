@@ -9,3 +9,4 @@ part 'service.g.dart';
 
 part 'auth_service.dart';
 part 'shop_service.dart';
+part 'cart_service.dart';

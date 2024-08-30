@@ -6,7 +6,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
-import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../commons/ppp_app_bar.dart';
 import '../../../commons/product_list_item.dart';
@@ -56,14 +55,14 @@ class ProductsView extends ConsumerWidget {
                     itemBuilder: (context, index) {
                       return ProductListItem(
                         product: data[index],
-                        onTap: () {
-                          context.pushNamed(
-                            ProductDetailsView.routeName,
-                            pathParameters: {'title': pageTitle},
-                            // queryParameters: {'productId': 'product_$index'},
-                            extra: data[index],
-                          );
-                        },
+                        // onTap: () {
+                        //   context.pushNamed(
+                        //     ProductDetailsView.routeName,
+                        //     pathParameters: {'title': pageTitle},
+                        //     // queryParameters: {'productId': 'product_$index'},
+                        //     extra: data[index],
+                        //   );
+                        // },
                       );
                     }),
                 error: (Object error, StackTrace stackTrace) => Text(error.toString()),

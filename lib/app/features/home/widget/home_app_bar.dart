@@ -38,7 +38,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               Spacer(),
               CircleAvatar(
-                  backgroundColor: AppColors.lightGreyColor,
+                  backgroundColor: AppColors.lightGreyColor.withOpacity(0.2),
                   child: SvgPicture.asset(
                     AppImages.svgUser,
                     colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),

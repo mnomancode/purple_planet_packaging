@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../core/utils/app_colors.dart';
@@ -12,24 +13,16 @@ class SearchTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       onTap: () async {
-        // final product =
         await showSearch(
           context: context,
           delegate: ProductsSearchDelegate(),
         );
-
-        // if (product != null) {
-        //   context.pushNamed(
-        //     ProductDetailsView.routeName,
-        //     pathParameters: {'title': product.name},
-        //     extra: product,
-        //   );
-        // }
       },
       readOnly: true,
       decoration: InputDecoration(
         hintText: 'Search Products',
-        fillColor: AppColors.white,
+        // fillColor: AppColors.white,
+        hintStyle: TextStyle(color: AppColors.greyColor, fontSize: 13.sp),
         filled: true,
         prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
         prefixIcon: Padding(
