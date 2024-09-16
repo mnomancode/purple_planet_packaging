@@ -16,7 +16,7 @@ import '../widget/custom_print_main_widget.dart';
 class CustomPrintView extends ConsumerWidget {
   const CustomPrintView({Key? key}) : super(key: key);
 
-  static const routeName = 'customPrint';
+  static const routeName = '/customPrint';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

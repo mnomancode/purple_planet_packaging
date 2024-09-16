@@ -9,7 +9,7 @@ class AppStyles {
 
   static EdgeInsetsGeometry scaffoldPadding = const EdgeInsets.fromLTRB(16, 10, 16, 0);
 
-  static TextStyle hintStyle({Color? color, double fontSize = 12.0}) {
+  static TextStyle hintStyle({Color? color, double fontSize = 11.0}) {
     return GoogleFonts.montserrat(color: color ?? Colors.grey, fontSize: fontSize.sp);
   }
 
@@ -24,12 +24,12 @@ class AppStyles {
     border: Border.all(color: Colors.grey.shade300, width: 2),
   );
 
-  static TextStyle lightStyle({Color? color, double fontSize = 12.0}) {
-    return GoogleFonts.montserrat(color: color, fontSize: fontSize.sp);
+  static TextStyle lightStyle({Color? color, double fontSize = 10.0, FontWeight? fontWeight = FontWeight.normal}) {
+    return GoogleFonts.montserrat(color: color, fontSize: fontSize.sp, fontWeight: fontWeight);
   }
 
   static TextStyle mediumStyle(
-      {Color? color, double fontSize = 14.0, double? letterSpacing, double? height, FontWeight? fontWeight}) {
+      {Color? color, double fontSize = 12.0, double? letterSpacing, double? height, FontWeight? fontWeight}) {
     return GoogleFonts.montserrat(
       color: color,
       fontSize: fontSize.sp,
@@ -39,11 +39,11 @@ class AppStyles {
     );
   }
 
-  static TextStyle mediumBoldStyle({Color? color, double fontSize = 14.0}) {
+  static TextStyle mediumBoldStyle({Color? color, double fontSize = 11.0}) {
     return GoogleFonts.montserrat(color: color, fontSize: fontSize.sp, fontWeight: FontWeight.w600);
   }
 
-  static TextStyle boldStyle({Color? color, double fontSize = 15.0, FontWeight? fontWeight, double? height}) {
+  static TextStyle boldStyle({Color? color, double fontSize = 13.0, FontWeight? fontWeight, double? height}) {
     return GoogleFonts.montserrat(
       color: color,
       fontSize: fontSize.sp,
@@ -53,9 +53,9 @@ class AppStyles {
   }
 
   static TextStyle largeStyle({
-    Color color = Colors.black,
-    double fontSize = 18.0,
-    FontWeight fontWeight = FontWeight.bold,
+    Color? color = Colors.black,
+    double fontSize = 16.0,
+    FontWeight? fontWeight = FontWeight.bold,
   }) {
     return GoogleFonts.montserrat(
       color: color,
@@ -78,7 +78,7 @@ class AppStyles {
       s,
       style: GoogleFonts.montserrat(
         color: Colors.black,
-        fontSize: 18.sp,
+        fontSize: 16.sp,
         fontWeight: FontWeight.w600,
       ),
     );

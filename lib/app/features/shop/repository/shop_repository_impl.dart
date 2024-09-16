@@ -16,13 +16,16 @@ class ShopRepositoryImpl extends ShopRepository {
   FutureOr<List<CategoryModel>> getShopCategories() => _categoryService.getCategories();
 
   @override
-  FutureOr<List<ProductsModel>> getProducts(int? categoryId) =>
-      _categoryService.getProducts(categoryId).then((value) => value).onError((error, stackTrace) {
-        log(error.toString());
-        log(stackTrace.toString());
+  FutureOr<List<ProductsModel>> getProducts(int? categoryId) => _categoryService.getProducts(categoryId);
 
-        return [];
-      });
+  @override
+  FutureOr<List<ProductsModel>> searchProducts(String query, {int offset = 0}) {
+    return _categoryService.searchProducts(query, offset: offset);
+  }
+
+  @override
+  FutureOr<List<ProductsModel>> getFeatureProducts({int offset = 0}) =>
+      _categoryService.getFeatureProducts(offset: offset);
 }
 
 @riverpod

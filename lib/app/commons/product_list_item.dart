@@ -1,21 +1,24 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:purple_planet_packaging/app/commons/price_widget.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/models/products/products.dart';
 
-class ProductListItem extends StatelessWidget {
-  const ProductListItem({super.key, this.onTap, required this.product});
-  final void Function()? onTap;
+import '../features/cart/providers/cart_providers.dart';
+import '../features/shop/view/product_details/product_details_view.dart';
+
+class ProductListItem extends ConsumerWidget {
+  const ProductListItem({super.key, required this.product});
   final ProductsModel product;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       width: 210.w,
       padding: const EdgeInsets.all(10),
@@ -25,9 +28,13 @@ class ProductListItem extends StatelessWidget {
         boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 5))],
       ),
       child: GestureDetector(
-        onTap: onTap,
+        onTap: () => context.pushNamed(
+          ProductDetailsView.routeName,
+          pathParameters: {'title': product.name},
+          extra: product,
+        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               height: 130.h,
@@ -39,10 +46,7 @@ class ProductListItem extends StatelessWidget {
                     DecorationImage(image: CachedNetworkImageProvider(product.images!.first.src), fit: BoxFit.contain),
               ),
               child: GestureDetector(
-                onTap: () {
-                  //TODO: Add to cart
-                  log('Add to cart');
-                },
+                onTap: () => ref.read(cartNotifierProvider.notifier).addToCart(product),
                 child: Container(
                   padding: const EdgeInsets.all(5),
                   decoration: BoxDecoration(
@@ -53,19 +57,13 @@ class ProductListItem extends StatelessWidget {
                 ),
               ),
             ),
-            10.verticalSpace,
+            5.verticalSpace,
             Text(product.name,
-                style: AppStyles.mediumBoldStyle(color: AppColors.primaryColor),
+                style: AppStyles.mediumBoldStyle(color: AppColors.primaryColor, fontSize: 13.sp),
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis),
             const Divider(color: AppColors.lightGreyColor),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Price', style: AppStyles.boldStyle(color: AppColors.primaryColor)),
-                Text('£ 10.00', style: AppStyles.boldStyle(color: AppColors.primaryColor)),
-              ],
-            ),
+            PriceWidget(product.prices, columnView: true),
           ],
         ),
       ),

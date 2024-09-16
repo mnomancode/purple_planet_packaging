@@ -6,6 +6,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_styles.dart';
+import 'package:photo_view/photo_view.dart';
 
 class ImagesSliderView extends StatefulWidget {
   const ImagesSliderView({super.key, this.portionOfSH = 0.31, required this.images});
@@ -50,64 +51,96 @@ class _ImagesSliderViewState extends State<ImagesSliderView> {
       // margin: const EdgeInsets.symmetric(horizontal: 16),
       height: widget.portionOfSH?.sh,
       width: 1.sw,
-      child: Column(
+      child: Stack(
         children: [
-          const Spacer(),
+          // const Spacer(),
           CarouselSlider.builder(
             itemCount: widget.images.length,
             carouselController: _controller,
             options: CarouselOptions(
               enlargeCenterPage: true,
               enableInfiniteScroll: false,
-              viewportFraction: 0.7,
+              viewportFraction: 1,
               onPageChanged: (index, reason) => setState(() => _currentIndex = index),
             ),
             itemBuilder: (context, index, realIdx) {
               return Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                padding: const EdgeInsets.symmetric(),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 child: GestureDetector(
-                  onTap: () {
-                    // Get.toNamed(Routes.IMAGE_VIEW, arguments: widget.images);
-                    // Get.to(() => HeroPhotoViewRouteWrapper(
-                    //       imageProvider: CachedNetworkImageProvider(widget.images[index]!),
-                    //       tag: widget.images[index]!,
-                    //     ));
-                  },
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return Dialog(
+                        backgroundColor: Colors.transparent,
+                        child: Stack(
+                          children: [
+                            PhotoView(
+                              tightMode: true,
+                              minScale: PhotoViewComputedScale.contained,
+                              backgroundDecoration: const BoxDecoration(color: Colors.transparent),
+                              imageProvider: CachedNetworkImageProvider(
+                                widget.images[index]!,
+                              ),
+                              heroAttributes: PhotoViewHeroAttributes(tag: widget.images[index]!),
+                            ),
+                            Positioned(
+                              top: 0,
+                              right: 0,
+                              child: IconButton(
+                                icon: const Icon(Icons.close, color: AppColors.primaryColor),
+                                onPressed: () => Navigator.of(context).pop(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: CachedNetworkImage(
-                      imageUrl: widget.images[index]!,
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.cover,
-                      progressIndicatorBuilder: (context, url, downloadProgress) =>
-                          Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                    child: Hero(
+                      tag: widget.images[index]!,
+                      child: CachedNetworkImage(
+                        imageUrl: widget.images[index]!,
+                        width: double.infinity,
+                        height: double.infinity,
+                        // fit: BoxFit.fitWidth,
+                        progressIndicatorBuilder: (context, url, downloadProgress) =>
+                            Center(child: CircularProgressIndicator(value: downloadProgress.progress)),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                      ),
                     ),
                   ),
                 ),
               );
             },
           ),
-          const Spacer(),
-          AnimatedSmoothIndicator(
-            activeIndex: _currentIndex,
-            count: widget.images.length,
-            effect: const ExpandingDotsEffect(
-              dotWidth: 10,
-              dotHeight: 10,
-              expansionFactor: 2,
-              spacing: 6,
-              activeDotColor: AppColors.primaryColor,
-              dotColor: AppColors.lightPrimaryColor,
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: AnimatedSmoothIndicator(
+                activeIndex: _currentIndex,
+                count: widget.images.length,
+                effect: const ExpandingDotsEffect(
+                  dotWidth: 10,
+                  dotHeight: 10,
+                  expansionFactor: 2,
+                  spacing: 6,
+                  activeDotColor: AppColors.primaryColor,
+                  dotColor: AppColors.lightPrimaryColor,
+                ),
+                onDotClicked: (index) => setState(() {
+                  _currentIndex = index;
+                  _controller.animateToPage(index);
+                }),
+              ),
             ),
-            onDotClicked: (index) => setState(() {
-              _currentIndex = index;
-              _controller.animateToPage(index);
-            }),
           ),
-          const Spacer(),
+          // const Spacer(),
         ],
       ),
     );

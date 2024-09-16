@@ -12,7 +12,7 @@ import '../widget/order_samples_form.dart';
 class OrderSamplesView extends ConsumerWidget {
   const OrderSamplesView({Key? key}) : super(key: key);
 
-  static const routeName = 'orderSamples';
+  static const routeName = '/orderSamples';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

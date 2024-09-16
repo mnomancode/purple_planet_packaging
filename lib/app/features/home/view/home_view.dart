@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../widget/categories_section.dart';
+import '../widget/custom_print_sample_buttons.dart';
 import '../widget/featured_products.dart';
 import '../widget/home_app_bar.dart';
 import '../widget/order_by_widget_home.dart';
@@ -20,13 +21,16 @@ class HomeView extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            5.verticalSpace,
             const ResponsiblePackaging(),
             16.verticalSpace,
             const OrderByWidgetHome(),
             16.verticalSpace,
             const CategoriesSection(),
             16.verticalSpace,
-            const FeaturedProducts(
+            const CustomPrintSampleButtons(),
+            16.verticalSpace,
+            const FeaturedProductsSection(
               title: 'Popular Products',
             ),
             16.verticalSpace,

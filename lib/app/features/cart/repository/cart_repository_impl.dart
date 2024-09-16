@@ -1,16 +1,37 @@
 import 'dart:developer';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'package:dio/dio.dart';
+import 'package:retrofit/dio.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../../provider/http_provider.dart';
+import '../../../services/service.dart';
 import 'cart_repository.dart';
 
+part 'cart_repository_impl.g.dart';
+
 class CartRepositoryImpl extends CartRepository {
-  // @override
-  // void toggleBasket() {
-  //   isBasketExpanded = !isBasketExpanded;
-  //   log('isBasketExpanded: $isBasketExpanded');
-  //   notifyListeners();
-  // }
+  CartRepositoryImpl({required CartService cartService}) : _cartService = cartService;
+  final CartService _cartService;
+
+  @override
+  Future<HttpResponse> getCart(String cartToken) async {
+    final response = await _cartService.getCart();
+
+    // log(response.response.data.toString());
+    // log(response.response.headers['nonce'].toString());
+    log(response.response.data.toString());
+    return response;
+  }
+
+  @override
+  Future<HttpResponse> addToCart(int productId) {
+    return _cartService.addToCart(productId, quantity: 1);
+  }
 }
 
-final cartRepositoryProvider = ChangeNotifierProvider<CartRepository>((ref) {
-  return CartRepositoryImpl();
-});
+@riverpod
+CartRepository cartRepository(CartRepositoryRef ref) {
+  final http = ref.watch(httpProvider);
+
+  return CartRepositoryImpl(cartService: CartService(http));
+}

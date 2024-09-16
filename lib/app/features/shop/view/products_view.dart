@@ -11,15 +11,16 @@ import '../../../commons/ppp_app_bar.dart';
 import '../../../commons/product_list_item.dart';
 import '../notifiers/shop_notifier.dart';
 import 'product_details/product_details_view.dart';
+import 'widgets/products_loading_gridview.dart';
 
 class ProductsView extends ConsumerWidget {
-  const ProductsView({super.key, required this.title, required this.categoryId});
+  const ProductsView({super.key, required this.pageTitle, required this.categoryId});
 
   static const routeName = 'products';
   static const titleParm = 'title';
   static const categoryIdParm = 'categoryId';
 
-  final String title;
+  final String pageTitle;
   final String categoryId;
 
   @override
@@ -28,7 +29,7 @@ class ProductsView extends ConsumerWidget {
 
     return Scaffold(
       appBar: PPPAppBar(
-        title: title,
+        title: pageTitle,
         action: CircleAvatar(backgroundColor: Colors.white, child: SvgPicture.asset(AppImages.svgFilter)),
       ),
       body: Padding(
@@ -44,26 +45,28 @@ class ProductsView extends ConsumerWidget {
             Expanded(
               child: products.when(
                 data: (data) => GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.65,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                  ),
-                  itemCount: data.length,
-                  itemBuilder: (context, index) => ProductListItem(
-                    product: data[index],
-                    onTap: () {
-                      context.pushNamed(
-                        ProductDetailsView.routeName,
-                        pathParameters: {'title': title},
-                        queryParameters: {'productId': 'product_$index'},
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.65,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      return ProductListItem(
+                        product: data[index],
+                        // onTap: () {
+                        //   context.pushNamed(
+                        //     ProductDetailsView.routeName,
+                        //     pathParameters: {'title': pageTitle},
+                        //     // queryParameters: {'productId': 'product_$index'},
+                        //     extra: data[index],
+                        //   );
+                        // },
                       );
-                    },
-                  ),
-                ),
+                    }),
                 error: (Object error, StackTrace stackTrace) => Text(error.toString()),
-                loading: () => const CircularProgressIndicator(),
+                loading: () => const ProductsLoadingGridView(),
               ),
             )
           ],

@@ -62,6 +62,15 @@ dependencies:
   hooks_riverpod: ^2.5.1
   equatable: ^2.0.5
   loading_animation_widget: ^1.2.1
+  lottie: ^3.1.2
+  skeletonizer: ^1.4.2
+  photo_view: ^0.15.0
+  cookie_jar: ^4.0.8
+  dio_cookie_manager: ^3.1.1
+  path_provider: ^2.1.4
+  shared_prefs_cookie_store: ^0.0.2
+  shared_preferences: ^2.3.2
+  webview_flutter: ^4.8.0
  
 
 
@@ -114,6 +123,7 @@ flutter:
     - assets/icon/
     - assets/google_fonts/
     - assets/images/
+    - assets/lottie/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

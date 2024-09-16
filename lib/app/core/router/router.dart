@@ -14,9 +14,11 @@ import 'package:purple_planet_packaging/app/features/profile/view/profile_view.d
 import 'package:purple_planet_packaging/app/features/shop/view/shop_view.dart';
 import 'package:purple_planet_packaging/app/features/splash/view/splash_view.dart';
 import 'package:purple_planet_packaging/app/features/custom_print/view/get_started_view.dart';
+import 'package:purple_planet_packaging/app/models/products/products.dart';
 
 import '../../commons/loading/loading_screen.dart';
 import '../../features/custom_print/view/custom_print_view.dart';
+import '../../features/featured_products/view/featured_products_view.dart';
 import '../../features/main/view/dashboard_view.dart';
 import '../../features/shop/view/product_details/product_details_view.dart';
 import '../../features/shop/view/products_view.dart';
@@ -90,6 +92,37 @@ final routerProvider = Provider<GoRouter>(
             GoRoute(name: LostView.routeName, path: LostView.routeName, builder: (context, state) => const LostView()),
           ],
         ),
+        GoRoute(
+          path: FeaturedProductsView.routeName,
+          name: FeaturedProductsView.routeName,
+          builder: (context, state) => const FeaturedProductsView(),
+        ),
+        GoRoute(
+          name: ProductDetailsView.routeName,
+          path: '${ProductDetailsView.routeName}/:title',
+          builder: (context, state) {
+            final title = state.pathParameters['title'] ?? 'Error${state.uri.queryParameters['title']}';
+            // final productId = state.uri.queryParameters['productId'] ?? '0000';
+            final product = state.extra as ProductsModel;
+            return ProductDetailsView(title: title, product: product);
+          },
+        ),
+        GoRoute(
+            path: OrderSamplesView.routeName,
+            name: OrderSamplesView.routeName,
+            builder: (context, state) => const OrderSamplesView()),
+        GoRoute(
+            name: CustomPrintView.routeName,
+            path: CustomPrintView.routeName,
+            builder: (context, state) => const CustomPrintView(),
+            routes: [
+              GoRoute(
+                  name: GetStarted.routeName,
+                  path: GetStarted.routeName,
+                  builder: (context, state) => const GetStarted()),
+              GoRoute(
+                  name: FaqsView.routeName, path: FaqsView.routeName, builder: (context, state) => const FaqsView()),
+            ]),
         StatefulShellRoute.indexedStack(
           builder: (BuildContext context, GoRouterState state, StatefulNavigationShell navigationShell) {
             return DashboardView(navigationShell: navigationShell);
@@ -102,32 +135,14 @@ final routerProvider = Provider<GoRouter>(
                   path: HomeView.routeName,
                   name: HomeView.routeName,
                   builder: (context, state) => const HomeView(),
-                  routes: [
-                    GoRoute(
-                        name: CustomPrintView.routeName,
-                        path: CustomPrintView.routeName,
-                        builder: (context, state) => const CustomPrintView(),
-                        routes: [
-                          GoRoute(
-                              name: GetStarted.routeName,
-                              path: GetStarted.routeName,
-                              builder: (context, state) => const GetStarted()),
-                          GoRoute(
-                              name: FaqsView.routeName,
-                              path: FaqsView.routeName,
-                              builder: (context, state) => const FaqsView()),
-                        ]),
-                    GoRoute(
-                        path: OrderSamplesView.routeName,
-                        name: OrderSamplesView.routeName,
-                        builder: (context, state) => const OrderSamplesView())
-                  ],
+                  routes: [],
                 ),
               ],
             ),
             StatefulShellBranch(
               routes: [
                 GoRoute(
+                  name: ShopView.routeName,
                   path: ShopView.routeName,
                   builder: (context, state) => const ShopView(),
                   routes: [
@@ -138,19 +153,8 @@ final routerProvider = Provider<GoRouter>(
                         final title =
                             state.uri.queryParameters['title'] ?? 'Error  OP ${state.uri.queryParameters['title']}';
                         final categoryId = state.uri.queryParameters['categoryId'] ?? '0000';
-                        return ProductsView(title: title, categoryId: categoryId);
+                        return ProductsView(pageTitle: title, categoryId: categoryId);
                       },
-                      routes: [
-                        GoRoute(
-                          name: ProductDetailsView.routeName,
-                          path: '${ProductDetailsView.routeName}/:title',
-                          builder: (context, state) {
-                            final title = state.pathParameters['title'] ?? 'Error${state.uri.queryParameters['title']}';
-                            final productId = state.uri.queryParameters['productId'] ?? '0000';
-                            return ProductDetailsView(title: title, productId: productId);
-                          },
-                        ),
-                      ],
                     ),
                   ],
                 ),

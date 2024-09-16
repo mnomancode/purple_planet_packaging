@@ -15,7 +15,7 @@ class ResponsiblePackaging extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Container(
           margin: EdgeInsets.only(top: 20.h),
-          height: 185.h,
+          height: 190.h,
           width: double.infinity,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -38,15 +38,15 @@ class ResponsiblePackaging extends StatelessWidget {
                     SizedBox(
                         width: 0.50.sw,
                         child: Text('RESPONSIBLE PACKAGING', style: AppStyles.boldStyle(fontSize: 18.sp))),
-                    8.verticalSpace,
+                    6.verticalSpace,
                     Text(
                       'Eco-friendly packaging made from\nrecycled or renewable materials.',
                       style: AppStyles.mediumStyle(fontSize: 13.sp),
                     ),
-                    10.verticalSpace,
+                    8.verticalSpace,
                     Container(
                       width: 0.3.sw,
-                      height: 40,
+                      height: 35.h,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),

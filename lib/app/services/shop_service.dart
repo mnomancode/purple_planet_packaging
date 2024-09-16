@@ -10,5 +10,9 @@ abstract class ShopService {
   @GET('/wp-json/wc/store/v1/products?category={categoryId} & per_page=100')
   Future<List<ProductsModel>> getProducts(@Path('categoryId') int? categoryId);
 
-  // /wp-json/wc/store/v1/products/categories?category=535
+  @GET('/wp-json/wc/store/v1/products?search={search}&offset={offset}')
+  Future<List<ProductsModel>> searchProducts(@Path('search') String search, {@Path('offset') int offset = 0});
+
+  @GET('/wp-json/wc/store/v1/products?featured=true&offset={offset}')
+  Future<List<ProductsModel>> getFeatureProducts({@Path('offset') int offset = 0});
 }

@@ -32,3 +32,9 @@ class PriceRange with _$PriceRange {
 
   factory PriceRange.fromJson(Map<String, dynamic> json) => _$PriceRangeFromJson(json);
 }
+
+extension PricesX on Prices {
+  double get doublePrice {
+    return double.tryParse(price ?? '') ?? 0.0;
+  }
+}
