@@ -1,9 +1,14 @@
-import 'package:hive_flutter/hive_flutter.dart';
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppStorage {
   // ignore: unused_field
-  Box? _box;
+  late SharedPreferences sharedPreferences;
 
   static AppStorage? instance;
 
@@ -11,35 +16,27 @@ class AppStorage {
 
   /// for initialling app local storage
   Future<void> initAppStorage() async {
-    await Hive.initFlutter();
-    _box = await Hive.openBox('app_storage');
+    sharedPreferences = await SharedPreferences.getInstance();
+
+    if (!kIsWeb) {
+      final Directory appDocDir = await getApplicationDocumentsDirectory();
+      final String appDocPath = appDocDir.path;
+      putString('appDocDir', appDocPath);
+      log(appDocPath, name: 'appDocPath');
+    }
   }
 
-  // example of storing & getting value
-
-  /// for storing uploaded string value
-  // final String _helloWorld = 'helloWorld';
-
-  // /// for getting string from box
-  // String? getHelloWorld() {
-  //   return _box?.get(_helloWorld) as String?;
-  // }
-
-  // /// for storing helloWorld to app
-  // Future<void> putHelloWorld(String helloWorld) async {
-  //   await _box?.put(_helloWorld, helloWorld);
-  // }
   Future<void> putString(String key, String value) async {
-    await _box?.put(key, value);
+    await sharedPreferences.setString(key, value);
   }
 
-  Future<String?> getString(String key) async {
-    return _box?.get(key) as String?;
+  String? getString(String key) {
+    return sharedPreferences.getString(key);
   }
 
   /// for clearing all data in box
   Future<void> clearAllData() async {
-    await _box?.clear();
+    await sharedPreferences.clear();
   }
 }
 

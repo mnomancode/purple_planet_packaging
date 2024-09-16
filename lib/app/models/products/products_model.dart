@@ -7,9 +7,9 @@ class ProductsModel with _$ProductsModel {
   const factory ProductsModel({
     required int id,
     required String name,
-    required String? slug,
     required List<CategoryImage>? images,
     required Prices prices,
+    String? slug,
     List<Attribute>? attributes,
     String? description,
     @JsonKey(name: 'short_description') String? shortDescription,

@@ -1,21 +1,29 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
+import 'package:purple_planet_packaging/app/features/cart/providers/cart_providers.dart';
+import 'package:purple_planet_packaging/app/features/cart/repository/cart_repository_impl.dart';
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_app_bar.dart';
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_bottom_sheet.dart';
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_item.dart';
 
 import '../../../core/utils/app_styles.dart';
 
-class CartView extends ConsumerWidget {
+class CartView extends ConsumerStatefulWidget {
   const CartView({Key? key}) : super(key: key);
 
   static const routeName = '/cart';
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CartView> createState() => _CartViewState();
+}
+
+class _CartViewState extends ConsumerState<CartView> {
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CartAppBar(),
       // resizeToAvoidBottomInset: false,
@@ -24,7 +32,10 @@ class CartView extends ConsumerWidget {
       floatingActionButton: FloatingActionButton.extended(
         icon: SvgPicture.asset(AppImages.svgCart, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
         label: Text('Check-out', style: AppStyles.mediumBoldStyle()),
-        onPressed: () {
+        onPressed: () async {
+          // await ref.read(cartRepositoryProvider).getCart('');
+          // ref.read(cartRepositoryProvider).addToCart(6590);
+
           showModalBottomSheet(
               context: context,
               isDismissible: true,
@@ -40,9 +51,7 @@ class CartView extends ConsumerWidget {
         padding: AppStyles.scaffoldPadding,
         child: Column(
           children: [
-            const CartItem(),
-            16.verticalSpace,
-            const CartItem(),
+            ...ref.watch(cartNotifierProvider).items.map((e) => CartItem(cartModel: e)),
           ],
         ),
       ),

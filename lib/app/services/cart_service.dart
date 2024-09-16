@@ -4,9 +4,17 @@ part of 'service.dart';
 abstract class CartService {
   factory CartService(Dio dio, {String baseUrl}) = _CartService;
 
-  @GET('/wc/store/v1/cart')
-  Future<HttpResponse> getCart();
+  @GET('/wp-json/wc/store/v1/cart')
+  Future<HttpResponse> getCartFromServer(
+    @Header('Authorization') String token,
+  );
 
-  @POST('/wc/store/v1/cart/add-item?id={id}}&quantity={quantity}')
-  Future<HttpResponse> addToCart({@Path('id') int? productId, @Path('quantity') int quantity});
+  @POST('/wp-json/wc/store/v1/cart/add-item?id={id}}&quantity={quantity}')
+  Future<HttpResponse> addToCart(
+    @Path('id') int productId, {
+    @Path('quantity') int? quantity,
+  });
+
+  @GET('/wp-json/wc/store/v1/cart')
+  Future<HttpResponse> getCart();
 }

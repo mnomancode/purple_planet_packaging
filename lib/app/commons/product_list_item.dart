@@ -3,20 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/commons/price_widget.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/models/products/products.dart';
 
+import '../features/cart/providers/cart_providers.dart';
 import '../features/shop/view/product_details/product_details_view.dart';
 
-class ProductListItem extends StatelessWidget {
+class ProductListItem extends ConsumerWidget {
   const ProductListItem({super.key, required this.product});
   final ProductsModel product;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       width: 210.w,
       padding: const EdgeInsets.all(10),
@@ -43,13 +45,16 @@ class ProductListItem extends StatelessWidget {
                 image:
                     DecorationImage(image: CachedNetworkImageProvider(product.images!.first.src), fit: BoxFit.contain),
               ),
-              child: Container(
-                padding: const EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: AppColors.lightPrimaryColor,
-                  borderRadius: BorderRadius.circular(8),
+              child: GestureDetector(
+                onTap: () => ref.read(cartNotifierProvider.notifier).addToCart(product),
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    color: AppColors.lightPrimaryColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: SvgPicture.asset(AppImages.svgAddCard, width: 20),
                 ),
-                child: SvgPicture.asset(AppImages.svgAddCard, width: 20),
               ),
             ),
             5.verticalSpace,

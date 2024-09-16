@@ -7,9 +7,10 @@ import '../core/utils/app_colors.dart';
 import '../core/utils/app_styles.dart';
 
 class PriceWidget extends StatelessWidget {
-  const PriceWidget(this.prices, {super.key, this.columnView = false});
+  const PriceWidget(this.prices, {super.key, this.columnView = false, this.onlyPrice = false});
   final Prices prices;
   final bool columnView;
+  final bool onlyPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +19,10 @@ class PriceWidget extends StatelessWidget {
       text: TextSpan(
         children: [
           ...getPriceSpan(includeTax: false),
-          if (columnView) TextSpan(text: ' \n ', style: AppStyles.lightStyle(color: AppColors.greyColor)),
-          ...getPriceSpan(includeTax: true),
+          if (!onlyPrice) ...[
+            if (columnView) TextSpan(text: ' \n ', style: AppStyles.lightStyle(color: AppColors.greyColor)),
+            ...getPriceSpan(includeTax: true),
+          ]
         ],
         style: AppStyles.largeStyle(),
       ),
@@ -49,7 +52,7 @@ class PriceWidget extends StatelessWidget {
           offset: const Offset(0, 0),
           child: Text(
             includeTax ? 'inc. VAT' : 'exc. VAT  ',
-            textScaler: const TextScaler.linear(0.6),
+            textScaler: const TextScaler.linear(1),
             textAlign: TextAlign.left,
             style: AppStyles.lightStyle(
               fontWeight: includeTax ? null : FontWeight.bold,

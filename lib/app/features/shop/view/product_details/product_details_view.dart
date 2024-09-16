@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/commons/ppp_app_bar.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
@@ -9,8 +10,9 @@ import 'package:purple_planet_packaging/app/features/shop/widget/product_details
 import 'package:purple_planet_packaging/app/models/products/products.dart';
 
 import '../../../../commons/price_widget.dart';
+import '../../../cart/providers/cart_providers.dart';
 
-class ProductDetailsView extends StatelessWidget {
+class ProductDetailsView extends ConsumerWidget {
   const ProductDetailsView({super.key, required this.title, required this.product});
 
   static const routeName = '/productDetails';
@@ -18,7 +20,7 @@ class ProductDetailsView extends StatelessWidget {
   final ProductsModel product;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: PPPAppBar(title: title),
       body: Padding(
@@ -57,7 +59,7 @@ class ProductDetailsView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => ref.read(cartNotifierProvider.notifier).addToCart(product),
                       child: const Text("Add to Cart"),
                     ).alterP(isTransparent: true),
                   ),
