@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:retrofit/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../../models/cart/new_cart_model.dart';
 import '../../../provider/http_provider.dart';
 import '../../../services/service.dart';
 import 'cart_repository.dart';
@@ -14,17 +15,17 @@ class CartRepositoryImpl extends CartRepository {
   final CartService _cartService;
 
   @override
-  Future<HttpResponse> getCart(String cartToken) async {
+  Future<NewCartModel> getCart(String cartToken) async {
     final response = await _cartService.getCart();
 
     // log(response.response.data.toString());
     // log(response.response.headers['nonce'].toString());
-    log(response.response.data.toString());
+    //log(response.response.data.toString());
     return response;
   }
 
   @override
-  Future<HttpResponse> addToCart(int productId) {
+  Future<NewCartModel> addToCart(int productId) {
     return _cartService.addToCart(productId, quantity: 1);
   }
 }

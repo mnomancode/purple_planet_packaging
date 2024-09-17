@@ -4,6 +4,7 @@ import 'package:purple_planet_packaging/app/models/products/products.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../model/cart_state.dart';
+import '../repository/cart_repository_impl.dart';
 
 part 'cart_providers.g.dart';
 
@@ -15,26 +16,28 @@ class CartNotifier extends _$CartNotifier {
   }
 
 // add to cart
-  void addToCart(ProductsModel product) {
-    if (state.items.any((element) => element.product.id == product.id)) {
-      state = state.copyWith(
-        items: [
-          ...state.items.where((element) => element.product.id != product.id),
-          CartModel(
-              product: product,
-              quantity: state.items.firstWhere((element) => element.product.id == product.id).quantity + 1),
-        ].toList()
-          ..sort((a, b) => a.product.id.compareTo(b.product.id)),
-      );
-      setSubTotal();
-      return;
-    }
-
-    state = state.copyWith(
-      items: [...state.items, CartModel(product: product)].toList()
-        ..sort((a, b) => a.product.id.compareTo(b.product.id)),
-    );
-    setSubTotal();
+  void addToCart(ProductsModel product) async {
+    await ref.read(cartRepositoryProvider).getCart('');
+    ref.read(cartRepositoryProvider).addToCart(product.id);
+    // if (state.items.any((element) => element.product.id == product.id)) {
+    //   state = state.copyWith(
+    //     items: [
+    //       ...state.items.where((element) => element.product.id != product.id),
+    //       CartModel(
+    //           product: product,
+    //           quantity: state.items.firstWhere((element) => element.product.id == product.id).quantity + 1),
+    //     ].toList()
+    //       ..sort((a, b) => a.product.id.compareTo(b.product.id)),
+    //   );
+    //   setSubTotal();
+    //   return;
+    // }
+    //
+    // state = state.copyWith(
+    //   items: [...state.items, CartModel(product: product)].toList()
+    //     ..sort((a, b) => a.product.id.compareTo(b.product.id)),
+    // );
+    // setSubTotal();
   }
 
   void removeFromCart(int productId) {
