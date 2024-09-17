@@ -14,6 +14,7 @@ class ProductsModel with _$ProductsModel {
     String? description,
     @JsonKey(name: 'short_description') String? shortDescription,
     String? sku,
+    @JsonKey(name: 'is_in_stock') @Default(true) bool isInStock,
     List<Variations>? variations,
   }) = _ProductsModel;
 

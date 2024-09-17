@@ -37,26 +37,27 @@ class ProductListItem extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              height: 130.h,
-              width: 200.w,
-              alignment: Alignment.topRight,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image:
-                    DecorationImage(image: CachedNetworkImageProvider(product.images!.first.src), fit: BoxFit.contain),
-              ),
-              child: GestureDetector(
-                onTap: () => ref.read(cartNotifierProvider.notifier).addToCart(product),
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: AppColors.lightPrimaryColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: SvgPicture.asset(AppImages.svgAddCard, width: 20),
+                height: 130.h,
+                width: 200.w,
+                alignment: Alignment.topRight,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                      image: CachedNetworkImageProvider(product.images!.first.src), fit: BoxFit.contain),
                 ),
-              ),
-            ),
+                child: product.isInStock
+                    ? GestureDetector(
+                        onTap: () => ref.read(cartNotifierProvider.notifier).addToCart(product),
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: AppColors.lightPrimaryColor,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: SvgPicture.asset(AppImages.svgAddCard, width: 20),
+                        ),
+                      )
+                    : const Text('Out of Stock ')),
             5.verticalSpace,
             Text(product.name,
                 style: AppStyles.mediumBoldStyle(color: AppColors.primaryColor, fontSize: 13.sp),
