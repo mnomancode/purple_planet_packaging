@@ -33,18 +33,18 @@ class _CartViewState extends ConsumerState<CartView> {
         icon: SvgPicture.asset(AppImages.svgCart, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
         label: Text('Check-out', style: AppStyles.mediumBoldStyle()),
         onPressed: () async {
-          // await ref.read(cartRepositoryProvider).getCart('');
-          // ref.read(cartRepositoryProvider).addToCart(6590);
+          await ref.read(cartRepositoryProvider).getCart('');
+          ref.read(cartRepositoryProvider).addToCart(6590);
 
-          showModalBottomSheet(
-              context: context,
-              isDismissible: true,
-              showDragHandle: true,
-              enableDrag: true,
-              scrollControlDisabledMaxHeightRatio: 0.7,
-              builder: (context) {
-                return const CartBottomSheet();
-              });
+          // showModalBottomSheet(
+          //     context: context,
+          //     isDismissible: true,
+          //     showDragHandle: true,
+          //     enableDrag: true,
+          //     scrollControlDisabledMaxHeightRatio: 0.7,
+          //     builder: (context) {
+          //       return const CartBottomSheet();
+          //     });
         },
       ),
       body: Padding(

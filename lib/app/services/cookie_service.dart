@@ -8,7 +8,6 @@ class CookieManager extends Interceptor {
   static CookieManager get instance => _instance;
 
   CookieManager._internal();
-  String? _cookie;
   Headers? myHeaders;
 
   @override
@@ -17,24 +16,19 @@ class CookieManager extends Interceptor {
       return super.onResponse(response, handler);
     }
 
-    if (response.headers['set-cookie'] != null) {
-      _cookie = response.headers['set-cookie']![0];
-      myHeaders = response.headers;
-    }
-
-    log(response.headers.toString(), name: 'headers');
-
-    log(_cookie ?? '', name: 'cookie');
+    myHeaders = response.headers;
 
     return super.onResponse(response, handler);
   }
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    return super.onRequest(options, handler);
-  }
+    Map<String, String> headers = {};
+    myHeaders?.forEach((key, value) {
+      headers[key] = value.join(',');
+    });
 
-  void initCookieManager() {
-    _cookie = '';
+    options.headers.addAll(headers);
+    return super.onRequest(options, handler);
   }
 }
