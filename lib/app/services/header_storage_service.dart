@@ -1,9 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HeaderStorageService {
-
   static Future<void> saveJsonHeaders(Map<String, dynamic> headers) async {
     final prefs = await SharedPreferences.getInstance();
     // Convert the map (which can contain arrays and nested objects) to a JSON string
@@ -29,5 +29,4 @@ class HeaderStorageService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('headers');
   }
-
 }

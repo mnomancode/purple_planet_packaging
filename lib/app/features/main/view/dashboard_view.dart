@@ -16,7 +16,7 @@ class DashboardView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cartAsyncValue = ref.watch(cartFutureProvider);
+    // final cartAsyncValue = ref.watch(cartFutureProvider);
 
     return Scaffold(
       body: navigationShell,

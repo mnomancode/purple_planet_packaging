@@ -25,8 +25,8 @@ class CartRepositoryImpl extends CartRepository {
   }
 
   @override
-  Future<NewCartModel> addToCart(int productId) {
-    return _cartService.addToCart(productId, quantity: 1);
+  Future<NewCartModel> addToCart(int productId, {int quantity = 1}) {
+    return _cartService.addToCart(productId, quantity: quantity);
   }
 }
 

@@ -57,6 +57,7 @@ class Prices with _$Prices {
     String? regularPrice,
     String? salePrice,
     String? currencyCode,
+    // TODO : also get the currency_minor_unit and pass to the cart_view.dart ln: 82
     String? currencySymbol,
   }) = _Prices;
 

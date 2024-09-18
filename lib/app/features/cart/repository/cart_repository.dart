@@ -10,5 +10,5 @@ abstract class CartRepository {
 
   Future<NewCartModel> getCart(String cartToken);
 
-  Future<NewCartModel> addToCart(int productId);
+  Future<NewCartModel> addToCart(int productId, {int quantity = 1});
 }

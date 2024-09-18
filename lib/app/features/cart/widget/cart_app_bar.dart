@@ -5,6 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:purple_planet_packaging/app/commons/search_text_field.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 
+import '../../../core/utils/app_styles.dart';
+import '../notifiers/cart_notifier.dart';
 import '../providers/cart_providers.dart';
 
 class CartAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -20,9 +22,22 @@ class CartAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       actions: [
         Consumer(builder: (context, ref, child) {
-          final cartSubTotal = ref.watch(cartNotifierProvider).subTotal;
+          return ref.watch(newCartNotifierProvider).when(
+                data: (data) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      // TODO:  uncomment below line after changing the totals for cart
+                      // totals for cart and totals for items have different json key names create separate for both
 
-          return Padding(padding: const EdgeInsets.all(8.0), child: Text('${cartSubTotal}'));
+                      data.totals?.lineSubtotal ?? '0.00',
+                      style: AppStyles.mediumBoldStyle(),
+                    ),
+                  );
+                },
+                error: (error, stackTrace) => Text(error.toString()),
+                loading: () => const CircularProgressIndicator(),
+              );
         })
       ],
     ));

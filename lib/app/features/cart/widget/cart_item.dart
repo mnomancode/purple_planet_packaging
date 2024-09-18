@@ -44,27 +44,29 @@ class CartItem extends ConsumerWidget {
               Row(
                 children: [
                   IconButton(
-                    onPressed: () => ref.read(cartNotifierProvider.notifier).removeFromCart(cartModel.product.id),
+                    // onPressed: () => ref.read(cartNotifierProvider.notifier).removeFromCart(cartModel.product.id),
+                    onPressed: () {},
                     icon: const Icon(Icons.remove),
                     style: IconButton.styleFrom(backgroundColor: AppColors.lightPrimaryColor),
                   ),
                   SizedBox(
                     width: 25.w,
-                    child: Text(ref.watch(cartNotifierProvider.notifier).getQuantity(cartModel.product.id).toString(),
-                        style: AppStyles.boldStyle(), textAlign: TextAlign.center),
+                    // child: Text(ref.watch(cartNotifierProvider.notifier).getQuantity(cartModel.product.id).toString(),
+                    //     style: AppStyles.boldStyle(), textAlign: TextAlign.center),
                   ),
                   IconButton(
-                    onPressed: () => ref.read(cartNotifierProvider.notifier).addToCart(cartModel.product),
+                    // onPressed: () => ref.read(cartNotifierProvider.notifier).addToCart(cartModel.product),
+                    onPressed: () {},
                     icon: const Icon(Icons.add),
                     style: IconButton.styleFrom(backgroundColor: AppColors.lightPrimaryColor),
                   ),
-                  Text(
-                      // ignore: prefer_interpolation_to_compose_strings
-                      '=' +
-                          (ref.watch(cartNotifierProvider.notifier).getQuantity(cartModel.product.id) *
-                                  cartModel.getPrice)
-                              .toStringAsFixed(2),
-                      style: AppStyles.boldStyle()),
+                  // Text(
+                  //     // ignore: prefer_interpolation_to_compose_strings
+                  //     '=' +
+                  //         (ref.watch(cartNotifierProvider.notifier).getQuantity(cartModel.product.id) *
+                  //                 cartModel.getPrice)
+                  //             .toStringAsFixed(2),
+                  //     style: AppStyles.boldStyle()),
                   Transform.translate(
                     offset: const Offset(0, 3),
                     child: Text(
