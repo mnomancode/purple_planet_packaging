@@ -21,20 +21,6 @@ Dio http(HttpRef ref) {
       return status != null && status >= 200;
     },
   );
-  // Future<void> prepareJar() async {
-  //   final Directory appDocDir = await getApplicationDocumentsDirectory();
-  //   final String appDocPath = appDocDir.path;
-  //   final jar = PersistCookieJar(
-  //     ignoreExpires: true,
-  //     storage: FileStorage(appDocPath + "/.cookies/"),
-  //   );
-
-  //   cookieJar.loadForRequest(Uri.parse(options.baseUrl));
-  // }
-  // void clearCookies() {
-  //   _cookieStore.deleteAll();
-  // }
-
   return Dio(options)
     ..interceptors.addAll([
       CookieManager.instance,

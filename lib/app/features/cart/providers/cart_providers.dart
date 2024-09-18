@@ -1,6 +1,8 @@
 import 'package:purple_planet_packaging/app/extensions/double_extensions.dart';
 import 'package:purple_planet_packaging/app/features/cart/model/cart_model.dart';
-import 'package:purple_planet_packaging/app/models/products/products.dart';
+import 'package:purple_planet_packaging/app/models/cart/new_cart_model.dart';
+import 'package:purple_planet_packaging/app/models/categories/category.dart';
+import 'package:purple_planet_packaging/app/models/products/products.dart' as pr;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../model/cart_state.dart';
@@ -16,8 +18,8 @@ class CartNotifier extends _$CartNotifier {
   }
 
 // add to cart
-  void addToCart(ProductsModel product) async {
-    await ref.read(cartRepositoryProvider).getCart('');
+  void addToCart(pr.ProductsModel product) async {
+    //await ref.read(cartRepositoryProvider).getCart('');
     ref.read(cartRepositoryProvider).addToCart(product.id);
     // if (state.items.any((element) => element.product.id == product.id)) {
     //   state = state.copyWith(
@@ -38,6 +40,21 @@ class CartNotifier extends _$CartNotifier {
     //     ..sort((a, b) => a.product.id.compareTo(b.product.id)),
     // );
     // setSubTotal();
+  }
+
+  Future<void> getCart() async {
+    NewCartModel newCartModel = await ref.read(cartRepositoryProvider).getCart('');
+    state = state.copyWith(
+      items: newCartModel.items?.map((item) => CartModel(
+        product: pr.ProductsModel(
+            id: item.id!,
+            name: item.name!,
+            images: item.images! as List<CategoryImage>,
+            prices: item.prices! as pr.Prices
+        ), // Convert item to CartModel
+        quantity: item.quantity!,
+      )).toList() ?? [],
+    );
   }
 
   void removeFromCart(int productId) {

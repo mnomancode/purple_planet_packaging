@@ -22,6 +22,17 @@ class CartView extends ConsumerStatefulWidget {
 }
 
 class _CartViewState extends ConsumerState<CartView> {
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //
+  //   // Call the getCart method when the screen opens
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     ref.read(cartNotifierProvider.notifier).getCart();
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,18 +44,18 @@ class _CartViewState extends ConsumerState<CartView> {
         icon: SvgPicture.asset(AppImages.svgCart, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
         label: Text('Check-out', style: AppStyles.mediumBoldStyle()),
         onPressed: () async {
-          await ref.read(cartRepositoryProvider).getCart('');
-          ref.read(cartRepositoryProvider).addToCart(6590);
+          // await ref.read(cartRepositoryProvider).getCart('');
+          // ref.read(cartRepositoryProvider).addToCart(6590);
 
-          // showModalBottomSheet(
-          //     context: context,
-          //     isDismissible: true,
-          //     showDragHandle: true,
-          //     enableDrag: true,
-          //     scrollControlDisabledMaxHeightRatio: 0.7,
-          //     builder: (context) {
-          //       return const CartBottomSheet();
-          //     });
+          showModalBottomSheet(
+              context: context,
+              isDismissible: true,
+              showDragHandle: true,
+              enableDrag: true,
+              scrollControlDisabledMaxHeightRatio: 0.7,
+              builder: (context) {
+                return const CartBottomSheet();
+              });
         },
       ),
       body: Padding(

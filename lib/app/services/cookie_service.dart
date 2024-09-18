@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'header_storage_service.dart';
 
 class CookieManager extends Interceptor {
   static final CookieManager _instance = CookieManager._internal();
@@ -11,24 +12,25 @@ class CookieManager extends Interceptor {
   Headers? myHeaders;
 
   @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
+  void onResponse(Response response, ResponseInterceptorHandler handler) async {
     if (response.statusCode != 200) {
       return super.onResponse(response, handler);
     }
 
-    myHeaders = response.headers;
-
+    if(response.requestOptions.path.contains('cart')) {
+       final headers = response.headers.map.map((key, values) => MapEntry(key, values.join(',')));
+       await HeaderStorageService.saveJsonHeaders(headers);
+    }
     return super.onResponse(response, handler);
   }
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    Map<String, String> headers = {};
-    myHeaders?.forEach((key, value) {
-      headers[key] = value.join(',');
-    });
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    if (options.path.contains('cart')) {
+      final headers = await HeaderStorageService.getJsonHeaders();
+      options.headers.addAll(headers ?? {});
+    }
 
-    options.headers.addAll(headers);
     return super.onRequest(options, handler);
   }
 }

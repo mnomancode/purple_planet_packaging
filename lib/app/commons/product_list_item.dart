@@ -9,6 +9,7 @@ import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/models/products/products.dart';
+import 'package:rotated_corner_decoration/rotated_corner_decoration.dart';
 
 import '../features/cart/providers/cart_providers.dart';
 import '../features/shop/view/product_details/product_details_view.dart';
@@ -57,7 +58,24 @@ class ProductListItem extends ConsumerWidget {
                           child: SvgPicture.asset(AppImages.svgAddCard, width: 20),
                         ),
                       )
-                    : const Text('Out of Stock ')),
+                    : Container(
+                  foregroundDecoration: const RotatedCornerDecoration.withColor(
+                    color: Colors.red,
+                    spanBaselineShift: 4,
+                    badgeSize: Size(64, 64),
+                    badgeCornerRadius: Radius.circular(8),
+                    badgePosition: BadgePosition.topEnd,
+                    textSpan: TextSpan(
+                      text: 'Out of stock',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 8,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),),
             5.verticalSpace,
             Text(product.name,
                 style: AppStyles.mediumBoldStyle(color: AppColors.primaryColor, fontSize: 13.sp),
