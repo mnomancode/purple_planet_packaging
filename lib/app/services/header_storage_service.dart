@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,5 +29,26 @@ class HeaderStorageService {
   static Future<void> clearHeaders() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('headers');
+  }
+
+
+  /// Save cookies to SharedPreferences
+  static Future<void> saveCookiesToPreferences(List<Cookie> cookies) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String cookieString = cookies.map((cookie) => '${cookie.name}=${cookie.value}').join('; ');
+    await prefs.setString('cart_cookies', cookieString);
+  }
+
+  /// Load cookies from SharedPreferences
+  static Future<List<Cookie>?> loadSavedCookies() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? cookieString = prefs.getString('cart_cookies');
+    if (cookieString != null) {
+      return cookieString.split('; ').map((cookieStr) {
+        var parts = cookieStr.split('=');
+        return Cookie(parts[0].trim(), parts[1].trim());
+      }).toList();
+    }
+    return null;
   }
 }

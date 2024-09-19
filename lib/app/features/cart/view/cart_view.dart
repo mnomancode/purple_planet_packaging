@@ -25,15 +25,6 @@ class CartView extends ConsumerStatefulWidget {
 }
 
 class _CartViewState extends ConsumerState<CartView> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //
-  //   // Call the getCart method when the screen opens
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     ref.read(cartNotifierProvider.notifier).getCart();
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
