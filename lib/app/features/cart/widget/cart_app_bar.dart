@@ -30,7 +30,7 @@ class CartAppBar extends StatelessWidget implements PreferredSizeWidget {
                       // TODO:  uncomment below line after changing the totals for cart
                       // totals for cart and totals for items have different json key names create separate for both
 
-                      data.totals?.lineSubtotal ?? '0.00',
+                      data.cartTotals?.totalItems ?? '0.00',
                       style: AppStyles.mediumBoldStyle(),
                     ),
                   );

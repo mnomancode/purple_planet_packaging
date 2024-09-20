@@ -8,6 +8,7 @@ import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/extensions/elevated_button_extensions.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
 import 'package:purple_planet_packaging/app/features/shop/widget/product_details/images_slider.dart';
+import 'package:purple_planet_packaging/app/features/shop/widget/product_price_widget.dart';
 import 'package:purple_planet_packaging/app/models/products/products.dart';
 
 import '../../../../commons/price_widget.dart';
@@ -46,7 +47,7 @@ class ProductDetailsView extends ConsumerWidget {
                 children: [
                   Text('Price: ', style: AppStyles.boldStyle()),
                   5.horizontalSpace,
-                  PriceWidget(product.prices),
+                  ProductPriceWidget(product.prices),
                 ],
               ),
               10.verticalSpace,

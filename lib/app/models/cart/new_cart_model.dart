@@ -8,7 +8,7 @@ class NewCartModel with _$NewCartModel {
   const factory NewCartModel({
     List<Item>? items,
     List<Coupon>? coupons,
-    Totals? totals,
+    @JsonKey(name: 'totals') CartTotals? cartTotals,
     Address? shippingAddress,
     Address? billingAddress,
     bool? needsPayment,
@@ -54,10 +54,11 @@ class QuantityLimits with _$QuantityLimits {
 class Prices with _$Prices {
   const factory Prices({
     String? price,
-    String? regularPrice,
+    @JsonKey(name: 'regular_price') String? regularPrice,
     String? salePrice,
     String? currencyCode,
-    // TODO : also get the currency_minor_unit and pass to the cart_view.dart ln: 82
+    @JsonKey(name: 'currency_minor_unit') @Default(2) int? currencyMinorUnit,
+    @JsonKey(name: 'currency_prefix') String? currencyPrefix,
     String? currencySymbol,
   }) = _Prices;
 
@@ -67,15 +68,37 @@ class Prices with _$Prices {
 @freezed
 class Totals with _$Totals {
   const factory Totals({
-    String? lineSubtotal,
-    String? lineSubtotalTax,
-    String? lineTotal,
-    String? lineTotalTax,
-    String? currencyCode,
-    String? currencySymbol,
+    @JsonKey(name: 'line_subtotal') String? lineSubtotal,
+    @JsonKey(name: 'line_subtotal_tax') String? lineSubtotalTax,
+    @JsonKey(name: 'line_total') String? lineTotal,
+    @JsonKey(name: 'line_total_tax') String? lineTotalTax,
+    @JsonKey(name: 'currency_code') String? currencyCode,
+    @JsonKey(name: 'currency_symbol') String? currencySymbol,
   }) = _Totals;
 
   factory Totals.fromJson(Map<String, dynamic> json) => _$TotalsFromJson(json);
+}
+
+@freezed
+class CartTotals with _$CartTotals {
+  const factory CartTotals({
+    @JsonKey(name: 'total_items') String? totalItems,
+    @JsonKey(name: 'total_items_tax') String? totalItemsTax,
+    @JsonKey(name: 'total_fees') String? totalFees,
+    @JsonKey(name: 'total_fees_tax') String? totalFeesTax,
+    @JsonKey(name: 'total_discount') String? totalDiscount,
+    @JsonKey(name: 'total_discount_tax') String? totalDiscountTax,
+    @JsonKey(name: 'total_shipping') String? totalShipping,
+    @JsonKey(name: 'total_shipping_tax') String? totalShippingTax,
+    @JsonKey(name: 'total_price') String? totalPrice,
+    @JsonKey(name: 'total_tax') String? totalTax,
+    @JsonKey(name: 'currency_code') String? currencyCode,
+    @JsonKey(name: 'currency_symbol') String? currencySymbol,
+    @JsonKey(name: 'currency_minor_unit') int? currencyMinorUnit,
+    @JsonKey(name: 'currency_prefix') String? currencyPrefix,
+  }) = _CartTotals;
+
+  factory CartTotals.fromJson(Map<String, dynamic> json) => _$CartTotalsFromJson(json);
 }
 
 @freezed

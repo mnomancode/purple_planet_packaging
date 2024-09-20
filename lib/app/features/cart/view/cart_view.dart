@@ -64,20 +64,7 @@ class _CartViewState extends ConsumerState<CartView> {
                         itemBuilder: (context, index) {
                           final cartItem = data.items![index];
 
-                          // TODO: widget already exists update it according to new cart model
-                          // CartItem(cartModel: cartItem);
-
-                          return ListTile(
-                            title: Text(cartItem.name ?? ''),
-                            subtitle: Text('${cartItem.quantity}'),
-                            // trailing: Text('${cartItem.prices?.price?.addDecimalFromEnd(2) ?? 0}'),
-
-                            // only a dummy decimal point
-                            trailing: Text('${cartItem.prices?.price?.addDecimalFromEnd(2) ?? 0}'),
-                            onTap: () {
-                              // ref.read(cartNotifierProvider.notifier).addToCart(cartItem);
-                            },
-                          );
+                          return CartItem(item: cartItem);
                         },
                       ),
                     );

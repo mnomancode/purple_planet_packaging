@@ -29,4 +29,8 @@ class NewCartNotifier extends _$NewCartNotifier {
     // TODO : uncomment if you need to hit the build meathod again Not needed now
     // ref.invalidateSelf();
   }
+
+  getQuantity(int id) {
+    return state.value?.items?.firstWhere((element) => element.id == id).quantity;
+  }
 }

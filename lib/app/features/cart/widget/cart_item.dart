@@ -6,12 +6,15 @@ import 'package:purple_planet_packaging/app/commons/price_widget.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/features/cart/model/cart_model.dart';
+import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
 import 'package:purple_planet_packaging/app/features/cart/providers/cart_providers.dart';
+import 'package:purple_planet_packaging/app/models/cart/new_cart_model.dart';
 
 class CartItem extends ConsumerWidget {
-  const CartItem({Key? key, required this.cartModel}) : super(key: key);
+  const CartItem({Key? key, required this.item}) : super(key: key);
 
-  final CartModel cartModel;
+  //final CartModel cartModel;
+  final Item item;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,24 +28,25 @@ class CartItem extends ConsumerWidget {
             decoration: AppStyles.roundBorder,
             width: 110.h,
             padding: EdgeInsets.all(10.h),
-            child: CachedNetworkImage(imageUrl: cartModel.product.images![0].src),
+            child: CachedNetworkImage(imageUrl: item.images!.first.src!),
           ),
           8.horizontalSpace,
           Expanded(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(cartModel.product.name,
+              Text('${item.name}',
                   style: AppStyles.mediumBoldStyle(), maxLines: 2, overflow: TextOverflow.ellipsis),
               8.verticalSpace,
               Row(
                 children: [
-                  PriceWidget(cartModel.product.prices, onlyPrice: true),
+                  PriceWidget(item.prices!, onlyPrice: true),
                   8.horizontalSpace,
                 ],
               ),
               Row(
                 children: [
+                  //TODO: Add functionality
                   IconButton(
                     // onPressed: () => ref.read(cartNotifierProvider.notifier).removeFromCart(cartModel.product.id),
                     onPressed: () {},
@@ -51,9 +55,10 @@ class CartItem extends ConsumerWidget {
                   ),
                   SizedBox(
                     width: 25.w,
-                    // child: Text(ref.watch(cartNotifierProvider.notifier).getQuantity(cartModel.product.id).toString(),
-                    //     style: AppStyles.boldStyle(), textAlign: TextAlign.center),
+                    child: Text(ref.watch(newCartNotifierProvider.notifier).getQuantity(item.id!).toString(),
+                        style: AppStyles.boldStyle(), textAlign: TextAlign.center),
                   ),
+                  //TODO: Add functionality
                   IconButton(
                     // onPressed: () => ref.read(cartNotifierProvider.notifier).addToCart(cartModel.product),
                     onPressed: () {},

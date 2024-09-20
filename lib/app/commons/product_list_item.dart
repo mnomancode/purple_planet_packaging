@@ -9,6 +9,7 @@ import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
+import 'package:purple_planet_packaging/app/features/shop/widget/product_price_widget.dart';
 import 'package:purple_planet_packaging/app/models/products/products.dart';
 import 'package:rotated_corner_decoration/rotated_corner_decoration.dart';
 
@@ -84,7 +85,7 @@ class ProductListItem extends ConsumerWidget {
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis),
             const Divider(color: AppColors.lightGreyColor),
-            PriceWidget(product.prices, columnView: true),
+            ProductPriceWidget(product.prices, columnView: true),
           ],
         ),
       ),

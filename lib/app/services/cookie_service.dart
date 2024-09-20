@@ -15,19 +15,14 @@ class CookieManagerInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
-    if (response.statusCode != 200) {
-      return super.onResponse(response, handler);
-    }
-
     if(response.requestOptions.path.contains('cart')) {
-
-      // Save response cookies into the CookieJar for cart-related responses
-      // Uri uri = Uri.parse(response.requestOptions.baseUrl + '/cart');
-      // List<String>? setCookie = response.headers.map['set-cookie'];
-      // if (setCookie != null) {
-      //   List<Cookie> cookies = setCookie.map((str) => Cookie.fromSetCookieValue(str)).toList();
-      //   cookieJar.saveFromResponse(uri, cookies);
-      // }
+      //Save response cookies into the CookieJar for cart-related responses
+      Uri uri = Uri.parse('${response.requestOptions.baseUrl}/cart');
+      List<String>? setCookie = response.headers.map['set-cookie'];
+      if (setCookie != null && setCookie.length == 3) {
+        List<Cookie> cookies = setCookie.map((str) => Cookie.fromSetCookieValue(str)).toList();
+        await HeaderStorageService.saveCookiesToPreferences(cookies);
+      }
 
        final headers = response.headers.map.map((key, values) => MapEntry(key, values.join(',')));
        await HeaderStorageService.saveJsonHeaders(headers);
@@ -48,13 +43,6 @@ class CookieManagerInterceptor extends Interceptor {
       // If cookies are not found in SharedPreferences, load them from CookieJar
       if (savedCookies != null && savedCookies.isNotEmpty) {
         options.headers['Cookie'] = savedCookies.map((cookie) => '${cookie.name}=${cookie.value}').join('; ');
-      } else {
-        // Load cookies from the CookieJar for cart-related requests
-        List<Cookie> jarCookies = await cookieJar.loadForRequest(Uri.parse('${options.baseUrl}/cart'));
-        if (jarCookies.isNotEmpty) {
-          await HeaderStorageService.saveCookiesToPreferences(jarCookies);
-          options.headers['Cookie'] = jarCookies.map((cookie) => '${cookie.name}=${cookie.value}').join('; ');
-        }
       }
     }
 
