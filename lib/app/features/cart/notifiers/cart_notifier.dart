@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../models/cart/new_cart_model.dart';
@@ -32,5 +30,17 @@ class NewCartNotifier extends _$NewCartNotifier {
 
   getQuantity(int id) {
     return state.value?.items?.firstWhere((element) => element.id == id).quantity;
+  }
+
+  updateItem({required String itemKey, required int quantity}) async {
+    final tempState = await ref.watch(cartRepositoryProvider).updateItem(itemKey, quantity: quantity);
+
+    state = AsyncValue.data(tempState);
+  }
+
+  removeItem({required String itemKey, int quantity = 1}) async {
+    final tempState = await ref.watch(cartRepositoryProvider).removeItem(itemKey);
+
+    state = AsyncValue.data(tempState);
   }
 }

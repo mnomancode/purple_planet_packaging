@@ -17,4 +17,12 @@ abstract class CartService {
 
   @GET('/wp-json/wc/store/v1/cart')
   Future<NewCartModel> getCart();
+
+  @POST('/wp-json/wc/store/v1/cart/update-item?key={itemKey}&quantity={quantity}')
+  Future<NewCartModel> updateItem(
+    @Path('itemKey') String key, {
+    @Path('quantity') int? quantity,
+  });
+  @POST('/wp-json/wc/store/v1/cart/remove-item?key={itemKey}')
+  Future<NewCartModel> removeItem(@Path('itemKey') String key);
 }

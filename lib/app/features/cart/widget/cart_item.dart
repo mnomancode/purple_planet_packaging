@@ -5,9 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/commons/price_widget.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
-import 'package:purple_planet_packaging/app/features/cart/model/cart_model.dart';
+import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
-import 'package:purple_planet_packaging/app/features/cart/providers/cart_providers.dart';
 import 'package:purple_planet_packaging/app/models/cart/new_cart_model.dart';
 
 class CartItem extends ConsumerWidget {
@@ -18,6 +17,7 @@ class CartItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final cartNotifier = ref.watch(newCartNotifierProvider.notifier);
     return SizedBox(
       height: 130.h,
       width: double.infinity,
@@ -26,7 +26,7 @@ class CartItem extends ConsumerWidget {
         children: [
           Container(
             decoration: AppStyles.roundBorder,
-            width: 110.h,
+            width: 100.h,
             padding: EdgeInsets.all(10.h),
             child: CachedNetworkImage(imageUrl: item.images!.first.src!),
           ),
@@ -35,8 +35,7 @@ class CartItem extends ConsumerWidget {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('${item.name}',
-                  style: AppStyles.mediumBoldStyle(), maxLines: 2, overflow: TextOverflow.ellipsis),
+              Text('${item.name}', style: AppStyles.mediumBoldStyle(), maxLines: 2, overflow: TextOverflow.ellipsis),
               8.verticalSpace,
               Row(
                 children: [
@@ -46,32 +45,25 @@ class CartItem extends ConsumerWidget {
               ),
               Row(
                 children: [
-                  //TODO: Add functionality
                   IconButton(
-                    // onPressed: () => ref.read(cartNotifierProvider.notifier).removeFromCart(cartModel.product.id),
-                    onPressed: () {},
+                    onPressed: () => ref
+                        .read(newCartNotifierProvider.notifier)
+                        .updateItem(itemKey: item.key!, quantity: item.quantity! - 1),
                     icon: const Icon(Icons.remove),
                     style: IconButton.styleFrom(backgroundColor: AppColors.lightPrimaryColor),
                   ),
                   SizedBox(
                     width: 25.w,
-                    child: Text(ref.watch(newCartNotifierProvider.notifier).getQuantity(item.id!).toString(),
+                    child: Text(cartNotifier.getQuantity(item.id!).toString(),
                         style: AppStyles.boldStyle(), textAlign: TextAlign.center),
                   ),
-                  //TODO: Add functionality
                   IconButton(
-                    // onPressed: () => ref.read(cartNotifierProvider.notifier).addToCart(cartModel.product),
-                    onPressed: () {},
+                    onPressed: () => ref.read(newCartNotifierProvider.notifier).addToCart(productId: item.id!),
                     icon: const Icon(Icons.add),
                     style: IconButton.styleFrom(backgroundColor: AppColors.lightPrimaryColor),
                   ),
-                  // Text(
-                  //     // ignore: prefer_interpolation_to_compose_strings
-                  //     '=' +
-                  //         (ref.watch(cartNotifierProvider.notifier).getQuantity(cartModel.product.id) *
-                  //                 cartModel.getPrice)
-                  //             .toStringAsFixed(2),
-                  //     style: AppStyles.boldStyle()),
+                  Text('=${item.totals?.lineTotal?.addDecimalFromEnd(item.prices!.currencyMinorUnit) ?? 0}',
+                      style: AppStyles.boldStyle()),
                   Transform.translate(
                     offset: const Offset(0, 3),
                     child: Text(
@@ -88,7 +80,10 @@ class CartItem extends ConsumerWidget {
             ],
           )),
           4.horizontalSpace,
-          const Icon(Icons.close, color: Colors.red),
+          IconButton(
+            icon: const Icon(Icons.close, color: Colors.red),
+            onPressed: () => ref.read(newCartNotifierProvider.notifier).removeItem(itemKey: item.key!),
+          )
         ],
       ),
     );

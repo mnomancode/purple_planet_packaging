@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:purple_planet_packaging/app/commons/search_text_field.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
+import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
 
 import '../../../core/utils/app_styles.dart';
 import '../notifiers/cart_notifier.dart';
@@ -27,10 +28,7 @@ class CartAppBar extends StatelessWidget implements PreferredSizeWidget {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      // TODO:  uncomment below line after changing the totals for cart
-                      // totals for cart and totals for items have different json key names create separate for both
-
-                      data.cartTotals?.totalItems ?? '0.00',
+                      data.cartTotals!.totalItems?.addDecimalFromEnd(data.cartTotals?.currencyMinorUnit ?? 0) ?? '0.00',
                       style: AppStyles.mediumBoldStyle(),
                     ),
                   );

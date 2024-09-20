@@ -28,6 +28,16 @@ class CartRepositoryImpl extends CartRepository {
   Future<NewCartModel> addToCart(int productId, {int quantity = 1}) {
     return _cartService.addToCart(productId, quantity: quantity);
   }
+
+  @override
+  Future<NewCartModel> updateItem(String itemKey, {required int quantity}) {
+    return _cartService.updateItem(itemKey, quantity: quantity);
+  }
+
+  @override
+  Future<NewCartModel> removeItem(String itemKey) {
+    return _cartService.removeItem(itemKey);
+  }
 }
 
 @riverpod

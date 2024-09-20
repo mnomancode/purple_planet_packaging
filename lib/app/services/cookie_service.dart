@@ -15,17 +15,19 @@ class CookieManagerInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
-    if(response.requestOptions.path.contains('cart')) {
-      //Save response cookies into the CookieJar for cart-related responses
-      Uri uri = Uri.parse('${response.requestOptions.baseUrl}/cart');
-      List<String>? setCookie = response.headers.map['set-cookie'];
-      if (setCookie != null && setCookie.length == 3) {
-        List<Cookie> cookies = setCookie.map((str) => Cookie.fromSetCookieValue(str)).toList();
-        await HeaderStorageService.saveCookiesToPreferences(cookies);
-      }
+    if (response.statusCode == 200) {
+      if (response.requestOptions.path.contains('cart')) {
+        //Save response cookies into the CookieJar for cart-related responses
+        Uri uri = Uri.parse('${response.requestOptions.baseUrl}/cart');
+        List<String>? setCookie = response.headers.map['set-cookie'];
+        if (setCookie != null && setCookie.length == 3) {
+          List<Cookie> cookies = setCookie.map((str) => Cookie.fromSetCookieValue(str)).toList();
+          await HeaderStorageService.saveCookiesToPreferences(cookies);
+        }
 
-       final headers = response.headers.map.map((key, values) => MapEntry(key, values.join(',')));
-       await HeaderStorageService.saveJsonHeaders(headers);
+        final headers = response.headers.map.map((key, values) => MapEntry(key, values.join(',')));
+        await HeaderStorageService.saveJsonHeaders(headers);
+      }
     }
     return super.onResponse(response, handler);
   }
