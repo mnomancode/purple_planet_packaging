@@ -4,7 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:purple_planet_packaging/app/commons/search_text_field.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
+import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
 
+import '../../../core/utils/app_styles.dart';
+import '../notifiers/cart_notifier.dart';
 import '../providers/cart_providers.dart';
 
 class CartAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -20,9 +23,19 @@ class CartAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       actions: [
         Consumer(builder: (context, ref, child) {
-          final cartSubTotal = ref.watch(cartNotifierProvider).subTotal;
-
-          return Padding(padding: const EdgeInsets.all(8.0), child: Text('${cartSubTotal}'));
+          return ref.watch(newCartNotifierProvider).when(
+                data: (data) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      data.cartTotals!.totalItems?.addDecimalFromEnd(data.cartTotals?.currencyMinorUnit ?? 0) ?? '0.00',
+                      style: AppStyles.mediumBoldStyle(),
+                    ),
+                  );
+                },
+                error: (error, stackTrace) => Text(error.toString()),
+                loading: () => const CircularProgressIndicator(),
+              );
         })
       ],
     ));

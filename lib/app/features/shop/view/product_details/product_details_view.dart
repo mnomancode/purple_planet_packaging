@@ -6,7 +6,9 @@ import 'package:purple_planet_packaging/app/commons/ppp_app_bar.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/extensions/elevated_button_extensions.dart';
+import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
 import 'package:purple_planet_packaging/app/features/shop/widget/product_details/images_slider.dart';
+import 'package:purple_planet_packaging/app/features/shop/widget/product_price_widget.dart';
 import 'package:purple_planet_packaging/app/models/products/products.dart';
 
 import '../../../../commons/price_widget.dart';
@@ -45,7 +47,7 @@ class ProductDetailsView extends ConsumerWidget {
                 children: [
                   Text('Price: ', style: AppStyles.boldStyle()),
                   5.horizontalSpace,
-                  PriceWidget(product.prices),
+                  ProductPriceWidget(product.prices),
                 ],
               ),
               10.verticalSpace,
@@ -59,7 +61,7 @@ class ProductDetailsView extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () => ref.read(cartNotifierProvider.notifier).addToCart(product),
+                      onPressed: () => ref.read(newCartNotifierProvider.notifier).addToCart(productId: product.id),
                       child: const Text("Add to Cart"),
                     ).alterP(isTransparent: true),
                   ),

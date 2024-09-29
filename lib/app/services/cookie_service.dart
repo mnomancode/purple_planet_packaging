@@ -1,40 +1,53 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
+import '../provider/http_provider.dart';
+import 'header_storage_service.dart';
 
-class CookieManager extends Interceptor {
-  static final CookieManager _instance = CookieManager._internal();
+class CookieManagerInterceptor extends Interceptor {
+  static final CookieManagerInterceptor _instance = CookieManagerInterceptor._internal();
 
-  static CookieManager get instance => _instance;
+  static CookieManagerInterceptor get instance => _instance;
 
-  CookieManager._internal();
-  String? _cookie;
+  CookieManagerInterceptor._internal();
   Headers? myHeaders;
 
   @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    if (response.statusCode != 200) {
-      return super.onResponse(response, handler);
+  void onResponse(Response response, ResponseInterceptorHandler handler) async {
+    if (response.statusCode == 200) {
+      if (response.requestOptions.path.contains('cart')) {
+        //Save response cookies into the CookieJar for cart-related responses
+        Uri uri = Uri.parse('${response.requestOptions.baseUrl}/cart');
+        List<String>? setCookie = response.headers.map['set-cookie'];
+        if (setCookie != null && setCookie.length == 3) {
+          List<Cookie> cookies = setCookie.map((str) => Cookie.fromSetCookieValue(str)).toList();
+          await HeaderStorageService.saveCookiesToPreferences(cookies);
+        }
+
+        final headers = response.headers.map.map((key, values) => MapEntry(key, values.join(',')));
+        await HeaderStorageService.saveJsonHeaders(headers);
+      }
     }
-
-    if (response.headers['set-cookie'] != null) {
-      _cookie = response.headers['set-cookie']![0];
-      myHeaders = response.headers;
-    }
-
-    log(response.headers.toString(), name: 'headers');
-
-    log(_cookie ?? '', name: 'cookie');
-
     return super.onResponse(response, handler);
   }
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    return super.onRequest(options, handler);
-  }
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    if (options.path.contains('cart')) {
+      // Add existing headers if available
+      final headers = await HeaderStorageService.getJsonHeaders();
+      options.headers.addAll(headers ?? {});
 
-  void initCookieManager() {
-    _cookie = '';
+      // Load cookies from SharedPreferences
+      List<Cookie>? savedCookies = await HeaderStorageService.loadSavedCookies();
+
+      // If cookies are not found in SharedPreferences, load them from CookieJar
+      if (savedCookies != null && savedCookies.isNotEmpty) {
+        options.headers['Cookie'] = savedCookies.map((cookie) => '${cookie.name}=${cookie.value}').join('; ');
+      }
+    }
+
+    return super.onRequest(options, handler);
   }
 }

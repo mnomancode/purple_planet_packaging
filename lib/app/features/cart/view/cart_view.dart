@@ -4,6 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
+import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
+import 'package:purple_planet_packaging/app/features/cart/model/cart_model.dart';
+import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
 import 'package:purple_planet_packaging/app/features/cart/providers/cart_providers.dart';
 import 'package:purple_planet_packaging/app/features/cart/repository/cart_repository_impl.dart';
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_app_bar.dart';
@@ -22,6 +25,7 @@ class CartView extends ConsumerStatefulWidget {
 }
 
 class _CartViewState extends ConsumerState<CartView> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +55,23 @@ class _CartViewState extends ConsumerState<CartView> {
         padding: AppStyles.scaffoldPadding,
         child: Column(
           children: [
-            ...ref.watch(cartNotifierProvider).items.map((e) => CartItem(cartModel: e)),
+            // ...ref.watch(cartNotifierProvider).items.map((e) => CartItem(cartModel: e)),
+            ref.watch(newCartNotifierProvider).when(
+                  data: (data) {
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: data.items?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          final cartItem = data.items![index];
+
+                          return CartItem(item: cartItem);
+                        },
+                      ),
+                    );
+                  },
+                  loading: () => const Center(child: CircularProgressIndicator()),
+                  error: (error, stackTrace) => Text('$error'),
+                )
           ],
         ),
       ),

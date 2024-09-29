@@ -1,11 +1,16 @@
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../services/cookie_service.dart';
 
 part 'http_provider.g.dart';
+
+final cookieJar = CookieJar();
 
 @riverpod
 Dio http(HttpRef ref) {
@@ -21,23 +26,10 @@ Dio http(HttpRef ref) {
       return status != null && status >= 200;
     },
   );
-  // Future<void> prepareJar() async {
-  //   final Directory appDocDir = await getApplicationDocumentsDirectory();
-  //   final String appDocPath = appDocDir.path;
-  //   final jar = PersistCookieJar(
-  //     ignoreExpires: true,
-  //     storage: FileStorage(appDocPath + "/.cookies/"),
-  //   );
-
-  //   cookieJar.loadForRequest(Uri.parse(options.baseUrl));
-  // }
-  // void clearCookies() {
-  //   _cookieStore.deleteAll();
-  // }
-
   return Dio(options)
     ..interceptors.addAll([
-      CookieManager.instance,
+      CookieManager(cookieJar),
+      CookieManagerInterceptor.instance,
       ref.watch(dummyInterceptorProvider),
       if (kDebugMode)
         PrettyDioLogger(

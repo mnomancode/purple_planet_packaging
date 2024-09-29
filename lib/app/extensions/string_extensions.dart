@@ -14,7 +14,10 @@ extension StringExtension on String {
     }
   }
 
-  String? addDecimalFromEnd(int indexFromEnd) {
+  String? addDecimalFromEnd(int? indexFromEnd) {
+    if (indexFromEnd == null) {
+      return this;
+    }
     // Ensure the index is within the valid range
     if (indexFromEnd < 0 || indexFromEnd > length) {
       return null; // Return null if the index is out of range

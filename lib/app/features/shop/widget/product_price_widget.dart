@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
-import '../core/utils/app_colors.dart';
-import '../core/utils/app_styles.dart';
-import '../models/cart/new_cart_model.dart';
+import 'package:purple_planet_packaging/app/models/products/products.dart';
 
-class PriceWidget extends StatelessWidget {
-  const PriceWidget(this.prices, {super.key, this.columnView = false, this.onlyPrice = false});
+import '../../../core/utils/app_colors.dart';
+import '../../../core/utils/app_styles.dart';
+
+class ProductPriceWidget extends StatelessWidget {
+  const ProductPriceWidget(this.prices, {super.key, this.columnView = false, this.onlyPrice = false});
   final Prices prices;
   final bool columnView;
   final bool onlyPrice;

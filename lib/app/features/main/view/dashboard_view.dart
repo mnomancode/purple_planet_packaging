@@ -6,6 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 
+import '../providers/main_providers.dart';
+
 class DashboardView extends ConsumerWidget {
   const DashboardView({required this.navigationShell, super.key});
   final StatefulNavigationShell navigationShell;
@@ -14,6 +16,8 @@ class DashboardView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // final cartAsyncValue = ref.watch(cartFutureProvider);
+
     return Scaffold(
       body: navigationShell,
       bottomNavigationBar: Theme(

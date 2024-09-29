@@ -8,7 +8,10 @@ import 'package:purple_planet_packaging/app/commons/price_widget.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
+import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
+import 'package:purple_planet_packaging/app/features/shop/widget/product_price_widget.dart';
 import 'package:purple_planet_packaging/app/models/products/products.dart';
+import 'package:rotated_corner_decoration/rotated_corner_decoration.dart';
 
 import '../features/cart/providers/cart_providers.dart';
 import '../features/shop/view/product_details/product_details_view.dart';
@@ -45,17 +48,36 @@ class ProductListItem extends ConsumerWidget {
                 image:
                     DecorationImage(image: CachedNetworkImageProvider(product.images!.first.src), fit: BoxFit.contain),
               ),
-              child: GestureDetector(
-                onTap: () => ref.read(cartNotifierProvider.notifier).addToCart(product),
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: AppColors.lightPrimaryColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: SvgPicture.asset(AppImages.svgAddCard, width: 20),
-                ),
-              ),
+              child: product.isInStock
+                  ? GestureDetector(
+                      onTap: () => ref.read(newCartNotifierProvider.notifier).addToCart(productId: product.id),
+                      child: Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: AppColors.lightPrimaryColor,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: SvgPicture.asset(AppImages.svgAddCard, width: 20),
+                      ),
+                    )
+                  : Container(
+                      foregroundDecoration: const RotatedCornerDecoration.withColor(
+                        color: Colors.red,
+                        spanBaselineShift: 4,
+                        badgeSize: Size(64, 64),
+                        badgeCornerRadius: Radius.circular(8),
+                        badgePosition: BadgePosition.topEnd,
+                        textSpan: TextSpan(
+                          text: 'Out of stock',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 8,
+                            letterSpacing: 1,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
             ),
             5.verticalSpace,
             Text(product.name,
@@ -63,7 +85,7 @@ class ProductListItem extends ConsumerWidget {
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis),
             const Divider(color: AppColors.lightGreyColor),
-            PriceWidget(product.prices, columnView: true),
+            ProductPriceWidget(product.prices, columnView: true),
           ],
         ),
       ),
