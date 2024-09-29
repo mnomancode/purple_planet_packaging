@@ -34,7 +34,6 @@ class NewCartNotifier extends _$NewCartNotifier {
     // ref.invalidateSelf();
   }
 
-
   getQuantity(int id) {
     return state.value?.items?.firstWhere((element) => element.id == id).quantity;
   }
@@ -55,7 +54,6 @@ class NewCartNotifier extends _$NewCartNotifier {
       state = AsyncValue.data(tempState.copyWith(loadingItems: _loadingItems.toList()));
     }
   }
-
 
   removeItem({required String itemKey, int quantity = 1}) async {
     final tempState = await ref.watch(cartRepositoryProvider).removeItem(itemKey);

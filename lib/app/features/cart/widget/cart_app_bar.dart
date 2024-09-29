@@ -8,7 +8,6 @@ import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
 
 import '../../../core/utils/app_styles.dart';
 import '../notifiers/cart_notifier.dart';
-import '../providers/cart_providers.dart';
 
 class CartAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CartAppBar({super.key, this.height = 50});

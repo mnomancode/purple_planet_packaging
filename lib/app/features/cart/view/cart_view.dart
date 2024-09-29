@@ -7,7 +7,7 @@ import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
 import 'package:purple_planet_packaging/app/features/cart/model/cart_model.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
-import 'package:purple_planet_packaging/app/features/cart/providers/cart_providers.dart';
+
 import 'package:purple_planet_packaging/app/features/cart/repository/cart_repository_impl.dart';
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_app_bar.dart';
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_bottom_sheet.dart';
@@ -25,7 +25,6 @@ class CartView extends ConsumerStatefulWidget {
 }
 
 class _CartViewState extends ConsumerState<CartView> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
