@@ -15,7 +15,7 @@ class CookieManagerInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       if (response.requestOptions.path.contains('cart')) {
         //Save response cookies into the CookieJar for cart-related responses
         Uri uri = Uri.parse('${response.requestOptions.baseUrl}/cart');

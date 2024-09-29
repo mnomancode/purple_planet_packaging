@@ -11,9 +11,6 @@ import 'package:purple_planet_packaging/app/features/shop/widget/product_details
 import 'package:purple_planet_packaging/app/features/shop/widget/product_price_widget.dart';
 import 'package:purple_planet_packaging/app/models/products/products.dart';
 
-import '../../../../commons/price_widget.dart';
-import '../../../cart/providers/cart_providers.dart';
-
 class ProductDetailsView extends ConsumerWidget {
   const ProductDetailsView({super.key, required this.title, required this.product});
 

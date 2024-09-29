@@ -14,6 +14,7 @@ class NewCartModel with _$NewCartModel {
     bool? needsPayment,
     bool? needsShipping,
     List<String>? paymentMethods,
+    @Default([]) List<int> loadingItems,
   }) = _NewCartModel;
 
   factory NewCartModel.fromJson(Map<String, dynamic> json) => _$NewCartModelFromJson(json);

@@ -18,6 +18,7 @@ class CartItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cartNotifier = ref.watch(newCartNotifierProvider.notifier);
+    final isLoading = cartNotifier.isItemLoading(item.id!);
     return SizedBox(
       height: 130.h,
       width: double.infinity,
@@ -52,7 +53,13 @@ class CartItem extends ConsumerWidget {
                     icon: const Icon(Icons.remove),
                     style: IconButton.styleFrom(backgroundColor: AppColors.lightPrimaryColor),
                   ),
-                  SizedBox(
+                  isLoading
+                      ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                      : SizedBox(
                     width: 25.w,
                     child: Text(cartNotifier.getQuantity(item.id!).toString(),
                         style: AppStyles.boldStyle(), textAlign: TextAlign.center),

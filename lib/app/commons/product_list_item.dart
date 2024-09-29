@@ -13,7 +13,6 @@ import 'package:purple_planet_packaging/app/features/shop/widget/product_price_w
 import 'package:purple_planet_packaging/app/models/products/products.dart';
 import 'package:rotated_corner_decoration/rotated_corner_decoration.dart';
 
-import '../features/cart/providers/cart_providers.dart';
 import '../features/shop/view/product_details/product_details_view.dart';
 
 class ProductListItem extends ConsumerWidget {
