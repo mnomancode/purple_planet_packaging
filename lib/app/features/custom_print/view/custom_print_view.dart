@@ -42,7 +42,7 @@ class CustomPrintView extends ConsumerWidget {
 
             32.verticalSpace,
 
-            ElevatedButton(onPressed: () {}, child: Text('Get a Quote')),
+            ElevatedButton(onPressed: () {}, child: Text('Get a Quote', style: AppStyles.mediumStyle())),
 
             // const Center(
             //   child: Text('Custom Print View'),

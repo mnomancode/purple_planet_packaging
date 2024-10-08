@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:retrofit/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../models/cart/new_cart_model.dart';
@@ -8,6 +11,7 @@ part 'cart_notifier.g.dart';
 @riverpod
 class NewCartNotifier extends _$NewCartNotifier {
   final Set<int> _loadingItems = {};
+  // https://staging.purpleplanetpackaging.co.uk/wp-json/wc/v3/shipping/zones/2/methods
 
   @override
   FutureOr<NewCartModel> build() {
@@ -63,5 +67,10 @@ class NewCartNotifier extends _$NewCartNotifier {
 
   bool isItemLoading(int id) {
     return _loadingItems.contains(id);
+  }
+
+  Future<void> getShippingMethod() async {
+    HttpResponse response = await ref.watch(cartRepositoryProvider).getShippingMethod();
+    log(response.response.data.toString(), name: 'Shipping Method');
   }
 }

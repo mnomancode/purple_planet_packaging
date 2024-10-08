@@ -1,6 +1,4 @@
-import 'dart:developer';
-
-import 'package:dio/dio.dart';
+import 'package:purple_planet_packaging/app/core/utils/app_utils.dart';
 import 'package:retrofit/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../models/cart/new_cart_model.dart';
@@ -37,6 +35,11 @@ class CartRepositoryImpl extends CartRepository {
   @override
   Future<NewCartModel> removeItem(String itemKey) {
     return _cartService.removeItem(itemKey);
+  }
+
+  @override
+  Future<HttpResponse> getShippingMethod() {
+    return _cartService.getShippingMethod(AppUtils.getAuthorizationHeader);
   }
 }
 

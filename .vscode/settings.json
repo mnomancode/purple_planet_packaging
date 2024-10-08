@@ -1,9 +1,13 @@
 {
     "cSpell.words": [
         "chnoman",
+        "CONSUMERKEY",
+        "CONSUMERSECRET",
+        "dotenv",
         "lostpassword",
         "Nicename",
         "precache",
+        "Prefs",
         "woocommerce"
     ]
 }

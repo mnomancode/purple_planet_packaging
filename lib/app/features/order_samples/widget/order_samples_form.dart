@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/extensions/text_field_extension.dart';
 
 class OrderSampleForm extends StatelessWidget {
@@ -44,7 +45,7 @@ class OrderSampleForm extends StatelessWidget {
           maxLines: 5,
         ).withLabel('List the SKU items you wish to have samples of'),
         16.verticalSpace,
-        ElevatedButton(onPressed: () {}, child: const Text('Order Samples')),
+        ElevatedButton(onPressed: () {}, child: Text('Order Samples', style: AppStyles.mediumStyle())),
         16.verticalSpace,
       ],
     );

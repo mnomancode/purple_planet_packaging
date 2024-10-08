@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/commons/price_widget.dart';
@@ -28,8 +29,9 @@ class CartItem extends ConsumerWidget {
           Container(
             decoration: AppStyles.roundBorder,
             width: 100.h,
+            height: 100.h,
             padding: EdgeInsets.all(10.h),
-            child: CachedNetworkImage(imageUrl: item.images!.first.src!),
+            child: CachedNetworkImage(imageUrl: item.images!.first.src!, width: 100.h, height: 100.h),
           ),
           8.horizontalSpace,
           Expanded(
@@ -54,16 +56,19 @@ class CartItem extends ConsumerWidget {
                     style: IconButton.styleFrom(backgroundColor: AppColors.lightPrimaryColor),
                   ),
                   isLoading
-                      ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
+                      ? SizedBox(
+                          width: 25.w,
+                          height: 25.w,
+                          child: const Padding(
+                            padding: EdgeInsets.all(4.0),
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        )
                       : SizedBox(
-                    width: 25.w,
-                    child: Text(cartNotifier.getQuantity(item.id!).toString(),
-                        style: AppStyles.boldStyle(), textAlign: TextAlign.center),
-                  ),
+                          width: 25.w,
+                          child: Text(cartNotifier.getQuantity(item.id!).toString(),
+                              style: AppStyles.boldStyle(), textAlign: TextAlign.center),
+                        ),
                   IconButton(
                     onPressed: () => ref.read(newCartNotifierProvider.notifier).addToCart(productId: item.id!),
                     icon: const Icon(Icons.add),
@@ -86,8 +91,9 @@ class CartItem extends ConsumerWidget {
               ),
             ],
           )),
-          4.horizontalSpace,
           IconButton(
+            padding: EdgeInsets.zero,
+            alignment: Alignment.topRight,
             icon: const Icon(Icons.close, color: Colors.red),
             onPressed: () => ref.read(newCartNotifierProvider.notifier).removeItem(itemKey: item.key!),
           )

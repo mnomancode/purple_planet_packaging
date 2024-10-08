@@ -59,14 +59,14 @@ class ProductDetailsView extends ConsumerWidget {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () => ref.read(newCartNotifierProvider.notifier).addToCart(productId: product.id),
-                      child: const Text("Add to Cart"),
+                      child: Text("Add to Cart", style: AppStyles.mediumStyle()),
                     ).alterP(isTransparent: true),
                   ),
                   20.horizontalSpace,
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {},
-                      child: const Text("Buy Now"),
+                      child: Text("Buy Now", style: AppStyles.mediumStyle()),
                     ),
                   ),
                 ],

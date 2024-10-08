@@ -24,7 +24,7 @@ class CategoriesSection extends ConsumerWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: SizedBox(
-            height: 30.h,
+            height: 33.h,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +43,7 @@ class CategoriesSection extends ConsumerWidget {
         Container(
           margin: EdgeInsets.only(left: 16.w),
           alignment: Alignment.topCenter,
-          height: 110.h,
+          height: 116.h,
           child: categories.when(
             data: (data) => ListView.separated(
               scrollDirection: Axis.horizontal,

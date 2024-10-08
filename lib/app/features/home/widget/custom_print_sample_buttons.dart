@@ -6,6 +6,7 @@ import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/extensions/elevated_button_extensions.dart';
 
 import '../../../core/utils/app_images.dart';
+import '../../../core/utils/app_styles.dart';
 import '../../custom_print/view/custom_print_view.dart';
 import '../../order_samples/view/order_samples_view.dart';
 
@@ -29,7 +30,7 @@ class CustomPrintSampleButtons extends StatelessWidget {
                         colorFilter: const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
                       ),
                       5.horizontalSpace,
-                      const Text('Order Sample'),
+                      Text('Order Sample', style: AppStyles.mediumBoldStyle()),
                     ],
                   )).alterP(isTransparent: true)),
           16.horizontalSpace,
@@ -40,7 +41,7 @@ class CustomPrintSampleButtons extends StatelessWidget {
                     children: [
                       SvgPicture.asset(AppImages.svgPrinter),
                       4.horizontalSpace,
-                      const Text('Custom Print'),
+                      Text('Custom Print', style: AppStyles.mediumBoldStyle()),
                     ],
                   ))),
         ],

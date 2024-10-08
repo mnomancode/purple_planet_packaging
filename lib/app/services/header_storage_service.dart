@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,7 +29,6 @@ class HeaderStorageService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('headers');
   }
-
 
   /// Save cookies to SharedPreferences
   static Future<void> saveCookiesToPreferences(List<Cookie> cookies) async {

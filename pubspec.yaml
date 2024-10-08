@@ -72,6 +72,7 @@ dependencies:
   shared_preferences: ^2.3.2
   webview_flutter: ^4.8.0
   rotated_corner_decoration: ^2.1.0+1
+  flutter_dotenv: ^5.1.0
  
 
 
@@ -121,6 +122,7 @@ flutter:
   generate: true
   # To add assets to your application, add an assets section, like this:
   assets:
+    - .env
     - assets/icon/
     - assets/google_fonts/
     - assets/images/

@@ -14,4 +14,6 @@ abstract class CartRepository {
 
   Future<NewCartModel> updateItem(String itemKey, {required int quantity});
   Future<NewCartModel> removeItem(String itemKey);
+
+  Future<HttpResponse> getShippingMethod();
 }

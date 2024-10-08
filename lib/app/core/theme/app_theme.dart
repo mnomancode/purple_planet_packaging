@@ -20,6 +20,7 @@ class AppTheme {
   /// for getting dark theme
   ThemeData get darkTheme {
     return ThemeData(
+      fontFamily: GoogleFonts.montserrat().fontFamily,
       scaffoldBackgroundColor: AppColors.scaffoldBackground,
       colorScheme: ColorScheme.fromSwatch(primarySwatch: AppColors.primaryMaterial),
       inputDecorationTheme: inputDecorationTheme,
@@ -52,7 +53,7 @@ class AppTheme {
 
   final ElevatedButtonThemeData elevatedButtonTheme = ElevatedButtonThemeData(
     style: ButtonStyle(
-      textStyle: WidgetStateProperty.all(AppStyles.mediumBoldStyle(color: Colors.white)),
+      textStyle: WidgetStateProperty.all(AppStyles.mediumBoldStyle()),
       backgroundColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.disabled)) {
           return AppColors.lightPrimaryColor;

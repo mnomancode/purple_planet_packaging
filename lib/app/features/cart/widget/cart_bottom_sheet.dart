@@ -62,7 +62,7 @@ class CartBottomSheet extends ConsumerWidget {
                     flex: 2,
                     child: ElevatedButton(
                       onPressed: () {},
-                      child: Text('Apply'),
+                      child: Text('Apply', style: AppStyles.mediumBoldStyle()),
                     ),
                   ),
                 ],
@@ -95,7 +95,7 @@ class CartBottomSheet extends ConsumerWidget {
               8.verticalSpace,
               ElevatedButton(
                 onPressed: () {},
-                child: Text('Proceed to Checkout'),
+                child: Text('Proceed to Checkout', style: AppStyles.mediumBoldStyle()),
               ),
               16.verticalSpace,
             ],
