@@ -1,8 +1,6 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import '../provider/http_provider.dart';
 import 'header_storage_service.dart';
 
 class CookieManagerInterceptor extends Interceptor {
