@@ -1,6 +1,8 @@
 import 'package:purple_planet_packaging/app/models/cart/new_cart_model.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../model/shipping_methods.dart';
+
 abstract class CartRepository {
   // bool isBasketExpanded = false;
 
@@ -15,5 +17,5 @@ abstract class CartRepository {
   Future<NewCartModel> updateItem(String itemKey, {required int quantity});
   Future<NewCartModel> removeItem(String itemKey);
 
-  Future<HttpResponse> getShippingMethod();
+  Future<List<ShippingMethod>> getShippingMethod();
 }

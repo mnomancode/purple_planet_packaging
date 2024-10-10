@@ -29,8 +29,6 @@ class _CartViewState extends ConsumerState<CartView> {
         icon: SvgPicture.asset(AppImages.svgCart, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
         label: Text('Check-out', style: AppStyles.mediumBoldStyle()),
         onPressed: () async {
-          ref.watch(newCartNotifierProvider.notifier).getShippingMethod();
-
           showModalBottomSheet(
               context: context,
               isDismissible: true,

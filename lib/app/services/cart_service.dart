@@ -28,7 +28,7 @@ abstract class CartService {
   Future<NewCartModel> removeItem(@Path('itemKey') String key);
 
   @GET('/wp-json/wc/v3/shipping/zones/2/methods')
-  Future<HttpResponse> getShippingMethod(
+  Future<List<ShippingMethod>> getShippingMethod(
     @Header('Authorization') String token,
   );
 }

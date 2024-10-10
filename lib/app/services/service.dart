@@ -4,6 +4,7 @@ import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
 import '../features/auth/model/auth_response.dart';
+import '../features/cart/model/shipping_methods.dart';
 import '../models/cart/new_cart_model.dart';
 import '../models/products/products.dart';
 

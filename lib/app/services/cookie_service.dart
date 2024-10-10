@@ -16,7 +16,7 @@ class CookieManagerInterceptor extends Interceptor {
     if (response.statusCode == 200 || response.statusCode == 201) {
       if (response.requestOptions.path.contains('cart')) {
         //Save response cookies into the CookieJar for cart-related responses
-        // Uri uri = Uri.parse('${response.requestOptions.baseUrl}/cart');
+        Uri uri = Uri.parse('${response.requestOptions.baseUrl}/cart');
         List<String>? setCookie = response.headers.map['set-cookie'];
         if (setCookie != null && setCookie.length == 3) {
           List<Cookie> cookies = setCookie.map((str) => Cookie.fromSetCookieValue(str)).toList();

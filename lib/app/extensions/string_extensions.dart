@@ -31,4 +31,18 @@ extension StringExtension on String {
 
     return updatedString;
   }
+
+  String addShippingCharge(double? charge) {
+    // Convert the string to a double
+    double? value = double.tryParse(this);
+    if (value != null) {
+      double increasedValue = value + (charge ?? 0.0);
+      // Convert the new value back to a string and return it
+      return increasedValue.toStringAsFixed(2);
+      // return increasedValue.toString();
+    } else {
+      // Return null if the conversion fails
+      return '';
+    }
+  }
 }

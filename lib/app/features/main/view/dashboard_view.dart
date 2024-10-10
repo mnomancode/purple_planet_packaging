@@ -5,7 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
+import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
 
+import '../../../core/utils/app_styles.dart';
 import '../providers/main_providers.dart';
 
 class DashboardView extends ConsumerWidget {
@@ -48,7 +50,29 @@ class DashboardView extends ConsumerWidget {
                 activeIcon: SvgPicture.asset(AppImages.svgShopSelected),
                 label: 'Shop'),
             BottomNavigationBarItem(
-                icon: SvgPicture.asset(AppImages.svgCart),
+                icon: Stack(
+                  children: [
+                    SvgPicture.asset(AppImages.svgCart),
+                    Consumer(builder: (context, ref, child) {
+                      int totalQuantity = ref
+                              .watch(newCartNotifierProvider)
+                              .value
+                              ?.items
+                              ?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.quantity ?? 0)) ??
+                          0;
+                      return Positioned(
+                        top: 0,
+                        right: 0,
+                        child: CircleAvatar(
+                          radius: 7.r,
+                          backgroundColor: AppColors.primaryColor,
+                          child: Text(totalQuantity.toString(),
+                              style: AppStyles.lightStyle(color: Colors.white, fontSize: 7.sp)),
+                        ),
+                      );
+                    }),
+                  ],
+                ),
                 activeIcon: SvgPicture.asset(AppImages.svgCartSelected),
                 label: 'Cart'),
             BottomNavigationBarItem(

@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../models/cart/new_cart_model.dart';
 import '../../../provider/http_provider.dart';
 import '../../../services/service.dart';
+import '../model/shipping_methods.dart';
 import 'cart_repository.dart';
 
 part 'cart_repository_impl.g.dart';
@@ -38,7 +39,7 @@ class CartRepositoryImpl extends CartRepository {
   }
 
   @override
-  Future<HttpResponse> getShippingMethod() {
+  Future<List<ShippingMethod>> getShippingMethod() {
     return _cartService.getShippingMethod(AppUtils.getAuthorizationHeader);
   }
 }
