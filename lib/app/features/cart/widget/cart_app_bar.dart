@@ -27,7 +27,7 @@ class CartAppBar extends StatelessWidget implements PreferredSizeWidget {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      data.cartTotals!.totalItems?.addDecimalFromEnd(data.cartTotals?.currencyMinorUnit ?? 0) ?? '0.00',
+                      data.totals.totalItems.addDecimalFromEnd(data.totals.currencyMinorUnit) ?? '0.00',
                       style: AppStyles.mediumBoldStyle(),
                     ),
                   );

@@ -1,7 +1,9 @@
+import 'dart:developer';
+
 import 'package:purple_planet_packaging/app/core/utils/app_utils.dart';
 import 'package:retrofit/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../../models/cart/new_cart_model.dart';
+import '../../../models/cart/cart_model.dart';
 import '../../../models/orders/order_body.dart';
 import '../../../provider/http_provider.dart';
 import '../../../services/service.dart';
@@ -15,7 +17,7 @@ class CartRepositoryImpl extends CartRepository {
   final CartService _cartService;
 
   @override
-  Future<NewCartModel> getCart(String cartToken) async {
+  Future<Cart> getCart(String cartToken) async {
     final response = await _cartService.getCart();
 
     // log(response.response.data.toString());
@@ -25,17 +27,17 @@ class CartRepositoryImpl extends CartRepository {
   }
 
   @override
-  Future<NewCartModel> addToCart(int productId, {int quantity = 1}) {
+  Future<Cart> addToCart(int productId, {int quantity = 1}) {
     return _cartService.addToCart(productId, quantity: quantity);
   }
 
   @override
-  Future<NewCartModel> updateItem(String itemKey, {required int quantity}) {
+  Future<Cart> updateItem(String itemKey, {required int quantity}) {
     return _cartService.updateItem(itemKey, quantity: quantity);
   }
 
   @override
-  Future<NewCartModel> removeItem(String itemKey) {
+  Future<Cart> removeItem(String itemKey) {
     return _cartService.removeItem(itemKey);
   }
 

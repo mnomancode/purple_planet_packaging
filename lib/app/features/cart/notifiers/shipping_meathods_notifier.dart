@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:purple_planet_packaging/app/core/utils/app_utils.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
+import 'package:purple_planet_packaging/app/models/cart/cart_model.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../models/orders/order_body.dart';
@@ -33,11 +34,11 @@ class ShippingMethodsNotifier extends _$ShippingMethodsNotifier {
 @Riverpod(keepAlive: true)
 class SelectedShippingMethodNotifier extends _$SelectedShippingMethodNotifier {
   @override
-  ShippingMethod? build() {
+  ShippingRate? build() {
     return null;
   }
 
-  void setSelectedShippingMethod(ShippingMethod? method) {
+  void setSelectedShippingMethod(ShippingRate? method) {
     state = method;
   }
 
@@ -45,19 +46,29 @@ class SelectedShippingMethodNotifier extends _$SelectedShippingMethodNotifier {
     state = null;
   }
 
-  double? getShippingCost() {
-    int quantity = ref.read(newCartNotifierProvider.notifier).getTotalQuantity();
-
-    return AppUtils.getShippingCost(state, quantity: quantity);
-  }
-
   List<ShippingLine> getShippingLines() {
     return [
       ShippingLine(
         methodId: state?.methodId ?? '',
-        methodTitle: state?.title ?? '',
-        total: getShippingCost().toString(),
+        methodTitle: state?.name ?? '',
+        total: state?.formattedPrice ?? '',
       ),
     ];
   }
+
+  // double? getShippingCost() {
+  //   int quantity = ref.read(newCartNotifierProvider.notifier).getTotalQuantity();
+
+  //   return AppUtils.getShippingCost(state, quantity: quantity);
+  // }
+
+  // List<ShippingLine> getShippingLines() {
+  //   return [
+  //     ShippingLine(
+  //       methodId: state?.methodId ?? '',
+  //       methodTitle: state?.title ?? '',
+  //       total: getShippingCost().toString(),
+  //     ),
+  //   ];
+  // }
 }

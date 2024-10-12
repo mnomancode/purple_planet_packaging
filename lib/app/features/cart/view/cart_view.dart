@@ -48,13 +48,17 @@ class _CartViewState extends ConsumerState<CartView> {
           children: [
             ref.watch(newCartNotifierProvider).when(
                   data: (data) {
+                    if (data.items.isEmpty) {
+                      return const Center(child: Text('Cart is empty'));
+                    }
+
                     return Expanded(
                       child: ListView.builder(
-                        itemCount: data.items?.length ?? 0,
+                        itemCount: data.items.length,
                         itemBuilder: (context, index) {
-                          final cartItem = data.items![index];
+                          final cartItem = data.items[index];
 
-                          return CartItem(item: cartItem);
+                          return CartItemWidget(item: cartItem);
                         },
                       ),
                     );

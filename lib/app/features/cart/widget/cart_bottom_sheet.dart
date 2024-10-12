@@ -6,14 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
-import 'package:purple_planet_packaging/app/core/utils/app_utils.dart';
 import 'package:purple_planet_packaging/app/extensions/double_extensions.dart';
 import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
 import 'package:purple_planet_packaging/app/features/cart/model/shipping_methods.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/shipping_meathods_notifier.dart';
 import 'package:purple_planet_packaging/app/features/orders/notifiers/orders_notifier.dart';
+import 'package:purple_planet_packaging/app/models/cart/cart_model.dart';
 
-import '../../../core/utils/app_colors.dart';
 import '../notifiers/cart_notifier.dart';
 
 class CartBottomSheet extends ConsumerWidget {
@@ -32,47 +31,43 @@ class CartBottomSheet extends ConsumerWidget {
               Text('BASKET TOTALS', style: AppStyles.largeStyle()),
               8.verticalSpace,
               Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
-              ...ref.watch(newCartNotifierProvider).when(data: (data) {
-                return data.items!
-                    .map((e) => ListTile(
-                        minTileHeight: 10,
-                        contentPadding: EdgeInsets.zero,
-                        title: Text('Item ${e.name}', style: AppStyles.mediumStyle()),
-                        trailing: Text('=${e.totals?.lineTotal?.addDecimalFromEnd(e.prices?.currencyMinorUnit) ?? 0}',
-                            style: AppStyles.mediumBoldStyle())))
-                    .toList();
+              ref.watch(newCartNotifierProvider).when(data: (data) {
+                if (data.items.isEmpty) {
+                  return const Center(child: Text('Cart is empty'));
+                }
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ...data.items
+                        .map((e) => ListTile(
+                            minTileHeight: 10,
+                            contentPadding: EdgeInsets.zero,
+                            title: Text('Item ${e.name}', style: AppStyles.mediumStyle()),
+                            trailing: Text(
+                              '=${e.totals.formattedLineTotal}',
+                              style: AppStyles.mediumBoldStyle(),
+                            )))
+                        .toList(),
+                    ...data.shippingRates.first.shippingRates.map((e) => RadioListTile<ShippingRate>.adaptive(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          value: e,
+                          dense: true,
+                          groupValue: ref.watch(selectedShippingMethodNotifierProvider),
+                          title: Text('${e.name} : ${e.formattedPrice}', style: AppStyles.mediumBoldStyle()),
+                          onChanged:
+                              ref.read(selectedShippingMethodNotifierProvider.notifier).setSelectedShippingMethod,
+                        )),
+                  ],
+                );
               }, error: (Object error, StackTrace stackTrace) {
-                return [Text(error.toString())];
+                return Text(error.toString());
               }, loading: () {
-                return [CircularProgressIndicator()];
+                return CircularProgressIndicator();
               }),
               8.verticalSpace,
               Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
               8.verticalSpace,
-              ref.watch(shippingMethodsNotifierProvider).when(
-                  data: (data) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: data.map((e) {
-                          double? shippingCost = ref.read(shippingMethodsNotifierProvider.notifier).getShippingCost(e);
-
-                          return RadioListTile<ShippingMethod>.adaptive(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            value: e,
-                            dense: true,
-                            groupValue: ref.watch(selectedShippingMethodNotifierProvider),
-                            title: Text(e.settings.title.value + (shippingCost != null ? ' : ($shippingCost)' : ''),
-                                style: AppStyles.mediumBoldStyle()),
-                            onChanged:
-                                ref.read(selectedShippingMethodNotifierProvider.notifier).setSelectedShippingMethod,
-                          );
-                        }).toList(),
-                      ),
-                  error: (Object error, StackTrace stackTrace) {
-                    return Text(error.toString());
-                  },
-                  loading: () {
-                    return LinearProgressIndicator();
-                  }),
               Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
               8.verticalSpace,
               AppStyles.normalText('Do you have a promo code?'),
@@ -111,7 +106,7 @@ class CartBottomSheet extends ConsumerWidget {
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Text(
-                                '£ ${data.cartTotals?.totalItems?.addDecimalFromEnd(data.cartTotals?.currencyMinorUnit ?? 0) ?? '0.00'}',
+                                '£ ${data.totals.totalItems.addDecimalFromEnd(data.totals.currencyMinorUnit) ?? '0.00'}',
                                 style: AppStyles.mediumBoldStyle(),
                               ),
                             ),
@@ -124,7 +119,7 @@ class CartBottomSheet extends ConsumerWidget {
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Text(
-                                '${(data.cartTotals?.currencySymbol ?? '£')} ${data.cartTotals!.totalItemsTax?.addDecimalFromEnd(data.cartTotals?.currencyMinorUnit) ?? 0.0}',
+                                '${(data.totals.currencySymbol)} ${data.totals.formattedTotalTax}',
                                 style: AppStyles.mediumBoldStyle(),
                               ),
                             ),
@@ -135,16 +130,9 @@ class CartBottomSheet extends ConsumerWidget {
                           children: [
                             Text('Subtotal', style: AppStyles.largeStyle()),
                             Text(
-                                '${data.cartTotals?.totalPrice?.addDecimalFromEnd(data.cartTotals?.currencyMinorUnit)} ' +
-                                    '${ref.watch(selectedShippingMethodNotifierProvider.notifier).getShippingCost()?.addTwentyPercent()}',
-                                style: AppStyles.largeStyle()),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-                              child: Text(
-                                '£ ${data.cartTotals?.totalPrice?.addDecimalFromEnd(data.cartTotals?.currencyMinorUnit)?.addShippingCharge(ref.watch(selectedShippingMethodNotifierProvider.notifier).getShippingCost())}',
-                                style: AppStyles.largeStyle(),
-                              ),
-                            ),
+                              '${(data.totals.currencySymbol)} ${(double.parse(data.totals.formattedTotalPrice) + double.parse(ref.watch(selectedShippingMethodNotifierProvider)!.formattedPrice.addTwentyPercent())).toStringAsFixed(2)}',
+                              style: AppStyles.largeStyle(),
+                            )
                           ],
                         ),
                       ],

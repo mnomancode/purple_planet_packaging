@@ -58,7 +58,7 @@ class DashboardView extends ConsumerWidget {
                               .watch(newCartNotifierProvider)
                               .value
                               ?.items
-                              ?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.quantity ?? 0)) ??
+                              .fold(0, (previousValue, element) => (previousValue ?? 0) + (element.quantity)) ??
                           0;
                       return Positioned(
                         top: 0,
@@ -66,7 +66,7 @@ class DashboardView extends ConsumerWidget {
                         child: CircleAvatar(
                           radius: 7.r,
                           backgroundColor: AppColors.primaryColor,
-                          child: Text(totalQuantity.toString(),
+                          child: Text('${totalQuantity}',
                               style: AppStyles.lightStyle(color: Colors.white, fontSize: 7.sp)),
                         ),
                       );

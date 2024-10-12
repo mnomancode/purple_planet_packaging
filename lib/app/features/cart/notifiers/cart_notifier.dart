@@ -1,6 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../models/cart/new_cart_model.dart';
+import '../../../models/cart/cart_model.dart';
 import '../../../models/orders/order_body.dart';
 import '../repository/cart_repository_impl.dart';
 
@@ -11,7 +11,7 @@ class NewCartNotifier extends _$NewCartNotifier {
   final Set<int> _loadingItems = {};
 
   @override
-  FutureOr<NewCartModel> build() {
+  FutureOr<Cart> build() {
     // this is like init method as in getx Controller
     return ref.watch(cartRepositoryProvider).getCart('');
   }
