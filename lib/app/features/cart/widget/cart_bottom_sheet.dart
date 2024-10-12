@@ -38,7 +38,7 @@ class CartBottomSheet extends ConsumerWidget {
                         minTileHeight: 10,
                         contentPadding: EdgeInsets.zero,
                         title: Text('Item ${e.name}', style: AppStyles.mediumStyle()),
-                        trailing: Text('=${e.totals?.lineTotal?.addDecimalFromEnd(e.prices!.currencyMinorUnit) ?? 0}',
+                        trailing: Text('=${e.totals?.lineTotal?.addDecimalFromEnd(e.prices?.currencyMinorUnit) ?? 0}',
                             style: AppStyles.mediumBoldStyle())))
                     .toList();
               }, error: (Object error, StackTrace stackTrace) {
@@ -111,7 +111,7 @@ class CartBottomSheet extends ConsumerWidget {
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Text(
-                                '£ ${data.cartTotals!.totalItems?.addDecimalFromEnd(data.cartTotals?.currencyMinorUnit ?? 0) ?? '0.00'}',
+                                '£ ${data.cartTotals?.totalItems?.addDecimalFromEnd(data.cartTotals?.currencyMinorUnit ?? 0) ?? '0.00'}',
                                 style: AppStyles.mediumBoldStyle(),
                               ),
                             ),
@@ -134,10 +134,14 @@ class CartBottomSheet extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('Subtotal', style: AppStyles.largeStyle()),
+                            Text(
+                                '${data.cartTotals?.totalPrice?.addDecimalFromEnd(data.cartTotals?.currencyMinorUnit)} ' +
+                                    '${ref.watch(selectedShippingMethodNotifierProvider.notifier).getShippingCost()?.addTwentyPercent()}',
+                                style: AppStyles.largeStyle()),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                               child: Text(
-                                '£ ${data.cartTotals?.totalPrice?.addDecimalFromEnd(data.cartTotals?.currencyMinorUnit)?.addShippingCharge(ref.watch(selectedShippingMethodNotifierProvider.notifier).getShippingCost()?.addTwentyPercent())}',
+                                '£ ${data.cartTotals?.totalPrice?.addDecimalFromEnd(data.cartTotals?.currencyMinorUnit)?.addShippingCharge(ref.watch(selectedShippingMethodNotifierProvider.notifier).getShippingCost())}',
                                 style: AppStyles.largeStyle(),
                               ),
                             ),
