@@ -7,9 +7,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_utils.dart';
+import 'package:purple_planet_packaging/app/extensions/double_extensions.dart';
 import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
 import 'package:purple_planet_packaging/app/features/cart/model/shipping_methods.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/shipping_meathods_notifier.dart';
+import 'package:purple_planet_packaging/app/features/orders/notifiers/orders_notifier.dart';
 
 import '../../../core/utils/app_colors.dart';
 import '../notifiers/cart_notifier.dart';
@@ -19,8 +21,6 @@ class CartBottomSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // ref.watch(newCartNotifierProvider.notifier).getShippingMethod();
-
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       child: SingleChildScrollView(
@@ -71,7 +71,7 @@ class CartBottomSheet extends ConsumerWidget {
                     return Text(error.toString());
                   },
                   loading: () {
-                    return CircularProgressIndicator(color: AppColors.greyColor);
+                    return LinearProgressIndicator();
                   }),
               Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
               8.verticalSpace,
@@ -137,7 +137,7 @@ class CartBottomSheet extends ConsumerWidget {
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                               child: Text(
-                                '£ ${data.cartTotals?.totalPrice?.addDecimalFromEnd(data.cartTotals?.currencyMinorUnit)?.addShippingCharge(ref.watch(selectedShippingMethodNotifierProvider.notifier).getShippingCost())}',
+                                '£ ${data.cartTotals?.totalPrice?.addDecimalFromEnd(data.cartTotals?.currencyMinorUnit)?.addShippingCharge(ref.watch(selectedShippingMethodNotifierProvider.notifier).getShippingCost()?.addTwentyPercent())}',
                                 style: AppStyles.largeStyle(),
                               ),
                             ),
@@ -149,26 +149,12 @@ class CartBottomSheet extends ConsumerWidget {
                     loading: () => const CircularProgressIndicator(),
                   ),
               8.verticalSpace,
-
               Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
-              // // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Text('VAT', style: AppStyles.mediumBoldStyle()),
-              //     Text('£ 2.94', style: AppStyles.mediumBoldStyle()),
-              //   ],
-              // ),
-              // Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Text('Total', style: AppStyles.largeStyle()),
-              //     Text('£ 202.94', style: AppStyles.largeStyle()),
-              //   ],
-              // ),
               8.verticalSpace,
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  ref.read(ordersNotifierProvider.notifier).newOrder();
+                },
                 child: Text('Proceed to Checkout', style: AppStyles.mediumBoldStyle()),
               ),
               16.verticalSpace,

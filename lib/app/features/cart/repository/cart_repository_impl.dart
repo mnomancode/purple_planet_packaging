@@ -2,6 +2,7 @@ import 'package:purple_planet_packaging/app/core/utils/app_utils.dart';
 import 'package:retrofit/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../models/cart/new_cart_model.dart';
+import '../../../models/orders/order_body.dart';
 import '../../../provider/http_provider.dart';
 import '../../../services/service.dart';
 import '../model/shipping_methods.dart';

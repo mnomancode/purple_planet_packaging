@@ -1,6 +1,7 @@
 import 'package:purple_planet_packaging/app/models/cart/new_cart_model.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../../models/orders/order_body.dart';
 import '../model/shipping_methods.dart';
 
 abstract class CartRepository {

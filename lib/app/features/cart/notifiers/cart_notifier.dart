@@ -1,14 +1,8 @@
-import 'dart:developer';
-
-import 'package:purple_planet_packaging/app/core/utils/app_utils.dart';
-import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
-import 'package:purple_planet_packaging/app/features/cart/model/shipping_methods.dart';
-import 'package:retrofit/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../models/cart/new_cart_model.dart';
+import '../../../models/orders/order_body.dart';
 import '../repository/cart_repository_impl.dart';
-import 'shipping_meathods_notifier.dart';
 
 part 'cart_notifier.g.dart';
 
@@ -73,17 +67,9 @@ class NewCartNotifier extends _$NewCartNotifier {
     return state.value?.items?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.quantity ?? 0)) ?? 0;
   }
 
-  double? getSubTotal() {
-    String d =
-        (state.value?.cartTotals?.totalPrice?.addDecimalFromEnd(state.value?.cartTotals?.currencyMinorUnit) ?? 0.0)
-            .toString()
-            .addShippingCharge(AppUtils.getShippingCost(ref.read(selectedShippingMethodNotifierProvider)) ?? 0.0)
-            .addTwentyPercent();
-
-    log(d, name: 'd');
-
-    return double.tryParse(d);
+  List<LineItem>? getLineItems() {
+    return state.value?.items?.map((e) {
+      return LineItem(productId: e.id!, quantity: e.quantity!, variationId: 0);
+    }).toList();
   }
-
-  // '£ ${data.cartTotals?.totalPrice?.addDecimalFromEnd(data.cartTotals?.currencyMinorUnit)?.addShippingCharge(AppUtils.getShippingCost(ref.watch(selectedShippingMethodNotifierProvider)) ?? 0.0) ?? '0.00'}',
 }
