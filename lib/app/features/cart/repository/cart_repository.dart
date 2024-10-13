@@ -1,7 +1,5 @@
 import 'package:purple_planet_packaging/app/models/cart/cart_model.dart';
-import 'package:retrofit/retrofit.dart';
 
-import '../../../models/orders/order_body.dart';
 import '../model/shipping_methods.dart';
 
 abstract class CartRepository {
@@ -17,6 +15,7 @@ abstract class CartRepository {
 
   Future<Cart> updateItem(String itemKey, {required int quantity});
   Future<Cart> removeItem(String itemKey);
+  Future<Cart> applyCoupon(String code);
 
   Future<List<ShippingMethod>> getShippingMethod();
 }

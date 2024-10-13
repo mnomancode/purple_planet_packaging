@@ -31,4 +31,7 @@ abstract class CartService {
   Future<List<ShippingMethod>> getShippingMethod(
     @Header('Authorization') String token,
   );
+
+  @POST('/wp-json/wc/store/v1/cart/apply-coupon/?code={code}')
+  Future<Cart> applyCoupon(@Header('Authorization') String getAuthorizationHeader, @Path('code') String code);
 }

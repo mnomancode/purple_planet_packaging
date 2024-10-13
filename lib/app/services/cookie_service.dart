@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -14,9 +15,10 @@ class CookieManagerInterceptor extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
     if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.requestOptions.path.contains('apply-coupon')) return;
       if (response.requestOptions.path.contains('cart')) {
         //Save response cookies into the CookieJar for cart-related responses
-        Uri uri = Uri.parse('${response.requestOptions.baseUrl}/cart');
+        // Uri uri = Uri.parse('${response.requestOptions.baseUrl}/cart');
         List<String>? setCookie = response.headers.map['set-cookie'];
         if (setCookie != null && setCookie.length == 3) {
           List<Cookie> cookies = setCookie.map((str) => Cookie.fromSetCookieValue(str)).toList();
@@ -34,7 +36,10 @@ class CookieManagerInterceptor extends Interceptor {
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (options.path.contains('cart')) {
       // Add existing headers if available
+
       final headers = await HeaderStorageService.getJsonHeaders();
+
+      log(headers.toString(), name: 'headers');
       options.headers.addAll(headers ?? {});
 
       // Load cookies from SharedPreferences

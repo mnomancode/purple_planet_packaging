@@ -1,10 +1,6 @@
-import 'dart:developer';
-
 import 'package:purple_planet_packaging/app/core/utils/app_utils.dart';
-import 'package:retrofit/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../models/cart/cart_model.dart';
-import '../../../models/orders/order_body.dart';
 import '../../../provider/http_provider.dart';
 import '../../../services/service.dart';
 import '../model/shipping_methods.dart';
@@ -20,9 +16,6 @@ class CartRepositoryImpl extends CartRepository {
   Future<Cart> getCart(String cartToken) async {
     final response = await _cartService.getCart();
 
-    // log(response.response.data.toString());
-    // log(response.response.headers['nonce'].toString());
-    //log(response.response.data.toString());
     return response;
   }
 
@@ -44,6 +37,11 @@ class CartRepositoryImpl extends CartRepository {
   @override
   Future<List<ShippingMethod>> getShippingMethod() {
     return _cartService.getShippingMethod(AppUtils.getAuthorizationHeader);
+  }
+
+  @override
+  Future<Cart> applyCoupon(String code) {
+    return _cartService.applyCoupon(AppUtils.getAuthorizationHeader, code);
   }
 }
 

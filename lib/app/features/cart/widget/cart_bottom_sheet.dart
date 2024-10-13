@@ -1,14 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
-import 'package:purple_planet_packaging/app/extensions/double_extensions.dart';
 import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
-import 'package:purple_planet_packaging/app/features/cart/model/shipping_methods.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/shipping_meathods_notifier.dart';
 import 'package:purple_planet_packaging/app/features/orders/notifiers/orders_notifier.dart';
 import 'package:purple_planet_packaging/app/models/cart/cart_model.dart';
@@ -87,7 +84,9 @@ class CartBottomSheet extends ConsumerWidget {
                   Expanded(
                     flex: 2,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        ref.read(newCartNotifierProvider.notifier).applyCoupon(code: 'grab24');
+                      },
                       child: Text('Apply', style: AppStyles.mediumBoldStyle()),
                     ),
                   ),
@@ -130,7 +129,7 @@ class CartBottomSheet extends ConsumerWidget {
                           children: [
                             Text('Subtotal', style: AppStyles.largeStyle()),
                             Text(
-                              '${(data.totals.currencySymbol)} ${(double.parse(data.totals.formattedTotalPrice) + double.parse(ref.watch(selectedShippingMethodNotifierProvider)!.formattedPrice.addTwentyPercent())).toStringAsFixed(2)}',
+                              '${(data.totals.currencySymbol)} ${(double.parse(data.totals.formattedTotalPrice) + double.parse(ref.watch(selectedShippingMethodNotifierProvider)?.formattedPrice.addTwentyPercent() ?? '0')).toStringAsFixed(2)}',
                               style: AppStyles.largeStyle(),
                             )
                           ],

@@ -24,11 +24,6 @@ class ShippingMethodsNotifier extends _$ShippingMethodsNotifier {
 
     return ref.read(cartRepositoryProvider).getShippingMethod();
   }
-
-  double? getShippingCost(ShippingMethod shippingMethod) {
-    int quantity = ref.read(newCartNotifierProvider.notifier).getTotalQuantity();
-    return AppUtils.getShippingCost(shippingMethod, quantity: quantity);
-  }
 }
 
 @Riverpod(keepAlive: true)

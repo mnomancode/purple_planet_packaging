@@ -91,7 +91,7 @@ class CartItemWidget extends ConsumerWidget {
             padding: EdgeInsets.zero,
             alignment: Alignment.topRight,
             icon: const Icon(Icons.close, color: Colors.red),
-            onPressed: () => ref.read(newCartNotifierProvider.notifier).removeItem(itemKey: item.key!),
+            onPressed: () => ref.read(newCartNotifierProvider.notifier).removeItem(itemKey: item.key),
           )
         ],
       ),

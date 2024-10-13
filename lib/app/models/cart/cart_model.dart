@@ -215,8 +215,8 @@ class CartTotals with _$CartTotals {
     @JsonKey(name: 'total_fees_tax') required String totalFeesTax,
     @JsonKey(name: 'total_discount') required String totalDiscount,
     @JsonKey(name: 'total_discount_tax') required String totalDiscountTax,
-    @JsonKey(name: 'total_shipping') required String totalShipping,
-    @JsonKey(name: 'total_shipping_tax') required String totalShippingTax,
+    @JsonKey(name: 'total_shipping') String? totalShipping,
+    @JsonKey(name: 'total_shipping_tax') String? totalShippingTax,
     @JsonKey(name: 'total_price') required String totalPrice,
     @JsonKey(name: 'total_tax') required String totalTax,
     @JsonKey(name: 'tax_lines') required List<TaxLine> taxLines,
@@ -237,8 +237,8 @@ class CartTotals with _$CartTotals {
   String get formattedTotalFeesTax => _formatPrice(totalFeesTax);
   String get formattedTotalDiscount => _formatPrice(totalDiscount);
   String get formattedTotalDiscountTax => _formatPrice(totalDiscountTax);
-  String get formattedTotalShipping => _formatPrice(totalShipping);
-  String get formattedTotalShippingTax => _formatPrice(totalShippingTax);
+  String get formattedTotalShipping => _formatPrice(totalShipping ?? '');
+  String get formattedTotalShippingTax => _formatPrice(totalShippingTax ?? '');
   String get formattedTotalPrice => _formatPrice(totalPrice);
   String get formattedTotalTax => _formatPrice(totalTax);
 

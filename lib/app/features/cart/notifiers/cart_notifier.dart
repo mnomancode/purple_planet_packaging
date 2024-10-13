@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../models/cart/cart_model.dart';
@@ -33,7 +35,7 @@ class NewCartNotifier extends _$NewCartNotifier {
   }
 
   getQuantity(int id) {
-    return state.value?.items?.firstWhere((element) => element.id == id).quantity;
+    return state.value?.items.firstWhere((element) => element.id == id).quantity;
   }
 
   Future<void> updateItem({required String itemKey, required int quantity}) async {
@@ -42,8 +44,8 @@ class NewCartNotifier extends _$NewCartNotifier {
 
       state = AsyncValue.data(tempState);
     } else {
-      final item = state.value!.items!.firstWhere((element) => element.key == itemKey);
-      _loadingItems.add(item.id!);
+      final item = state.value!.items.firstWhere((element) => element.key == itemKey);
+      _loadingItems.add(item.id);
       state = AsyncValue.data(state.value!.copyWith(loadingItems: _loadingItems.toList()));
 
       final tempState = await ref.watch(cartRepositoryProvider).updateItem(itemKey, quantity: quantity);
@@ -59,17 +61,19 @@ class NewCartNotifier extends _$NewCartNotifier {
     state = AsyncValue.data(tempState);
   }
 
+  Future<void> applyCoupon({required String code}) async {
+    final tempState = await ref.watch(cartRepositoryProvider).applyCoupon(code);
+
+    state = AsyncValue.data(tempState);
+  }
+
   bool isItemLoading(int id) {
     return _loadingItems.contains(id);
   }
 
-  int getTotalQuantity() {
-    return state.value?.items?.fold(0, (previousValue, element) => (previousValue ?? 0) + (element.quantity ?? 0)) ?? 0;
-  }
-
   List<LineItem>? getLineItems() {
-    return state.value?.items?.map((e) {
-      return LineItem(productId: e.id!, quantity: e.quantity!, variationId: 0);
+    return state.value?.items.map((e) {
+      return LineItem(productId: e.id, quantity: e.quantity, variationId: 0);
     }).toList();
   }
 }
