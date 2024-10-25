@@ -1,8 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:purple_planet_packaging/app/models/categories/category.dart';
-import 'package:purple_planet_packaging/app/models/products/products.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../models/products/product.dart';
 import '../repository/shop_repository_impl.dart';
 
 part 'shop_notifier.g.dart';
@@ -12,22 +12,26 @@ part 'shop_notifier.freezed.dart';
 class ShopNotifier extends _$ShopNotifier {
   @override
   FutureOr<List<CategoryModel>> build() async {
-    final categories = ref.watch(shopRepositoryProvider).getShopCategories();
+    final categories = await ref.watch(shopRepositoryProvider).getShopCategories();
 
     ref.keepAlive();
+
+    int removeIndex = categories.indexWhere((element) => element.image == null);
+
+    categories.removeAt(removeIndex);
 
     return categories;
   }
 
   // // get products
-  // FutureOr<List<ProductsModel>> getProducts([int? categoryId]) =>
+  // FutureOr<List<Product>> getProducts([int? categoryId]) =>
   //     ref.watch(shopRepositoryProvider).getProducts(categoryId);
 }
 
 @riverpod
 class ProductsNotifier extends _$ProductsNotifier {
   @override
-  FutureOr<List<ProductsModel>> build({int? categoryId}) async {
+  FutureOr<List<Product>> build({int? categoryId}) async {
     final products = ref.watch(shopRepositoryProvider).getProducts(categoryId);
     ref.keepAlive();
 
@@ -35,7 +39,7 @@ class ProductsNotifier extends _$ProductsNotifier {
   }
 
   // get feature products
-  FutureOr<List<ProductsModel>> getFeatureProducts() {
+  FutureOr<List<Product>> getFeatureProducts() {
     final featured = ref.watch(shopRepositoryProvider).getFeatureProducts();
     ref.keepAlive();
 
@@ -49,7 +53,7 @@ class ProductSearchSate with _$ProductSearchSate {
     @Default(0) int offset,
     @Default(false) bool isLoading,
     @Default(false) bool isLoadMoreError,
-    @Default([]) List<ProductsModel> products,
+    @Default([]) List<Product> products,
   }) = _ProductSearchSate;
 }
 

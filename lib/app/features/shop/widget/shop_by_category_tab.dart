@@ -38,11 +38,10 @@ class ShopByCategory extends ConsumerWidget {
                     childAspectRatio: 1,
                   ),
                   itemCount: data.length,
-                  // cacheExtent: 1000,
                   itemBuilder: (context, index) {
                     return CategoryGridItem(
                       title: data[index].name,
-                      url: data[index].image!.thumbnail!,
+                      url: data[index].image!.src!,
                       onTap: () {
                         context.goNamed(
                           ProductsView.routeName,

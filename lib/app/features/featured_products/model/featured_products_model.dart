@@ -1,3 +1,3 @@
-class FeaturedProductsModel {
+class FeaturedProduct {
   // TODO: add your model here
 }

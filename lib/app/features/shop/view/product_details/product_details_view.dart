@@ -7,16 +7,18 @@ import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/extensions/elevated_button_extensions.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
+import 'package:purple_planet_packaging/app/features/shop/notifiers/variable_notifier.dart';
 import 'package:purple_planet_packaging/app/features/shop/widget/product_details/images_slider.dart';
 import 'package:purple_planet_packaging/app/features/shop/widget/product_price_widget.dart';
-import 'package:purple_planet_packaging/app/models/products/products.dart';
+
+import '../../../../models/products/product.dart';
 
 class ProductDetailsView extends ConsumerWidget {
   const ProductDetailsView({super.key, required this.title, required this.product});
 
   static const routeName = '/productDetails';
   final String title;
-  final ProductsModel product;
+  final Product product;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,7 +30,7 @@ class ProductDetailsView extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ImagesSliderView(images: product.images!.map((e) => e.src).toList()),
+              ImagesSliderView(images: product.images.map((e) => e.src).toList()),
               20.verticalSpace,
               Row(
                 children: [
@@ -44,21 +46,46 @@ class ProductDetailsView extends ConsumerWidget {
                 children: [
                   Text('Price: ', style: AppStyles.boldStyle()),
                   5.horizontalSpace,
-                  ProductPriceWidget(product.prices),
+                  ProductPriceWidget(product.price),
                 ],
               ),
               10.verticalSpace,
               const Divider(color: AppColors.primaryColor),
-              Text('Description', style: AppStyles.mediumBoldStyle()),
-              // HtmlWidget(product.shortDescription ?? ""),
               10.verticalSpace,
-              HtmlWidget(product.description!),
+              if (product.attributes.first.options.isNotEmpty)
+                ...product.attributes.first.options
+                    .map((e) =>
+                            //
+
+                            RadioListTile.adaptive(
+                              dense: true,
+                              contentPadding: EdgeInsets.zero,
+                              visualDensity: VisualDensity.compact,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                              groupValue: ref.watch(variableNotifierProvider(product.id)),
+                              title: Text(e, style: AppStyles.mediumStyle()),
+                              value: e,
+                              onChanged: (_) {
+                                ref.read(variableNotifierProvider(product.id));
+                              },
+                            )
+                        //f
+                        )
+                    .toList(),
+
+              Text('Description', style: AppStyles.mediumBoldStyle()),
+              10.verticalSpace,
+              HtmlWidget(product.description),
+              if (product.attributes.first.options.isNotEmpty)
+                ...product.attributes.first.options.map((e) => Text(e)).toList(),
               20.verticalSpace,
               Row(
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () => ref.read(newCartNotifierProvider.notifier).addToCart(productId: product.id),
+                      onPressed: () {
+                        ref.read(newCartNotifierProvider.notifier).addToCart(productId: product.id);
+                      },
                       child: Text("Add to Cart", style: AppStyles.mediumStyle()),
                     ).alterP(isTransparent: true),
                   ),

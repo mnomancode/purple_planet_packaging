@@ -23,7 +23,9 @@ class CategoryListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
-              radius: 35.r, backgroundColor: AppColors.primaryColor, child: SvgNetwork(url: categoryModel.image!.src)),
+              radius: 35.r,
+              backgroundColor: AppColors.primaryColor,
+              child: SvgNetwork(url: categoryModel.image?.src ?? '')),
           4.verticalSpace,
           SizedBox(
               width: 70.w,

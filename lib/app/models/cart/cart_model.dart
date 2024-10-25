@@ -40,6 +40,14 @@ class Cart with _$Cart {
   }
 }
 
+// @freezed
+// class Variation with _$Variation {
+//   String attribute;
+//   String value;
+
+//   factory Variation.fromJson(Map<String, dynamic> json) => _$VariationFromJson(json);
+// }
+
 @freezed
 class CartItem with _$CartItem {
   const CartItem._();

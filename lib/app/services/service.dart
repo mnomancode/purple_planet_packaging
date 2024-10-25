@@ -7,7 +7,7 @@ import '../features/cart/model/shipping_methods.dart';
 import '../models/cart/cart_model.dart';
 import '../models/orders/order.dart';
 import '../models/orders/order_body.dart';
-import '../models/products/products.dart';
+import '../models/products/product.dart';
 
 part 'service.g.dart';
 

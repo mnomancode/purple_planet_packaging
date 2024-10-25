@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,13 +6,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/features/shop/notifiers/shop_notifier.dart';
-import 'package:purple_planet_packaging/app/models/products/products.dart';
 
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_images.dart';
+import '../../../models/products/product.dart';
 import '../../shop/view/product_details/product_details_view.dart';
 
-class ProductsSearchDelegate extends SearchDelegate<ProductsModel?> {
+class ProductsSearchDelegate extends SearchDelegate<Product?> {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [

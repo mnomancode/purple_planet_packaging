@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../../../models/products/products.dart';
+import '../../../models/products/product.dart';
 import '../../shop/repository/shop_repository_impl.dart';
 
 part 'product_featured_notifier.freezed.dart';
@@ -12,7 +12,7 @@ class ProductFeaturedSate with _$ProductFeaturedSate {
   const factory ProductFeaturedSate({
     @Default(0) int offset,
     @Default(false) bool isLoading,
-    @Default([]) List<ProductsModel> products,
+    @Default([]) List<Product> products,
   }) = _ProductFeaturedSate;
 }
 

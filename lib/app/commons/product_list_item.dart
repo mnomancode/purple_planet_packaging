@@ -9,14 +9,14 @@ import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
 import 'package:purple_planet_packaging/app/features/shop/widget/product_price_widget.dart';
-import 'package:purple_planet_packaging/app/models/products/products.dart';
 import 'package:rotated_corner_decoration/rotated_corner_decoration.dart';
 
 import '../features/shop/view/product_details/product_details_view.dart';
+import '../models/products/product.dart';
 
 class ProductListItem extends ConsumerWidget {
   const ProductListItem({super.key, required this.product});
-  final ProductsModel product;
+  final Product product;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -44,9 +44,9 @@ class ProductListItem extends ConsumerWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 image:
-                    DecorationImage(image: CachedNetworkImageProvider(product.images!.first.src), fit: BoxFit.contain),
+                    DecorationImage(image: CachedNetworkImageProvider(product.images.first.src), fit: BoxFit.contain),
               ),
-              child: product.isInStock
+              child: product.stockStatus == StockStatus.instock
                   ? GestureDetector(
                       onTap: () => ref.read(newCartNotifierProvider.notifier).addToCart(productId: product.id),
                       child: Container(
@@ -83,7 +83,7 @@ class ProductListItem extends ConsumerWidget {
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis),
             const Divider(color: AppColors.lightGreyColor),
-            ProductPriceWidget(product.prices, columnView: true),
+            ProductPriceWidget(product.price, columnView: true),
           ],
         ),
       ),

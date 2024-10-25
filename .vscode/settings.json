@@ -4,6 +4,7 @@
         "CONSUMERKEY",
         "CONSUMERSECRET",
         "dotenv",
+        "instock",
         "lostpassword",
         "Nicename",
         "precache",

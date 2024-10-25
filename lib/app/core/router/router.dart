@@ -14,7 +14,6 @@ import 'package:purple_planet_packaging/app/features/profile/view/profile_view.d
 import 'package:purple_planet_packaging/app/features/shop/view/shop_view.dart';
 import 'package:purple_planet_packaging/app/features/splash/view/splash_view.dart';
 import 'package:purple_planet_packaging/app/features/custom_print/view/get_started_view.dart';
-import 'package:purple_planet_packaging/app/models/products/products.dart';
 
 import '../../commons/loading/loading_screen.dart';
 import '../../features/custom_print/view/custom_print_view.dart';
@@ -22,6 +21,7 @@ import '../../features/featured_products/view/featured_products_view.dart';
 import '../../features/main/view/dashboard_view.dart';
 import '../../features/shop/view/product_details/product_details_view.dart';
 import '../../features/shop/view/products_view.dart';
+import '../../models/products/product.dart';
 import '../../provider/is_loading_provider.dart';
 
 ///
@@ -103,7 +103,7 @@ final routerProvider = Provider<GoRouter>(
           builder: (context, state) {
             final title = state.pathParameters['title'] ?? 'Error${state.uri.queryParameters['title']}';
             // final productId = state.uri.queryParameters['productId'] ?? '0000';
-            final product = state.extra as ProductsModel;
+            final product = state.extra as Product;
             return ProductDetailsView(title: title, product: product);
           },
         ),

@@ -4,7 +4,7 @@ part of 'category.dart';
 class CategoryImage with _$CategoryImage {
   const factory CategoryImage({
     required int id,
-    required String src,
+    String? src,
     required String? thumbnail,
     required String? name,
   }) = _CategoryImage;
