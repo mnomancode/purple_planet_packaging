@@ -26,6 +26,11 @@ class ShopRepositoryImpl extends ShopRepository {
   @override
   FutureOr<List<Product>> getFeatureProducts({int offset = 0}) =>
       _categoryService.getFeatureProducts(AppUtils.getAuthorizationHeader, offset: offset);
+
+  @override
+  FutureOr<Product> getProduct(int id) {
+    return _categoryService.getProductById(AppUtils.getAuthorizationHeader, id);
+  }
 }
 
 @riverpod

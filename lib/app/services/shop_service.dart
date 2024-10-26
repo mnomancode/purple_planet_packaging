@@ -14,6 +14,8 @@ abstract class ShopService {
   Future<List<Product>> searchProducts(@Header('Authorization') String token, @Path('search') String search,
       {@Path('offset') int offset = 0});
 
+  @GET('/wp-json/wc/v3/products/{id}')
+  Future<Product> getProductById(@Header('Authorization') String token, @Path('id') int id);
   @GET('/wp-json/wc/v3/products?featured=true&offset={offset}')
   Future<List<Product>> getFeatureProducts(@Header('Authorization') String token, {@Path('offset') int offset = 0});
 }

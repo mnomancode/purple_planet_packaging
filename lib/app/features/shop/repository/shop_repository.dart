@@ -11,4 +11,6 @@ abstract class ShopRepository {
   FutureOr<List<Product>> searchProducts(String query, {int offset = 0});
 
   FutureOr<List<Product>> getFeatureProducts({int offset = 0});
+
+  FutureOr<Product> getProduct(int id);
 }

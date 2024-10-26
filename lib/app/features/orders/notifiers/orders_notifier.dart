@@ -23,8 +23,6 @@ class OrdersNotifier extends _$OrdersNotifier {
 
     if (lineItems == null) return;
 
-    log(lineItems.toString(), name: 'line items');
-
     List<ShippingLine> shippingLine = ref.read(selectedShippingMethodNotifierProvider.notifier).getShippingLines();
 
     OrderBody orderBody = OrderBody(
@@ -37,16 +35,17 @@ class OrdersNotifier extends _$OrdersNotifier {
       setPaid: false,
     );
 
-    log(orderBody.toString(), name: 'order body');
-
     Order ord = await ref.read(ordersRepositoryProvider).newOrder(orderBody);
     // TODO : add a stripe code here
-    // if true set payment to true
+
+    // if true set payment to true run
+
     await ref.read(ordersRepositoryProvider).completePayment(ord.id).then(
       (value) {
         state = [...state, ord];
       },
     );
+    // else show error
   }
 }
 

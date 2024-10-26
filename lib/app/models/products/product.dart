@@ -39,7 +39,7 @@ class Product with _$Product {
     @JsonKey(name: 'date_on_sale_to_gmt') DateTime? dateOnSaleToGmt,
     @JsonKey(name: 'on_sale') required bool onSale,
     required bool purchasable,
-    @JsonKey(name: 'total_sales') required int totalSales,
+    @JsonKey(name: 'total_sales') dynamic totalSales,
     required bool virtual,
     required bool downloadable,
     required List<dynamic> downloads,
