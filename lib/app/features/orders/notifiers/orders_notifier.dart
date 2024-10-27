@@ -35,17 +35,23 @@ class OrdersNotifier extends _$OrdersNotifier {
       setPaid: false,
     );
 
-    Order ord = await ref.read(ordersRepositoryProvider).newOrder(orderBody);
+    /// Don't remove
+    /// Order ord = await ref.read(ordersRepositoryProvider).newOrder(orderBody);
+    ///  // await ref.read(ordersRepositoryProvider).completePayment(ord.id).then(
+    ///   (value) {
+    ///     state = [...state, ord];
+    ///   },
+    /// );
+
     // TODO : add a stripe code here
+    /// if true set payment to true run
+    ///
+    ///
+    ///
 
-    // if true set payment to true run
+    // Show Done Snackbar
 
-    await ref.read(ordersRepositoryProvider).completePayment(ord.id).then(
-      (value) {
-        state = [...state, ord];
-      },
-    );
-    // else show error
+    // TODO:  else show error snackbar
   }
 }
 

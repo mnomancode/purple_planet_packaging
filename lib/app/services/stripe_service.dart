@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -137,13 +136,14 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 //   }
 // }
 
-
 import 'package:dio/dio.dart';
 import 'dart:convert';
 
 class StripeService {
   static const String _baseUrl = 'https://api.stripe.com/v1/';
-  static const String _apiKey = 'sk_test_51L81KRGVx2o8VJLu3seRDMg0cTOWIidbT3fwlTYRpN3kGQW1V47h6SxKvJDbGNAMV6qHhIvU4hYXgorr0EOziOVL00ewYm0xuH'; // Replace with actual secret key
+  static const String _apiKey = 'sk_test_2WwHnEIgdlvlUGWKxd86Koog00oTzdnKLK';
+  // static const String _apiKey =
+  //     'sk_test_51L81KRGVx2o8VJLu3seRDMg0cTOWIidbT3fwlTYRpN3kGQW1V47h6SxKvJDbGNAMV6qHhIvU4hYXgorr0EOziOVL00ewYm0xuH'; // Replace with actual secret key
 
   static const String customers = "customers";
   static const String paymentIntents = "payment_intents";
@@ -161,7 +161,7 @@ class StripeService {
     try {
       final response = await _dio.post(
         customers,
-        data: {'email': email},
+        data: {'email': email, 'name': 'test'},
       );
 
       if (response.statusCode == 200) {
@@ -197,7 +197,6 @@ class StripeService {
           ),
         );
         await Stripe.instance.presentPaymentSheet();
-
 
         /// After Payment Success
         /// Call place order api or according to yours requirement
@@ -257,6 +256,55 @@ class StripeService {
     } catch (e) {
       print('Error creating refund: $e');
       return false;
+    }
+  }
+
+  Future<void> startGooglePay(BuildContext context) async {
+    final googlePaySupported =
+        await Stripe.instance.isPlatformPaySupported(googlePay: const IsGooglePaySupportedParams());
+    if (googlePaySupported) {
+      try {
+        // 1. fetch Intent Client Secret from backend
+        Map<String, dynamic>? paymentIntent = await createPaymentIntent(1000, 'USD');
+
+        if (paymentIntent == null) {
+          return;
+        }
+
+        final clientSecret = paymentIntent['client_secret'];
+        // 2.present google pay sheet
+        await Stripe.instance.confirmPlatformPayPaymentIntent(
+            clientSecret: clientSecret,
+            confirmParams: const PlatformPayConfirmParams.googlePay(
+              googlePay: GooglePayParams(
+                testEnv: true,
+                merchantName: 'Example Merchant Name',
+                merchantCountryCode: 'Es',
+                currencyCode: 'PK',
+              ),
+            )
+            // PresentGooglePayParams(clientSecret: clientSecret),
+            );
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Google Pay payment succesfully completed')),
+        );
+      } catch (e) {
+        if (e is StripeException) {
+          log('Error during google pay', error: e.error, stackTrace: StackTrace.current);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: ${e.error}')),
+          );
+        } else {
+          log('Error during google pay', error: e, stackTrace: (e as Error?)?.stackTrace);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: $e')),
+          );
+        }
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Google pay is not supported on this device')),
+      );
     }
   }
 }

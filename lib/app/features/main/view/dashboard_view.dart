@@ -83,16 +83,21 @@ class DashboardView extends ConsumerWidget {
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () async {
-      //
-      //     String? customerId = await StripeService.createCustomer('test@gmail.com');
-      //     // String customerId = "cus_R6MHEU1pHFJeCY";
-      //     // await StripeService.initPaymentSheet(amount: 10*100, customerId: customerId,);
-      //
-      //   },
-      //   child: Icon(Icons.add),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          StripeService().startGooglePay(context);
+        },
+
+        //  () async {
+        //   String? customerId = await StripeService.createCustomer('test@gmail.com');
+        //   // String customerId = "cus_R6MHEU1pHFJeCY";
+        //   await StripeService.initPaymentSheet(
+        //     amount: 10 * 100,
+        //     customerId: customerId ?? 'cus_R6MHEU1pHFJeCY',
+        //   );
+        // },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 
