@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:purple_planet_packaging/app/core/utils/app_utils.dart';
 
 part 'product.freezed.dart';
 part 'product.g.dart';
@@ -73,7 +76,7 @@ class Product with _$Product {
     required List<dynamic> tags,
     required List<Image> images,
     required List<Attribute> attributes,
-    @JsonKey(name: 'default_attributes') required List<DefaultAttribute> defaultAttributes,
+    @JsonKey(name: 'default_attributes') List<DefaultAttribute>? defaultAttributes,
     required List<int> variations,
     @JsonKey(name: 'grouped_products') required List<dynamic> groupedProducts,
     @JsonKey(name: 'menu_order') required int menuOrder,
@@ -84,6 +87,12 @@ class Product with _$Product {
   }) = _Product;
 
   factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
+}
+
+extension ProductExtension on Product {
+  List<String> get pricesList {
+    return AppUtils.getPricesList(priceHtml);
+  }
 }
 
 @freezed
@@ -130,10 +139,10 @@ class Attribute with _$Attribute {
     required int id,
     required String name,
     required String slug,
-    required int position,
-    required bool visible,
-    required bool variation,
-    required List<String> options,
+    dynamic position,
+    dynamic visible,
+    bool? variation,
+    List<String>? options,
   }) = _Attribute;
 
   factory Attribute.fromJson(Map<String, dynamic> json) => _$AttributeFromJson(json);

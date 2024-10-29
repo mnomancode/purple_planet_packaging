@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 
+import '../features/orders/repository/orders_repository_impl.dart';
+
 // class StripeService {
 //
 //   static const String _baseUrl = 'https://api.stripe.com/v1/';
@@ -136,9 +138,6 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 //   }
 // }
 
-import 'package:dio/dio.dart';
-import 'dart:convert';
-
 class StripeService {
   static const String _baseUrl = 'https://api.stripe.com/v1/';
   static const String _apiKey = 'sk_test_2WwHnEIgdlvlUGWKxd86Koog00oTzdnKLK';
@@ -161,7 +160,7 @@ class StripeService {
     try {
       final response = await _dio.post(
         customers,
-        data: {'email': email, 'name': 'test'},
+        data: {'email': email},
       );
 
       if (response.statusCode == 200) {
@@ -176,13 +175,18 @@ class StripeService {
     }
   }
 
-  static Future<void> initPaymentSheet({required int amount, required String customerId}) async {
+  static Future<bool> initPaymentSheet({required int amount, required String customerId, BuildContext? context}) async {
     try {
-      Map<String, dynamic>? paymentIntent = await createPaymentIntent(amount, 'USD');
+      Map<String, dynamic>? paymentIntent = await createPaymentIntent(amount, 'GBP');
 
       if (paymentIntent != null) {
         await Stripe.instance.initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
+            billingDetails: const BillingDetails(
+              name: 'Purple Planet',
+              email: '8Dm9l@example.com',
+              phone: '+48888000888',
+            ),
             paymentIntentClientSecret: paymentIntent['client_secret'],
             merchantDisplayName: 'Purple Planet',
             customerId: customerId,
@@ -197,6 +201,7 @@ class StripeService {
           ),
         );
         await Stripe.instance.presentPaymentSheet();
+        return true;
 
         /// After Payment Success
         /// Call place order api or according to yours requirement
@@ -207,11 +212,28 @@ class StripeService {
         ///
         /// await createRefund(paymentIntent['id'],amount);
       }
+    } on StripeException catch (e) {
+      log('Error initializing payment sheet: ${e.error}');
+      ScaffoldMessenger.of(context!).showSnackBar(
+        SnackBar(
+          content: Text('${e.error.localizedMessage}'),
+        ),
+      );
+
+      return false;
     } catch (e) {
       print('Error initializing payment sheet: $e');
+      // snackbar localoze message
+      // StripeException(error: LocalizedErrorMessage(code: FailureCode.Canceled, localizedMessage: The payment has been canceled, message: The payment has been canceled, stripeErrorCode: null, declineCode: null, type: null))
+
+      if (context != null) {}
+
+      return false;
 
       /// Payment Fail
     }
+
+    return false;
   }
 
   static Future<Map<String, dynamic>?> createPaymentIntent(int amount, String currency) async {

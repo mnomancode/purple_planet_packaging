@@ -1,4 +1,5 @@
 import 'package:purple_planet_packaging/app/core/utils/app_utils.dart';
+import 'package:purple_planet_packaging/app/models/categories/term.dart';
 import 'package:purple_planet_packaging/app/models/categories/category.dart';
 import 'package:purple_planet_packaging/app/services/service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -30,6 +31,16 @@ class ShopRepositoryImpl extends ShopRepository {
   @override
   FutureOr<Product> getProduct(int id) {
     return _categoryService.getProductById(AppUtils.getAuthorizationHeader, id);
+  }
+
+  @override
+  FutureOr<List<Term>> getFoodTypes() {
+    return _categoryService.getFoodType(AppUtils.getAuthorizationHeader);
+  }
+
+  @override
+  Future<List<Product>> getProductsByTerm(String term) {
+    return _categoryService.getProductsByTerm(AppUtils.getAuthorizationHeader, term);
   }
 }
 

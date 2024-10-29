@@ -29,12 +29,22 @@ class AuthView extends HookConsumerWidget {
     final passwordController = useTextEditingController();
 
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        leading: BackButton(onPressed: () => context.goNamed(HomeView.routeName)),
+        actions: [
+          TextButton(
+            onPressed: () => context.goNamed(HomeView.routeName),
+            child: Text('Skip', style: AppStyles.mediumStyle(color: AppColors.primaryColor)),
+          )
+        ],
+      ),
       body: Padding(
         padding: AppStyles.scaffoldPadding,
         child: SingleChildScrollView(
           child: Column(
             children: [
-              0.1.sh.verticalSpace,
+              // 0.1.sh.verticalSpace,
               Center(child: Image.asset(AppImages.pppIcon, width: 0.8.sw)),
               20.verticalSpace,
               Center(child: Text(authController.isNewUser ? 'REGISTER' : 'LOGIN', style: AppStyles.largeStyle())),

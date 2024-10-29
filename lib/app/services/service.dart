@@ -5,6 +5,7 @@ import 'package:retrofit/retrofit.dart';
 import '../features/auth/model/auth_response.dart';
 import '../features/cart/model/shipping_methods.dart';
 import '../models/cart/cart_model.dart';
+import '../models/categories/term.dart';
 import '../models/orders/order.dart';
 import '../models/orders/order_body.dart';
 import '../models/products/product.dart';

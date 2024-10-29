@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:purple_planet_packaging/app/commons/search_text_field.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
+import 'package:purple_planet_packaging/app/features/auth/view/auth_view.dart';
 import 'package:purple_planet_packaging/app/features/custom_print/view/custom_print_view.dart';
 import 'package:purple_planet_packaging/app/features/order_samples/view/order_samples_view.dart';
 
@@ -37,12 +40,17 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ],
               ),
               Spacer(),
-              CircleAvatar(
-                  backgroundColor: AppColors.lightGreyColor.withOpacity(0.2),
-                  child: SvgPicture.asset(
-                    AppImages.svgUser,
-                    colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),
-                  )),
+              GestureDetector(
+                onTap: () {
+                  context.go(AuthView.routeName);
+                },
+                child: CircleAvatar(
+                    backgroundColor: AppColors.lightGreyColor.withOpacity(0.2),
+                    child: SvgPicture.asset(
+                      AppImages.svgUser,
+                      colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+                    )),
+              ),
               5.horizontalSpace,
               // GestureDetector(
               //   onTap: () => context.pushNamed(OrderSamplesView.routeName),

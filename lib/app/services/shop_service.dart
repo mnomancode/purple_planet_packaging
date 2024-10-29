@@ -16,6 +16,13 @@ abstract class ShopService {
 
   @GET('/wp-json/wc/v3/products/{id}')
   Future<Product> getProductById(@Header('Authorization') String token, @Path('id') int id);
+
   @GET('/wp-json/wc/v3/products?featured=true&offset={offset}')
   Future<List<Product>> getFeatureProducts(@Header('Authorization') String token, {@Path('offset') int offset = 0});
+
+  @GET('/wp-json/wc/v3/products/attributes/2/terms')
+  Future<List<Term>> getFoodType(@Header('Authorization') String token);
+
+  @GET('/wp-json/wc/v3/products?attribute=2&attribute_term={term}')
+  Future<List<Product>> getProductsByTerm(@Header('Authorization') String token, @Path('term') String term);
 }

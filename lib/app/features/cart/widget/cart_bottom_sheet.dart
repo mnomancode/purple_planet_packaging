@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -143,8 +142,8 @@ class CartBottomSheet extends ConsumerWidget {
               Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
               8.verticalSpace,
               ElevatedButton(
-                onPressed: () {
-                  ref.read(ordersNotifierProvider.notifier).newOrder();
+                onPressed: () async {
+                  await ref.read(ordersNotifierProvider.notifier).newOrder(context);
                 },
                 child: Text('Proceed to Checkout', style: AppStyles.mediumBoldStyle()),
               ),

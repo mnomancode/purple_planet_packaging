@@ -48,7 +48,16 @@ class ProductListItem extends ConsumerWidget {
               ),
               child: product.stockStatus == StockStatus.instock
                   ? GestureDetector(
-                      onTap: () => ref.read(newCartNotifierProvider.notifier).addToCart(productId: product.id),
+                      onTap: () {
+                        // if has variations add to cart
+                        if (product.variations.isNotEmpty) {
+                          context.pushNamed(ProductDetailsView.routeName,
+                              pathParameters: {'title': product.name}, extra: product);
+                          return;
+                        }
+
+                        ref.read(newCartNotifierProvider.notifier).addToCart(productId: product.id);
+                      },
                       child: Container(
                         padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(

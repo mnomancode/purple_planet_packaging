@@ -36,4 +36,6 @@ class AppImages {
   static const String svgArrowForward = 'assets/icon/arrow-forward.svg';
 
   static const String searchLottie = 'assets/lottie/search.json';
+
+  static String svgCartEmpty = 'assets/icon/empty-cart.svg';
 }

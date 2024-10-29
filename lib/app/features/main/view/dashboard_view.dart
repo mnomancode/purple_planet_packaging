@@ -6,10 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
-import 'package:purple_planet_packaging/app/services/stripe_service.dart';
 
 import '../../../core/utils/app_styles.dart';
-import '../providers/main_providers.dart';
 
 class DashboardView extends ConsumerWidget {
   const DashboardView({required this.navigationShell, super.key});
@@ -83,21 +81,22 @@ class DashboardView extends ConsumerWidget {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          StripeService().startGooglePay(context);
-        },
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed:
+      //       // () async {
+      //       //   StripeService().startGooglePay(context);
+      //       // },
 
-        //  () async {
-        //   String? customerId = await StripeService.createCustomer('test@gmail.com');
-        //   // String customerId = "cus_R6MHEU1pHFJeCY";
-        //   await StripeService.initPaymentSheet(
-        //     amount: 10 * 100,
-        //     customerId: customerId ?? 'cus_R6MHEU1pHFJeCY',
-        //   );
-        // },
-        child: const Icon(Icons.add),
-      ),
+      //       () async {
+      //     String? customerId = await StripeService.createCustomer('test@gmail.com');
+      //     // String customerId = "cus_R6MHEU1pHFJeCY";
+      //     await StripeService.initPaymentSheet(
+      //       amount: 10 * 100,
+      //       customerId: customerId ?? 'cus_R6MHEU1pHFJeCY',
+      //     );
+      //   },
+      //   child: const Icon(Icons.add),
+      // ),
     );
   }
 

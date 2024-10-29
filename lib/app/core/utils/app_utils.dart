@@ -1,9 +1,8 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'package:html/parser.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:purple_planet_packaging/app/extensions/double_extensions.dart';
 
 import '../../features/cart/model/shipping_methods.dart';
 
@@ -46,5 +45,11 @@ class AppUtils {
 
     // Perform the multiplication and return the result
     return price * quantity;
+  }
+
+  static List<String> getPricesList(String priceHtml) {
+    var html = parse(priceHtml);
+
+    return html.getElementsByTagName('bdi').map((e) => e.text).toList().reversed.toList();
   }
 }

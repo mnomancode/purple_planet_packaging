@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
+import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
 
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_app_bar.dart';
@@ -24,22 +27,103 @@ class _CartViewState extends ConsumerState<CartView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CartAppBar(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        icon: SvgPicture.asset(AppImages.svgCart, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
-        label: Text('Check-out', style: AppStyles.mediumBoldStyle()),
-        onPressed: () async {
-          showModalBottomSheet(
-              context: context,
-              isDismissible: true,
-              showDragHandle: true,
-              enableDrag: true,
-              scrollControlDisabledMaxHeightRatio: 0.7,
-              builder: (context) {
-                return const CartBottomSheet();
-              });
-        },
+      bottomSheet: Container(
+        padding: AppStyles.scaffoldPadding,
+        height: 170.h,
+        child: Column(
+          children: [
+            ref.watch(newCartNotifierProvider).when(
+                  data: (data) => Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Total', style: AppStyles.mediumBoldStyle()),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              '£ ${data.totals.totalItems.addDecimalFromEnd(data.totals.currencyMinorUnit) ?? '0.00'}',
+                              style: AppStyles.mediumBoldStyle(),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('VAT', style: AppStyles.mediumBoldStyle()),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Text(
+                              '${(data.totals.currencySymbol)} ${data.totals.formattedTotalTax}',
+                              style: AppStyles.mediumBoldStyle(),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Subtotal', style: AppStyles.largeStyle()),
+                          Text(
+                            '${(data.totals.currencySymbol)} ${(double.parse(data.totals.formattedTotalPrice))}',
+                            style: AppStyles.largeStyle(),
+                          )
+                        ],
+                      ),
+                      8.verticalSpace,
+                      ElevatedButton(
+                          onPressed: data.itemsCount == 0
+                              ? null
+                              : () async {
+                                  showModalBottomSheet(
+                                      context: context,
+                                      isDismissible: true,
+                                      showDragHandle: true,
+                                      enableDrag: true,
+                                      scrollControlDisabledMaxHeightRatio: 0.7,
+                                      builder: (context) {
+                                        return const CartBottomSheet();
+                                      });
+                                },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset(AppImages.svgCart,
+                                  colorFilter: data.itemsCount == 0
+                                      ? null
+                                      : const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
+                              8.horizontalSpace,
+                              Text('Proceed to checkout',
+                                  style: AppStyles.mediumBoldStyle(
+                                      color: data.itemsCount == 0 ? AppColors.darkGrey : null)),
+                            ],
+                          )),
+                    ],
+                  ),
+                  error: (error, stackTrace) => Text(error.toString()),
+                  loading: () => const CircularProgressIndicator(),
+                ),
+          ],
+        ),
       ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // floatingActionButton: FloatingActionButton.extended(
+      //   icon: SvgPicture.asset(AppImages.svgCart, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
+      //   label: Text('Check-out', style: AppStyles.mediumBoldStyle()),
+      //   onPressed: () async {
+      //     showModalBottomSheet(
+      //         context: context,
+      //         isDismissible: true,
+      //         showDragHandle: true,
+      //         enableDrag: true,
+      //         scrollControlDisabledMaxHeightRatio: 0.7,
+      //         builder: (context) {
+      //           return const CartBottomSheet();
+      //         });
+      //   },
+      // ),
       body: Padding(
         padding: AppStyles.scaffoldPadding,
         child: Column(
@@ -49,7 +133,15 @@ class _CartViewState extends ConsumerState<CartView> {
             ref.watch(newCartNotifierProvider).when(
                   data: (data) {
                     if (data.items.isEmpty) {
-                      return const Center(child: Text('Cart is empty'));
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          0.2.sh.verticalSpace,
+                          SvgPicture.asset(AppImages.svgCartEmpty, height: 80.h),
+                          const Text('Your cart is empty'),
+                        ],
+                      );
                     }
 
                     return Expanded(

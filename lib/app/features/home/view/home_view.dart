@@ -30,10 +30,7 @@ class HomeView extends ConsumerWidget {
             16.verticalSpace,
             const CustomPrintSampleButtons(),
             16.verticalSpace,
-            const FeaturedProductsSection(
-              title: 'Popular Products',
-            ),
-            16.verticalSpace,
+            const FeaturedProductsSection(title: 'Popular Products'),
           ],
         ),
       ),

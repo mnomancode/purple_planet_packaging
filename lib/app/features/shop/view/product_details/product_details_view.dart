@@ -50,52 +50,51 @@ class _ProductDetailsViewState extends ConsumerState<ProductDetailsView> {
                 ],
               ),
               10.verticalSpace,
+
               Row(
                 children: [
                   Text('Price: ', style: AppStyles.boldStyle()),
                   5.horizontalSpace,
-                  state.isLoading ? const CircularProgressIndicator() : ProductPriceWidget(widget.product.price),
+                  ProductPriceWidget(state.selectedPrice.replaceAll('£', '')),
                 ],
               ),
               10.verticalSpace,
               const Divider(color: AppColors.primaryColor),
               10.verticalSpace,
-
-              if (state.product.attributes.first.options.isNotEmpty)
-                ...state.product.attributes.first.options
-                    .map((e) =>
-                            //
-
-                            RadioListTile.adaptive(
-                              dense: true,
-                              contentPadding: EdgeInsets.zero,
-                              visualDensity: VisualDensity.compact,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                              groupValue: state.selectedAttributeOption,
-                              title: Text(e, style: AppStyles.mediumStyle()),
-                              value: e,
-                              onChanged: (value) {
-                                ref
-                                    .read(productNotifierProvider(widget.product).notifier)
-                                    .updateSelectedOption(option: value!);
-                              },
-                            )
-                        //f
-                        )
+              if (widget.product.variations.isNotEmpty)
+                ...widget.product.attributes.first.options!
+                    .map((e) => RadioListTile.adaptive(
+                          dense: true,
+                          contentPadding: EdgeInsets.zero,
+                          visualDensity: VisualDensity.compact,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          groupValue: state.selectedAttributeOption,
+                          title: Text(e, style: AppStyles.mediumStyle()),
+                          value: e,
+                          onChanged: (value) {
+                            ref
+                                .read(productNotifierProvider(widget.product).notifier)
+                                .updateSelectedOption(option: value!);
+                          },
+                        ))
                     .toList(),
 
               Text('Description', style: AppStyles.mediumBoldStyle()),
               10.verticalSpace,
               HtmlWidget(widget.product.description),
-              if (widget.product.attributes.first.options.isNotEmpty)
-                ...widget.product.attributes.first.options.map((e) => Text(e)).toList(),
+
               20.verticalSpace,
               Row(
                 children: [
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () {
-                        ref.read(newCartNotifierProvider.notifier).addToCart(productId: widget.product.id);
+                        if (state.defaultVariation == null) {
+                          log('No default variation');
+                          return;
+                        }
+
+                        ref.read(newCartNotifierProvider.notifier).addToCart(productId: state.defaultVariation!);
                       },
                       child: Text("Add to Cart", style: AppStyles.mediumStyle()),
                     ).alterP(isTransparent: true),

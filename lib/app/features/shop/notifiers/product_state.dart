@@ -4,8 +4,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:purple_planet_packaging/app/models/products/product.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../repository/shop_repository_impl.dart';
-
 part 'product_state.g.dart';
 
 part 'product_state.freezed.dart';
@@ -15,6 +13,8 @@ class ProductState with _$ProductState {
   const factory ProductState({
     required Product product,
     String? selectedAttributeOption,
+    @Default('') String selectedPrice,
+    int? defaultVariation,
     @Default(false) bool isLoading,
     @Default(null) String? error,
   }) = _ProductState;
@@ -24,54 +24,29 @@ class ProductState with _$ProductState {
 class ProductNotifier extends _$ProductNotifier {
   @override
   ProductState build(Product product) {
-    return ProductState(product: product, selectedAttributeOption: product.attributes.first.options.first);
-  }
+    String? defaultAttributeOption;
 
-  Future<void> loadProduct(int productId) async {
-    state = state.copyWith(isLoading: true, error: null);
-    try {
-      final product = await ref.read(shopRepositoryProvider).getProduct(productId);
-      state = state.copyWith(product: product, isLoading: false);
-    } catch (e) {
-      state = state.copyWith(
-        error: e.toString(),
-        isLoading: false,
-      );
+    if (product.defaultAttributes == null || product.defaultAttributes!.isEmpty) {
+      defaultAttributeOption = null;
+    } else {
+      defaultAttributeOption = product.defaultAttributes?.first.option;
     }
-  }
+    if (defaultAttributeOption == null) {
+      return ProductState(product: product, defaultVariation: product.id, selectedPrice: product.price);
+    }
 
-  void updateSelectedOption({required String option}) async {
-    state = state.copyWith(selectedAttributeOption: option, isLoading: true);
-    Product product = await ref.read(shopRepositoryProvider).getProduct(_findMatchingVariation(option));
-
-    state = state.copyWith(product: product, isLoading: false);
-  }
-
-  int _findMatchingVariation(String option) {
-    int index = state.product.attributes.first.options.indexWhere((element) => element == option);
-
-    return state.product.variations[index];
+    return ProductState(
+        product: product,
+        selectedAttributeOption: defaultAttributeOption,
+        selectedPrice: product.pricesList[findIndex(defaultAttributeOption)],
+        defaultVariation: _findMatchingVariation(defaultAttributeOption));
   }
 
   // Future<void> loadProduct(int productId) async {
   //   state = state.copyWith(isLoading: true, error: null);
   //   try {
-  //     // Simulate API call - replace with actual API call
-  //     final json = // Your JSON data here
-  //     final product = ProductModel.fromJson(json);
-
-  //     // Initialize selected attributes with first option of each attribute
-  //     final initialAttributes = Map.fromEntries(
-  //       product.attributes
-  //           .where((attr) => attr.options.isNotEmpty)
-  //           .map((attr) => MapEntry(attr.name, attr.options.first))
-  //     );
-
-  //     state = state.copyWith(
-  //       product: product,
-  //       selectedAttributes: initialAttributes,
-  //       isLoading: false,
-  //     );
+  //     final product = await ref.read(shopRepositoryProvider).getProduct(productId);
+  //     state = state.copyWith(product: product, isLoading: false);
   //   } catch (e) {
   //     state = state.copyWith(
   //       error: e.toString(),
@@ -80,15 +55,23 @@ class ProductNotifier extends _$ProductNotifier {
   //   }
   // }
 
-  // void updateAttribute(String attributeName, String value) {
-  //   state = state.copyWith(
-  //     selectedAttributes: {...state.selectedAttributes, attributeName: value}
-  //   );
-  //   _onAttributeChanged(attributeName, value);
-  // }
+  void updateSelectedOption({required String option}) async {
+    String price = state.product.pricesList[findIndex(option)];
+    state = state.copyWith(
+        selectedAttributeOption: option, selectedPrice: price, defaultVariation: _findMatchingVariation(option));
+  }
 
-  // void _onAttributeChanged(String attributeName, String value) {
-  //   // Implement your attribute change logic here
-  //   print('Attribute: $attributeName changed to: $value');
-  // }
+  int findIndex(String option) {
+    List<String> options = product.attributes.first.options!;
+
+    return options.indexOf(option);
+  }
+
+  int _findMatchingVariation(String? option) {
+    if (option == null) {
+      return product.id;
+    }
+
+    return product.variations[findIndex(option)];
+  }
 }

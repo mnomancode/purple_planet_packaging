@@ -39,11 +39,11 @@ class AppStyles {
     );
   }
 
-  static TextStyle mediumBoldStyle({Color? color, double fontSize = 11.0}) {
+  static TextStyle mediumBoldStyle({Color? color, double fontSize = 13.0}) {
     return GoogleFonts.montserrat(color: color, fontSize: fontSize.sp, fontWeight: FontWeight.w600);
   }
 
-  static TextStyle boldStyle({Color? color, double fontSize = 13.0, FontWeight? fontWeight, double? height}) {
+  static TextStyle boldStyle({Color? color, double fontSize = 14.0, FontWeight? fontWeight, double? height}) {
     return GoogleFonts.montserrat(
       color: color,
       fontSize: fontSize.sp,

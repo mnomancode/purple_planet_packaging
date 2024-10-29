@@ -1,11 +1,13 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/shipping_meathods_notifier.dart';
 import 'package:purple_planet_packaging/app/models/orders/order_body.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../models/orders/order.dart';
+import '../../../services/stripe_service.dart';
 import '../repository/orders_repository_impl.dart';
 
 part 'orders_notifier.g.dart';
@@ -18,7 +20,7 @@ class OrdersNotifier extends _$OrdersNotifier {
   }
 
   // new order
-  Future<void> newOrder() async {
+  Future<void> newOrder(BuildContext context) async {
     List<LineItem>? lineItems = ref.read(newCartNotifierProvider.notifier).getLineItems();
 
     if (lineItems == null) return;
@@ -35,13 +37,37 @@ class OrdersNotifier extends _$OrdersNotifier {
       setPaid: false,
     );
 
-    /// Don't remove
-    /// Order ord = await ref.read(ordersRepositoryProvider).newOrder(orderBody);
-    ///  // await ref.read(ordersRepositoryProvider).completePayment(ord.id).then(
-    ///   (value) {
-    ///     state = [...state, ord];
-    ///   },
-    /// );
+    String? customerId = await StripeService.createCustomer('test@gmail.com');
+    Order ord = await ref.read(ordersRepositoryProvider).newOrder(orderBody);
+    Navigator.of(context).pop();
+    if (await StripeService.initPaymentSheet(
+      amount: int.parse((ord.total.replaceAll('.', ''))),
+      customerId: customerId ?? 'cus_R6MHEU1pHFJeCY',
+      context: context,
+    )) {
+      await ref.read(ordersRepositoryProvider).completePayment(ord.id);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Payment Successful')),
+      );
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Payment Failed')),
+    );
+
+    // .then((value) async {
+    //   await ref.read(ordersRepositoryProvider).completePayment(ord.id).then(
+    //     (value) {
+    //       state = [...state, ord];
+    //     },
+    //   );
+    //   // TODO: show success snackbar
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(
+    //       content: Text('Payment Successful'),
+    //     ),
+    //   );
 
     // TODO : add a stripe code here
     /// if true set payment to true run

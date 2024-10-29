@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/commons/ppp_app_bar.dart';
 import '../../../commons/product_list_item.dart';
 import '../../../core/utils/app_styles.dart';
-import '../../shop/view/product_details/product_details_view.dart';
 import '../../shop/view/widgets/products_loading_gridview.dart';
 import '../notifiers/product_featured_notifier.dart';
 

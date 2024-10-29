@@ -14,6 +14,10 @@ class CookieManagerInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
+    if (response.statusCode == 403) {
+      return super.onResponse(response, handler);
+    }
+
     if (response.statusCode == 200 || response.statusCode == 201) {
       if (response.requestOptions.path.contains('apply-coupon')) return;
       if (response.requestOptions.path.contains('cart')) {

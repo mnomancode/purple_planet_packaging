@@ -40,7 +40,7 @@ final routerProvider = Provider<GoRouter>(
 
     return GoRouter(
       navigatorKey: _rootNavigatorKey,
-      initialLocation: HomeView.routeName,
+      initialLocation: SplashView.routeName,
       // refreshListenable: authState,
       // redirect: (context, state) {
       //   if (kDebugMode) return null;
@@ -153,7 +153,8 @@ final routerProvider = Provider<GoRouter>(
                         final title =
                             state.uri.queryParameters['title'] ?? 'Error  OP ${state.uri.queryParameters['title']}';
                         final categoryId = state.uri.queryParameters['categoryId'] ?? '0000';
-                        return ProductsView(pageTitle: title, categoryId: categoryId);
+                        final term = state.uri.queryParameters['term'];
+                        return ProductsView(pageTitle: title, categoryId: categoryId, term: term);
                       },
                     ),
                   ],
