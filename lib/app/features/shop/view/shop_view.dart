@@ -4,6 +4,7 @@ import 'package:purple_planet_packaging/app/features/shop/widget/shop_tabs_secti
 
 import '../../../core/utils/app_styles.dart';
 import '../widget/shop_app_bar.dart';
+import '../widget/shop_by_category_tab.dart';
 
 class ShopView extends ConsumerWidget {
   const ShopView({Key? key}) : super(key: key);
@@ -17,7 +18,10 @@ class ShopView extends ConsumerWidget {
       appBar: const ShopAppBar(),
       body: Padding(
         padding: AppStyles.scaffoldPadding,
-        child: const ShopTabsSection(),
+
+        /// TODO: Only shop by category tab in this version
+        child: const ShopByCategory(key: PageStorageKey('ShopByCategory')),
+        // const ShopTabsSection(),
       ),
     );
   }

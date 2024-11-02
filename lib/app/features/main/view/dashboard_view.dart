@@ -8,6 +8,7 @@ import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
 
 import '../../../core/utils/app_styles.dart';
+import '../../notifications/notification_controller.dart';
 
 class DashboardView extends ConsumerWidget {
   const DashboardView({required this.navigationShell, super.key});
@@ -18,6 +19,7 @@ class DashboardView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final cartAsyncValue = ref.watch(cartFutureProvider);
+    final notificationController = ref.watch(notificationControllerProvider);
 
     return Scaffold(
       body: navigationShell,
@@ -53,20 +55,14 @@ class DashboardView extends ConsumerWidget {
                   children: [
                     SvgPicture.asset(AppImages.svgCart),
                     Consumer(builder: (context, ref, child) {
-                      int totalQuantity = ref
-                              .watch(newCartNotifierProvider)
-                              .value
-                              ?.items
-                              .fold(0, (previousValue, element) => (previousValue ?? 0) + (element.quantity)) ??
-                          0;
+                      String totalQuantity = '${ref.watch(newCartNotifierProvider).value?.itemsCount ?? 0}';
                       return Positioned(
                         top: 0,
                         right: 0,
                         child: CircleAvatar(
                           radius: 7.r,
                           backgroundColor: AppColors.primaryColor,
-                          child: Text('${totalQuantity}',
-                              style: AppStyles.lightStyle(color: Colors.white, fontSize: 7.sp)),
+                          child: Text(totalQuantity, style: AppStyles.lightStyle(color: Colors.white, fontSize: 7.sp)),
                         ),
                       );
                     }),
@@ -81,22 +77,17 @@ class DashboardView extends ConsumerWidget {
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed:
-      //       // () async {
-      //       //   StripeService().startGooglePay(context);
-      //       // },
-
-      //       () async {
-      //     String? customerId = await StripeService.createCustomer('test@gmail.com');
-      //     // String customerId = "cus_R6MHEU1pHFJeCY";
-      //     await StripeService.initPaymentSheet(
-      //       amount: 10 * 100,
-      //       customerId: customerId ?? 'cus_R6MHEU1pHFJeCY',
-      //     );
-      //   },
-      //   child: const Icon(Icons.add),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await ref.read(notificationControllerProvider.notifier).scheduleNotification(
+                'Your Items are waiting!',
+                'Are you sure you want to leave this behind?',
+                DateTime.now().add(const Duration(seconds: 5)),
+                payload: '/home/cart',
+              );
+        },
+        child: const Icon(Icons.notification_add_outlined),
+      ),
     );
   }
 

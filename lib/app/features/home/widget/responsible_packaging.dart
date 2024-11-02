@@ -41,7 +41,7 @@ class ResponsiblePackaging extends StatelessWidget {
                     6.verticalSpace,
                     Text(
                       'Eco-friendly packaging made from\nrecycled or renewable materials.',
-                      style: AppStyles.mediumStyle(fontSize: 13.sp),
+                      style: AppStyles.mediumStyle(fontSize: 12.sp),
                     ),
                     8.verticalSpace,
                     Container(
