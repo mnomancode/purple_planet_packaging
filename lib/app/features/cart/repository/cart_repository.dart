@@ -16,6 +16,7 @@ abstract class CartRepository {
   Future<Cart> updateItem(String itemKey, {required int quantity});
   Future<Cart> removeItem(String itemKey);
   Future<Cart> applyCoupon(String code);
+  Future<Cart> clearCart(List<String> keys);
 
   Future<List<ShippingMethod>> getShippingMethod();
 }

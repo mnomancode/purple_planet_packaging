@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:purple_planet_packaging/app/features/address/view/billing_address_view.dart';
 import 'package:purple_planet_packaging/app/features/auth/providers/auth_state_notifier.dart';
 import 'package:purple_planet_packaging/app/features/auth/view/auth_view.dart';
 import 'package:purple_planet_packaging/app/features/auth/view/lost_pass_view.dart';
@@ -16,9 +17,11 @@ import 'package:purple_planet_packaging/app/features/splash/view/splash_view.dar
 import 'package:purple_planet_packaging/app/features/custom_print/view/get_started_view.dart';
 
 import '../../commons/loading/loading_screen.dart';
+import '../../features/address/view/shipping_address_view.dart';
 import '../../features/custom_print/view/custom_print_view.dart';
 import '../../features/featured_products/view/featured_products_view.dart';
 import '../../features/main/view/dashboard_view.dart';
+import '../../features/orders/views/order_completed.dart';
 import '../../features/shop/view/product_details/product_details_view.dart';
 import '../../features/shop/view/products_view.dart';
 import '../../models/products/product.dart';
@@ -112,6 +115,21 @@ final routerProvider = Provider<GoRouter>(
             name: OrderSamplesView.routeName,
             builder: (context, state) => const OrderSamplesView()),
         GoRoute(
+          path: AddressView.routeName,
+          name: AddressView.routeName,
+          builder: (context, state) {
+            final isShipping = state.uri.queryParameters['isShipping'] == 'true';
+            return AddressView(isShipping);
+          },
+        ),
+        GoRoute(
+          path: BillingAddressView.routeName,
+          name: BillingAddressView.routeName,
+          builder: (context, state) {
+            return const BillingAddressView(false);
+          },
+        ),
+        GoRoute(
             name: CustomPrintView.routeName,
             path: CustomPrintView.routeName,
             builder: (context, state) => const CustomPrintView(),
@@ -125,7 +143,22 @@ final routerProvider = Provider<GoRouter>(
             ]),
         StatefulShellRoute.indexedStack(
           builder: (BuildContext context, GoRouterState state, StatefulNavigationShell navigationShell) {
-            return DashboardView(navigationShell: navigationShell);
+            return Consumer(builder: (context, ref, child) {
+              ref.listen<bool>(
+                isLoadingProvider,
+                (_, isLoading) {
+                  if (isLoading) {
+                    LoadingScreen.instance().show(
+                      context: context,
+                    );
+                  } else {
+                    LoadingScreen.instance().hide();
+                  }
+                },
+              );
+
+              return DashboardView(navigationShell: navigationShell);
+            });
           },
           branches: <StatefulShellBranch>[
             StatefulShellBranch(
@@ -166,7 +199,13 @@ final routerProvider = Provider<GoRouter>(
                 GoRoute(
                   path: CartView.routeName,
                   builder: (context, state) => const CartView(),
-                  routes: const [],
+                  routes: [
+                    GoRoute(
+                      name: OrderCompleteView.routeName,
+                      path: OrderCompleteView.routeName,
+                      builder: (context, state) => const OrderCompleteView(),
+                    ),
+                  ],
                 ),
               ],
             ),

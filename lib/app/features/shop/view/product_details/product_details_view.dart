@@ -96,16 +96,16 @@ class _ProductDetailsViewState extends ConsumerState<ProductDetailsView> {
 
                         ref.read(newCartNotifierProvider.notifier).addToCart(productId: state.defaultVariation!);
                       },
-                      child: Text("Add to Cart", style: AppStyles.mediumStyle()),
-                    ).alterP(isTransparent: true),
+                      child: Text("Add to Cart", style: AppStyles.mediumBoldStyle()),
+                    ).alterP(),
                   ),
                   20.horizontalSpace,
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Text("Buy Now", style: AppStyles.mediumStyle()),
-                    ),
-                  ),
+                  // Expanded(
+                  //   child: ElevatedButton(
+                  //     onPressed: () {},
+                  //     child: Text("Buy Now", style: AppStyles.mediumStyle()),
+                  //   ),
+                  // ),
                 ],
               ),
               20.verticalSpace,

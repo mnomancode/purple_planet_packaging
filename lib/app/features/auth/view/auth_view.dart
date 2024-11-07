@@ -132,7 +132,7 @@ class AuthView extends HookConsumerWidget {
 
                             if (authState.result != AuthResult.success) {
                               ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(content: Text(authState.message ?? 'hello')));
+                                  .showSnackBar(SnackBar(content: Text(authState.message ?? '')));
                               return;
                             }
 

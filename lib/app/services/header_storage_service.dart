@@ -49,4 +49,10 @@ class HeaderStorageService {
     }
     return null;
   }
+
+  static Future<String?> getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    return token;
+  }
 }

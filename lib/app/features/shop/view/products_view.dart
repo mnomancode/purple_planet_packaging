@@ -31,8 +31,8 @@ class ProductsView extends ConsumerWidget {
 
     return Scaffold(
       appBar: PPPAppBar(
-        title: pageTitle,
-        action: CircleAvatar(backgroundColor: Colors.white, child: SvgPicture.asset(AppImages.svgFilter)),
+        title: pageTitle.replaceAll('&amp;', '&'),
+        // action: CircleAvatar(backgroundColor: Colors.white, child: SvgPicture.asset(AppImages.svgFilter)),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),

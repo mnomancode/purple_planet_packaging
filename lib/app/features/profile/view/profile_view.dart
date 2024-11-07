@@ -5,10 +5,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
+import 'package:purple_planet_packaging/app/features/address/view/billing_address_view.dart';
+import 'package:purple_planet_packaging/app/features/address/view/shipping_address_view.dart';
+import 'package:purple_planet_packaging/app/features/auth/view/auth_view.dart';
+import 'package:purple_planet_packaging/app/features/home/view/home_view.dart';
+import 'package:purple_planet_packaging/app/features/order_samples/view/order_samples_view.dart';
 import 'package:purple_planet_packaging/app/features/profile/view/about_us_view.dart';
+
+import '../../../provider/shared_preferences_storage_service_provider.dart';
 
 class ProfileView extends ConsumerWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -24,19 +32,38 @@ class ProfileView extends ConsumerWidget {
         child: Column(
           children: [
             16.verticalSpace,
-            Center(
-                child: CircleAvatar(
-              radius: 60.r,
-              backgroundColor: AppColors.lightPrimaryColor,
-              child: Icon(Icons.person, size: 60.r),
-            )),
+            // Center(
+            //     child: Stack(
+            //   alignment: Alignment.center,
+            //   children: [
+            //     CircleAvatar(
+            //       radius: 60.r,
+            //       backgroundColor: AppColors.lightPrimaryColor,
+            //       child: Icon(Icons.person, size: 80.r, color: AppColors.primaryColor),
+            //     ),
+            //   ],
+            // )),
+            Lottie.asset('assets/lottie/user.json', width: 120.r, height: 120.r, fit: BoxFit.fill, repeat: false),
+            16.verticalSpace,
+            Consumer(builder: (context, ref, child) {
+              final name = ref.read(storageServiceProvider).get('name');
+
+              return FutureBuilder(
+                  future: name,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    }
+                    return Text('${snapshot.data ?? "Guest User"}', style: AppStyles.largeStyle());
+                  });
+            }),
             32.verticalSpace,
-            ListTile(
-              title: AppStyles.normalBoldText('Profile'),
-              leading: SvgPicture.asset(AppImages.svgEdit),
-              trailing: SvgPicture.asset(AppImages.svgArrowForward),
-            ),
-            Divider(color: AppColors.greyColor, height: 1, endIndent: 20, indent: 20),
+            // ListTile(
+            //   title: AppStyles.normalBoldText('Profile'),
+            //   leading: SvgPicture.asset(AppImages.svgEdit),
+            //   trailing: SvgPicture.asset(AppImages.svgArrowForward),
+            // ),
+            // Divider(color: AppColors.greyColor, height: 1, endIndent: 20, indent: 20),
             ListTile(
               onTap: () => context.pushNamed(AboutUsView.routeName),
               title: AppStyles.normalBoldText('About Us'),
@@ -45,18 +72,32 @@ class ProfileView extends ConsumerWidget {
             ),
             Divider(color: AppColors.greyColor, height: 1, endIndent: 20, indent: 20),
             ListTile(
+              onTap: () => context.pushNamed(OrderSamplesView.routeName),
               title: AppStyles.normalBoldText('Order a Sample'),
               leading: SvgPicture.asset(AppImages.svgIdea),
               trailing: SvgPicture.asset(AppImages.svgArrowForward),
             ),
             Divider(color: AppColors.greyColor, height: 1, endIndent: 20, indent: 20),
             ListTile(
-              title: AppStyles.normalBoldText('Delete Account'),
-              leading: SvgPicture.asset(AppImages.svgDelete),
+              onTap: () => context.pushNamed(AddressView.routeName, queryParameters: {'isShipping': 'true'}),
+              title: AppStyles.normalBoldText('Shipping Address'),
+              leading: Icon(Icons.location_on, color: AppColors.primaryColor),
+              trailing: SvgPicture.asset(AppImages.svgArrowForward),
+            ),
+            Divider(color: AppColors.greyColor, height: 1, endIndent: 20, indent: 20),
+
+            ListTile(
+              onTap: () => context.pushNamed(BillingAddressView.routeName),
+              title: AppStyles.normalBoldText('Billing Address'),
+              leading: Icon(Icons.location_city_outlined, color: AppColors.primaryColor),
               trailing: SvgPicture.asset(AppImages.svgArrowForward),
             ),
             Divider(color: AppColors.greyColor, height: 1, endIndent: 20, indent: 20),
             ListTile(
+              onTap: () {
+                ref.read(storageServiceProvider).clear();
+                context.go(AuthView.routeName);
+              },
               title: AppStyles.normalBoldText('Logout'),
               leading: SvgPicture.asset(AppImages.svgLogout),
               trailing: SvgPicture.asset(AppImages.svgArrowForward),

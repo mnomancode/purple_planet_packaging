@@ -30,6 +30,7 @@ class CookieManagerInterceptor extends Interceptor {
         }
 
         final headers = response.headers.map.map((key, values) => MapEntry(key, values.join(',')));
+
         await HeaderStorageService.saveJsonHeaders(headers);
       }
     }
@@ -48,6 +49,8 @@ class CookieManagerInterceptor extends Interceptor {
 
       // Load cookies from SharedPreferences
       List<Cookie>? savedCookies = await HeaderStorageService.loadSavedCookies();
+      // get local storage token
+      options.headers['Authorization'] = 'Bearer ${await HeaderStorageService.getToken()}';
 
       // If cookies are not found in SharedPreferences, load them from CookieJar
       if (savedCookies != null && savedCookies.isNotEmpty) {

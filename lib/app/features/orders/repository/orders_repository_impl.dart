@@ -24,8 +24,14 @@ class OrdersRepositoryImpl extends OrdersRepository {
   }
 
   @override
-  Future<Order> completePayment(int id) {
-    return _ordersService.completePayment(AppUtils.getAuthorizationHeader, id);
+  Future<Order> completePayment(int id, String transactionId) {
+    return _ordersService.completePayment(AppUtils.getAuthorizationHeader, id, body: {
+      'status': 'processing',
+      'set_paid': true,
+      'payment_method': 'stripe',
+      "payment_method_title": "Stripe",
+      "transaction_id": transactionId,
+    });
   }
 }
 

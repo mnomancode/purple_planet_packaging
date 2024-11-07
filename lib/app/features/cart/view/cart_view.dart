@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
@@ -10,6 +11,7 @@ import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifie
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_app_bar.dart';
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_bottom_sheet.dart';
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_item.dart';
+import 'package:purple_planet_packaging/app/features/orders/views/order_completed.dart';
 
 import '../../../core/utils/app_styles.dart';
 
@@ -108,6 +110,8 @@ class _CartViewState extends ConsumerState<CartView> {
           ],
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       // floatingActionButton: FloatingActionButton.extended(
       //   icon: SvgPicture.asset(AppImages.svgCart, colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
@@ -145,13 +149,16 @@ class _CartViewState extends ConsumerState<CartView> {
                     }
 
                     return Expanded(
-                      child: ListView.builder(
-                        itemCount: data.items.length,
-                        itemBuilder: (context, index) {
-                          final cartItem = data.items[index];
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 140),
+                        child: ListView.builder(
+                          itemCount: data.items.length,
+                          itemBuilder: (context, index) {
+                            final cartItem = data.items[index];
 
-                          return CartItemWidget(item: cartItem);
-                        },
+                            return CartItemWidget(item: cartItem);
+                          },
+                        ),
                       ),
                     );
                   },

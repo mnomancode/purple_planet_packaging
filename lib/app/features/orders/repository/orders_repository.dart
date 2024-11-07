@@ -6,5 +6,5 @@ import '../../../models/orders/order.dart';
 abstract class OrdersRepository {
   Future<HttpResponse> getOrders();
   Future<Order> newOrder(OrderBody body);
-  Future<Order> completePayment(int id);
+  Future<Order> completePayment(int id, String transactionId);
 }

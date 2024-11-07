@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:purple_planet_packaging/app/models/orders/order_body.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'storage_service.dart';
@@ -45,5 +47,34 @@ class SharedPrefsService implements StorageService {
   Future<bool> set(String key, data) async {
     sharedPreferences = await initCompleter.future;
     return await sharedPreferences!.setString(key, data.toString());
+  }
+
+  FutureOr<Shipping?> getShipping() async {
+    final shipping = await get('shipping');
+    if (shipping == null) return null;
+    return Shipping.fromJson(json.decode(shipping.toString()));
+  }
+
+  FutureOr<Billing?> getBilling() async {
+    final billing = await get('billing');
+    if (billing == null) return null;
+    return Billing.fromJson(json.decode(billing.toString()));
+  }
+
+  putString(String key, String value) async {
+    sharedPreferences = await initCompleter.future;
+    await sharedPreferences!.setString(key, value);
+  }
+
+  String? getString(String key) {
+    return sharedPreferences?.getString(key);
+  }
+
+  void saveToken(String s) {
+    putString('token', s);
+  }
+
+  String? getToken() {
+    return getString('token');
   }
 }

@@ -105,7 +105,7 @@ class NotificationService extends _$NotificationService {
     );
     await _configureLocalTimeZone();
     await _notificationsPlugin.zonedSchedule(
-      scheduledDate.hashCode,
+      1,
       title,
       body,
       tz.TZDateTime.from(scheduledDate, tz.local),
@@ -115,6 +115,7 @@ class NotificationService extends _$NotificationService {
       matchDateTimeComponents: DateTimeComponents.time,
       payload: payload,
     );
+    listAllNotifications();
   }
 
   Future<void> cancelAllNotifications() async {

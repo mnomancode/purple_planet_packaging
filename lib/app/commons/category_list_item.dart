@@ -29,8 +29,8 @@ class CategoryListItem extends StatelessWidget {
           4.verticalSpace,
           SizedBox(
               width: 70.w,
-              child:
-                  Text(categoryModel.name, style: TextStyle(fontSize: 12.sp, color: AppColors.darkGrey), maxLines: 2)),
+              child: Text(categoryModel.name.replaceAll('amp;', ''),
+                  style: TextStyle(fontSize: 12.sp, color: AppColors.darkGrey), maxLines: 2)),
         ],
       ),
     );

@@ -51,6 +51,19 @@ class Shipping with _$Shipping {
   }) = _Shipping;
 
   factory Shipping.fromJson(Map<String, dynamic> json) => _$ShippingFromJson(json);
+
+  static Shipping? empty() {
+    return Shipping(
+      firstName: '',
+      lastName: '',
+      address1: '',
+      address2: '',
+      city: '',
+      state: '',
+      postcode: '',
+      country: '',
+    );
+  }
 }
 
 @freezed

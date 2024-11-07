@@ -4,6 +4,7 @@ import 'package:purple_planet_packaging/app/core/utils/http_utils.dart';
 import 'package:purple_planet_packaging/app/features/auth/repository/auth_repository_impl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../../../provider/shared_preferences_storage_service_provider.dart';
 import '../model/auth_result.dart';
 import '../model/auth_state.dart';
 
@@ -32,6 +33,10 @@ class AuthStateNotifier extends _$AuthStateNotifier {
         message: response.message,
         authUserModel: response.data!.first,
       );
+      ref.read(storageServiceProvider).saveToken(response.data!.first.token!);
+      ref
+          .read(storageServiceProvider)
+          .putString('name', response.data!.first.userDisplayName ?? response.data!.first.userNicename ?? '');
     } else {
       state = AuthState(
         result: AuthResult.failure,

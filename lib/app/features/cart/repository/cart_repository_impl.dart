@@ -43,6 +43,11 @@ class CartRepositoryImpl extends CartRepository {
   Future<Cart> applyCoupon(String code) {
     return _cartService.applyCoupon(AppUtils.getAuthorizationHeader, code);
   }
+
+  @override
+  Future<Cart> clearCart(List<String> keys) {
+    return _cartService.removeMultipleItems(keys);
+  }
 }
 
 @riverpod

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -6,8 +8,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
+import 'package:purple_planet_packaging/app/features/orders/notifiers/orders_notifier.dart';
 
 import '../../../core/utils/app_styles.dart';
+import '../../../models/orders/order_body.dart';
+import '../../../services/stripe_service.dart';
+import '../../address/providers/notifier/address_notifier.dart';
 import '../../notifications/notification_controller.dart';
 
 class DashboardView extends ConsumerWidget {
@@ -76,17 +82,6 @@ class DashboardView extends ConsumerWidget {
                 label: 'Account'),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await ref.read(notificationControllerProvider.notifier).scheduleNotification(
-                'Your Items are waiting!',
-                'Are you sure you want to leave this behind?',
-                DateTime.now().add(const Duration(seconds: 5)),
-                payload: '/home/cart',
-              );
-        },
-        child: const Icon(Icons.notification_add_outlined),
       ),
     );
   }

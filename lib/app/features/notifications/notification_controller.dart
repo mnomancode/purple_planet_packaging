@@ -41,4 +41,9 @@ class NotificationController extends _$NotificationController {
       payload: payload,
     );
   }
+
+  Future<void> cancelAllNotifications() async {
+    final notificationService = ref.read(notificationServiceProvider.notifier);
+    await notificationService.cancelAllNotifications();
+  }
 }

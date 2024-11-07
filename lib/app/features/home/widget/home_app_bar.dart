@@ -3,6 +3,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -12,8 +13,10 @@ import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/features/auth/view/auth_view.dart';
 import 'package:purple_planet_packaging/app/features/custom_print/view/custom_print_view.dart';
 import 'package:purple_planet_packaging/app/features/order_samples/view/order_samples_view.dart';
+import 'package:purple_planet_packaging/app/features/profile/view/profile_view.dart';
 
 import '../../../core/utils/app_colors.dart';
+import '../../../provider/shared_preferences_storage_service_provider.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBar({super.key, this.height = 180});
@@ -36,21 +39,44 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Hello,', style: AppStyles.largeStyle(color: AppColors.white)),
-                  Text('John Doe', style: AppStyles.largeStyle(color: AppColors.white)),
+                  Consumer(builder: (context, ref, child) {
+                    final name = ref.read(storageServiceProvider).get('name');
+
+                    return FutureBuilder(
+                        future: name,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const CircularProgressIndicator();
+                          }
+                          if (snapshot.hasError) {
+                            log(snapshot.error.toString());
+                          }
+                          return Text('${snapshot.data ?? "Guest User"}',
+                              style: AppStyles.largeStyle(color: AppColors.white));
+                        });
+                  }),
                 ],
               ),
               Spacer(),
-              GestureDetector(
-                onTap: () {
-                  context.go(AuthView.routeName);
-                },
-                child: CircleAvatar(
-                    backgroundColor: AppColors.lightGreyColor.withOpacity(0.2),
-                    child: SvgPicture.asset(
-                      AppImages.svgUser,
-                      colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),
-                    )),
-              ),
+              Consumer(builder: (context, ref, child) {
+                return GestureDetector(
+                  onTap: () async {
+                    final hasToken = await ref.read(storageServiceProvider).has('token');
+                    if (!hasToken) {
+                      context.go(AuthView.routeName);
+                      return;
+                    }
+
+                    context.go(ProfileView.routeName);
+                  },
+                  child: CircleAvatar(
+                      backgroundColor: AppColors.lightGreyColor.withOpacity(0.2),
+                      child: SvgPicture.asset(
+                        AppImages.svgUser,
+                        colorFilter: ColorFilter.mode(AppColors.white, BlendMode.srcIn),
+                      )),
+                );
+              }),
               5.horizontalSpace,
               // GestureDetector(
               //   onTap: () => context.pushNamed(OrderSamplesView.routeName),

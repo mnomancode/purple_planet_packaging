@@ -40,7 +40,7 @@ class ShopByCategory extends ConsumerWidget {
                   itemCount: data.length,
                   itemBuilder: (context, index) {
                     return CategoryGridItem(
-                      title: data[index].name,
+                      title: data[index].name.replaceAll('&amp;', '&'),
                       url: data[index].image!.src!,
                       onTap: () {
                         context.goNamed(

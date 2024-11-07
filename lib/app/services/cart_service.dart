@@ -34,4 +34,7 @@ abstract class CartService {
 
   @POST('/wp-json/wc/store/v1/cart/apply-coupon/?code={code}')
   Future<Cart> applyCoupon(@Header('Authorization') String getAuthorizationHeader, @Path('code') String code);
+
+  @POST('/wp-json/wc/store/v1/cart/remove-item')
+  Future<Cart> removeMultipleItems(@Query('key') List<String> keys);
 }
