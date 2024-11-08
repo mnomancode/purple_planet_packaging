@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
+import 'package:purple_planet_packaging/app/extensions/context_extensions.dart';
 import 'package:purple_planet_packaging/app/features/shop/notifiers/food_type_notifier.dart';
 
 import '../../../commons/ppp_app_bar.dart';
@@ -47,9 +48,9 @@ class ProductsView extends ConsumerWidget {
             Expanded(
               child: products.when(
                 data: (data) => GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.65,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: context.isTablet ? 3 : 2,
+                      childAspectRatio: context.isTablet ? 0.8 : 0.65,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                     ),

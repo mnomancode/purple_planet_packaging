@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
+import 'package:purple_planet_packaging/app/extensions/context_extensions.dart';
 import 'package:purple_planet_packaging/app/features/shop/notifiers/shop_notifier.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -48,7 +49,7 @@ class CategoriesSection extends ConsumerWidget {
             data: (data) => ListView.separated(
               scrollDirection: Axis.horizontal,
               separatorBuilder: (context, index) => 14.horizontalSpace,
-              itemCount: 7,
+              itemCount: (context.isTablet) ? 10 : 7,
               itemBuilder: (context, index) {
                 return CategoryListItem(categoryModel: data[index]);
               },

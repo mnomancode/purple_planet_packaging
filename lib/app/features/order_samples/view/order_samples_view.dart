@@ -19,6 +19,7 @@ class OrderSamplesView extends StatefulWidget {
 class _OrderSamplesViewState extends State<OrderSamplesView> {
   late WebViewController controller;
   bool _isLoading = true;
+  double progress = 0;
   @override
   void initState() {
     controller = WebViewController()
@@ -28,6 +29,9 @@ class _OrderSamplesViewState extends State<OrderSamplesView> {
           onProgress: (int progress) {
             // Update loading bar.
             print('WebView is loading (progress : $progress%)');
+            setState(() {
+              this.progress = progress / 100;
+            });
           },
           onPageStarted: (String url) {
             setState(() {
@@ -59,9 +63,20 @@ class _OrderSamplesViewState extends State<OrderSamplesView> {
         appBar: AppBar(),
         body: _isLoading
             ? Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: Image.asset(AppImages.pppLogo),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      child: Image.asset(AppImages.pppLogo),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10.w),
+                      child: LinearProgressIndicator(value: progress),
+                    ),
+                    Text('Loading ${progress * 100}%'),
+                  ],
                 ),
               )
                 .animate()

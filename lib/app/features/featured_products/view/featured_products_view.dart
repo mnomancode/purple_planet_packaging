@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/commons/ppp_app_bar.dart';
+import 'package:purple_planet_packaging/app/extensions/context_extensions.dart';
 import '../../../commons/product_list_item.dart';
 import '../../../core/utils/app_styles.dart';
 import '../../shop/view/widgets/products_loading_gridview.dart';
@@ -47,9 +48,9 @@ class _FeaturedProductsViewState extends ConsumerState<FeaturedProductsView> {
                   Expanded(
                     child: GridView.builder(
                         controller: _scrollController,
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 0.65,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: context.isTablet ? 3 : 2,
+                          childAspectRatio: context.isTablet ? 0.8 : 0.65,
                           crossAxisSpacing: 10,
                           mainAxisSpacing: 10,
                         ),

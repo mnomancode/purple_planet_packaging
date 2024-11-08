@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/extensions/context_extensions.dart';
 
 import '../../../core/utils/app_colors.dart';
+import '../../featured_products/view/featured_products_view.dart';
 
 class ResponsiblePackaging extends StatelessWidget {
   const ResponsiblePackaging({super.key});
@@ -39,26 +41,33 @@ class ResponsiblePackaging extends StatelessWidget {
                         width: 0.50.sw,
                         child: Text('RESPONSIBLE PACKAGING', style: AppStyles.boldStyle(fontSize: 18.sp))),
                     6.verticalSpace,
+                    if (context.isTablet) 30.verticalSpace,
                     Text(
-                      'Eco-friendly packaging made from\nrecycled or renewable materials.',
-                      style: AppStyles.mediumStyle(fontSize: 12.sp),
+                      context.isTablet
+                          ? 'Eco-friendly packaging made from recycled or renewable materials. '
+                          : 'Eco-friendly packaging made from\nrecycled or renewable materials.',
+                      style: AppStyles.mediumStyle(fontSize: context.isTablet ? 16.sp : 12.sp),
                     ),
                     8.verticalSpace,
-                    Container(
-                      width: 0.3.sw,
-                      height: 35.h,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        gradient: const LinearGradient(
-                          colors: [AppColors.lightGreen, AppColors.secondaryColor],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          stops: [0.1, 0.9],
+                    if (context.isTablet) 30.verticalSpace,
+                    GestureDetector(
+                      onTap: () => context.pushNamed(FeaturedProductsView.routeName),
+                      child: Container(
+                        width: 0.3.sw,
+                        height: 35.h,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          gradient: const LinearGradient(
+                            colors: [AppColors.lightGreen, AppColors.secondaryColor],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            stops: [0.1, 0.9],
+                          ),
                         ),
+                        child:
+                            Text('Shop Now', style: AppStyles.mediumBoldStyle(color: AppColors.white, fontSize: 14.sp)),
                       ),
-                      child:
-                          Text('Shop Now', style: AppStyles.mediumBoldStyle(color: AppColors.white, fontSize: 14.sp)),
                     ),
                   ],
                 ),

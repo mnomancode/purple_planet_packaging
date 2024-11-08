@@ -61,7 +61,14 @@ class DashboardView extends ConsumerWidget {
                   children: [
                     SvgPicture.asset(AppImages.svgCart),
                     Consumer(builder: (context, ref, child) {
-                      String totalQuantity = '${ref.watch(newCartNotifierProvider).value?.itemsCount ?? 0}';
+                      String totalQuantity = '0';
+
+                      try {
+                        totalQuantity = '${ref.watch(newCartNotifierProvider).value?.itemsCount ?? 0}';
+                      } catch (e) {
+                        log(e.toString());
+                      }
+
                       return Positioned(
                         top: 0,
                         right: 0,

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
+import 'package:purple_planet_packaging/app/extensions/context_extensions.dart';
 import 'package:purple_planet_packaging/app/features/shop/notifiers/shop_notifier.dart';
 import 'package:purple_planet_packaging/app/features/shop/repository/shop_repository_impl.dart';
 import 'package:purple_planet_packaging/app/features/shop/view/products_view.dart';
@@ -33,9 +34,9 @@ class ShopByCategory extends ConsumerWidget {
             return Expanded(
               child: GridView.builder(
                   shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 1,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: context.isTablet ? 4 : 2,
+                    childAspectRatio: context.isTablet ? 0.95 : 1,
                   ),
                   itemCount: data.length,
                   itemBuilder: (context, index) {

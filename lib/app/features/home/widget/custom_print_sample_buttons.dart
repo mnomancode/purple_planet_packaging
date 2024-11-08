@@ -38,6 +38,7 @@ class CustomPrintSampleButtons extends StatelessWidget {
               child: ElevatedButton(
                   onPressed: () => context.pushNamed(CustomPrintView.routeName),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SvgPicture.asset(AppImages.svgPrinter),
                       4.horizontalSpace,

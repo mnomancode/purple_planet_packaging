@@ -27,6 +27,7 @@ class CustomPrintView extends StatefulWidget {
 class _CustomPrintViewState extends State<CustomPrintView> {
   late WebViewController controller;
   bool _isLoading = true;
+  double progress = 0;
   @override
   void initState() {
     controller = WebViewController()
@@ -36,6 +37,9 @@ class _CustomPrintViewState extends State<CustomPrintView> {
           onProgress: (int progress) {
             // Update loading bar.
             print('WebView is loading (progress : $progress%)');
+            setState(() {
+              this.progress = progress / 100;
+            });
           },
           onPageStarted: (String url) {
             setState(() {
@@ -64,19 +68,29 @@ class _CustomPrintViewState extends State<CustomPrintView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.white,
         appBar: AppBar(),
         body: _isLoading
             ? Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: Image.asset(AppImages.pppLogo),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
+                      child: Image.asset(AppImages.pppLogo),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(10.w),
+                      child: LinearProgressIndicator(value: progress),
+                    ),
+                    Text('Loading ${progress * 100}%'),
+                  ],
                 ),
               )
                 .animate()
                 .fadeIn() // uses `Animate.defaultDuration`
                 .scale() // inherits duration from fadeIn
-                .move(delay: 300.ms, duration: 600.ms, curve: Curves.ease) // runs after the above w/new duration
+                .move(delay: 300.ms, duration: 600.ms, curve: Curves.ease)
             : WebViewWidget(controller: controller)
         // Padding(
         //   padding: AppStyles.scaffoldPadding,
