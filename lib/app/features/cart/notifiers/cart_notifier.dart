@@ -1,12 +1,17 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
+import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../models/cart/cart_model.dart';
 import '../../../models/orders/order_body.dart';
 import '../../notifications/notification_controller.dart';
 import '../repository/cart_repository_impl.dart';
+import '../view/cart_view.dart';
 
 part 'cart_notifier.g.dart';
 
@@ -26,7 +31,8 @@ class NewCartNotifier extends _$NewCartNotifier {
     state = AsyncValue.data(tempState);
   }
 
-  Future<void> addToCart({required int productId, int quantity = 1}) async {
+  Future<void> addToCart(
+      {required int productId, int quantity = 1, required BuildContext context, bool notify = true}) async {
     await ref.read(notificationControllerProvider.notifier).scheduleNotification(
           'Your Items are waiting!',
           'Are you sure you want to leave this behind?',
@@ -39,12 +45,29 @@ class NewCartNotifier extends _$NewCartNotifier {
 
     final tempState = await ref.watch(cartRepositoryProvider).addToCart(productId, quantity: quantity);
 
+    if (notify) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(getQuantity(productId) == 0 ? 'Item added to cart successfully!' : 'Item updated successfully!',
+            style: AppStyles.mediumStyle(color: Colors.white)),
+        backgroundColor: AppColors.primaryColor,
+        action: SnackBarAction(
+          label: 'View Cart',
+          textColor: Colors.white,
+          onPressed: () => context.go(CartView.routeName),
+        ),
+      ));
+    }
+
     _loadingItems.remove(productId);
     state = AsyncValue.data(tempState.copyWith(loadingItems: _loadingItems.toList()));
   }
 
   getQuantity(int id) {
-    return state.value?.items.firstWhere((element) => element.id == id).quantity;
+    try {
+      return state.value?.items.firstWhere((element) => element.id == id).quantity ?? 0;
+    } catch (e) {
+      return 0;
+    }
   }
 
   Future<void> updateItem({required String itemKey, required int quantity}) async {

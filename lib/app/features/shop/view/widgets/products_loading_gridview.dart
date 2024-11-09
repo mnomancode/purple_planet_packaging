@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:purple_planet_packaging/app/extensions/context_extensions.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class ProductsLoadingGridView extends StatelessWidget {
@@ -8,13 +9,13 @@ class ProductsLoadingGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 0.65,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: context.isTablet ? 3 : 2,
+        childAspectRatio: context.isTablet ? 0.8 : 0.65,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
       ),
-      itemCount: 6,
+      itemCount: context.isTablet ? 9 : 6,
       itemBuilder: (context, index) => Skeletonizer.zone(
         child: Card(
           child: Padding(

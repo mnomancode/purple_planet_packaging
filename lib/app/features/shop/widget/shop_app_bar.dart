@@ -15,10 +15,10 @@ class ShopAppBar extends StatelessWidget implements PreferredSizeWidget {
       child: AppBar(
         title: const Text('Shop'),
         centerTitle: true,
-        actions: [
-          CircleAvatar(backgroundColor: Colors.white, child: SvgPicture.asset(AppImages.svgFilter)),
-          20.horizontalSpace,
-        ],
+        // actions: [
+        //   CircleAvatar(backgroundColor: Colors.white, child: SvgPicture.asset(AppImages.svgFilter)),
+        //   20.horizontalSpace,
+        // ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(0),
           child: Padding(

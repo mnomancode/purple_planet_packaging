@@ -94,7 +94,9 @@ class _ProductDetailsViewState extends ConsumerState<ProductDetailsView> {
                           return;
                         }
 
-                        ref.read(newCartNotifierProvider.notifier).addToCart(productId: state.defaultVariation!);
+                        ref
+                            .read(newCartNotifierProvider.notifier)
+                            .addToCart(productId: state.defaultVariation!, context: context);
                       },
                       child: Text("Add to Cart", style: AppStyles.mediumBoldStyle()),
                     ).alterP(),

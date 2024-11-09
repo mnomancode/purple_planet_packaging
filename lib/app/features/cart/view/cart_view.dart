@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
+import 'package:purple_planet_packaging/app/extensions/elevated_button_extensions.dart';
 import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
 
@@ -12,8 +13,10 @@ import 'package:purple_planet_packaging/app/features/cart/widget/cart_app_bar.da
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_bottom_sheet.dart';
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_item.dart';
 import 'package:purple_planet_packaging/app/features/orders/views/order_completed.dart';
+import 'package:purple_planet_packaging/app/features/shop/view/shop_view.dart';
 
 import '../../../core/utils/app_styles.dart';
+import '../../featured_products/view/featured_products_view.dart';
 
 class CartView extends ConsumerStatefulWidget {
   const CartView({Key? key}) : super(key: key);
@@ -144,6 +147,21 @@ class _CartViewState extends ConsumerState<CartView> {
                           0.2.sh.verticalSpace,
                           SvgPicture.asset(AppImages.svgCartEmpty, height: 80.h),
                           const Text('Your cart is empty'),
+                          16.verticalSpace,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                            child: ElevatedButton(
+                                onPressed: () => context.pushNamed(ShopView.routeName),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    SvgPicture.asset(AppImages.svgCart,
+                                        colorFilter: const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn)),
+                                    8.horizontalSpace,
+                                    Text('Go Shopping', style: AppStyles.mediumBoldStyle()),
+                                  ],
+                                )).alterP(isTransparent: true),
+                          )
                         ],
                       );
                     }

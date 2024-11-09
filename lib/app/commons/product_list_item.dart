@@ -56,7 +56,7 @@ class ProductListItem extends ConsumerWidget {
                           return;
                         }
 
-                        ref.read(newCartNotifierProvider.notifier).addToCart(productId: product.id);
+                        ref.read(newCartNotifierProvider.notifier).addToCart(productId: product.id, context: context);
                       },
                       child: Container(
                         padding: const EdgeInsets.all(5),

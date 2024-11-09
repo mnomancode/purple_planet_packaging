@@ -67,7 +67,9 @@ class CartItemWidget extends ConsumerWidget {
                               style: AppStyles.boldStyle(), textAlign: TextAlign.center),
                         ),
                   IconButton(
-                    onPressed: () => ref.read(newCartNotifierProvider.notifier).addToCart(productId: item.id),
+                    onPressed: () => ref
+                        .read(newCartNotifierProvider.notifier)
+                        .addToCart(productId: item.id, context: context, notify: false),
                     icon: const Icon(Icons.add),
                     style: IconButton.styleFrom(backgroundColor: AppColors.lightPrimaryColor),
                   ),
