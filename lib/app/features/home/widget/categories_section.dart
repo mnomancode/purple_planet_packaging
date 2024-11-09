@@ -62,7 +62,7 @@ class CategoriesSection extends ConsumerWidget {
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 separatorBuilder: (context, index) => 14.horizontalSpace,
-                itemCount: 5,
+                itemCount: 10,
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
