@@ -37,6 +37,7 @@ class AuthStateNotifier extends _$AuthStateNotifier {
       ref
           .read(storageServiceProvider)
           .putString('name', response.data!.first.userDisplayName ?? response.data!.first.userNicename ?? '');
+      ref.read(storageServiceProvider).putString('email', response.data!.first.userEmail ?? '');
     } else {
       state = AuthState(
         result: AuthResult.failure,
@@ -52,7 +53,6 @@ class AuthStateNotifier extends _$AuthStateNotifier {
   Future<String> forgotPassword(String username) async {
     final response = await ref.read(authRepositoryProvider).lostPassword(userLogin: username);
 
-    log(response.response.data.toString());
     HttpUtils.getForgetMessage(response.response.data.toString());
 
     if (response.response.statusCode == 200) {

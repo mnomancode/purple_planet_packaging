@@ -15,7 +15,7 @@ final cookieJar = CookieJar();
 Dio http(HttpRef ref) {
   final options = BaseOptions(
     // baseUrl: kDebugMode ? 'https://staging.purpleplanetpackaging.co.uk/' : 'https://purpleplanetpackaging.co.uk/',
-    baseUrl: 'https://staging.purpleplanetpackaging.co.uk/',
+    baseUrl: 'https://purpleplanetpackaging.co.uk/',
     responseType: ResponseType.json,
     connectTimeout: const Duration(seconds: 60),
     receiveTimeout: const Duration(seconds: 60),

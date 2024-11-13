@@ -49,6 +49,10 @@ class SharedPrefsService implements StorageService {
     return await sharedPreferences!.setString(key, data.toString());
   }
 
+  FutureOr<String?> getEmail() async {
+    return getString('email');
+  }
+
   FutureOr<Shipping?> getShipping() async {
     final shipping = await get('shipping');
     if (shipping == null) return null;

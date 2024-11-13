@@ -65,9 +65,7 @@ class DashboardView extends ConsumerWidget {
 
                       try {
                         totalQuantity = '${ref.watch(newCartNotifierProvider).value?.itemsCount ?? 0}';
-                      } catch (e) {
-                        log(e.toString());
-                      }
+                      } catch (e) {}
 
                       return Positioned(
                         top: 0,

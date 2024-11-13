@@ -1,6 +1,6 @@
 part of 'service.dart';
 
-@RestApi(baseUrl: 'https://staging.purpleplanetpackaging.co.uk')
+@RestApi()
 abstract class OrderService {
   factory OrderService(Dio dio, {String baseUrl}) = _OrderService;
   @POST('/wp-json/wc/v3/orders')
