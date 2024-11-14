@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../../core/utils/app_utils.dart';
 import '../../../provider/http_provider.dart';
 import '../../../services/service.dart';
 import '../model/auth_response.dart';
@@ -34,6 +37,27 @@ class AuthRepositoryImpl extends AuthRepository {
               'Error', Response(requestOptions: RequestOptions(validateStatus: (_) => false), statusCode: 500));
         },
       );
+
+  @override
+  FutureOr<HttpResponse?> createCustomer(
+      {required String email, required String password, required String firstName, required String lastName}) async {
+    Map<String, dynamic> body = {"email": email, "password": password, "first_name": firstName, "last_name": lastName};
+
+    final HttpResponse response = await _authService.createCustomer(AppUtils.getAuthorizationHeader, body);
+
+    return response;
+  }
+
+  @override
+  Future<AuthResponse> deleteCustomer({required String name, required String pass}) async {
+    final AuthResponse response = await _authService.getUserDetail(userLogin: name, password: pass);
+
+    if (response.statusCode == 200) {
+      await _authService.deleteCustomer(AppUtils.getAuthorizationHeader, response.data!.first.id!);
+    }
+
+    return response;
+  }
 }
 
 @riverpod

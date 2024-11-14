@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:purple_planet_packaging/app/core/utils/http_utils.dart';
+import 'package:purple_planet_packaging/app/features/auth/model/auth_user_model.dart';
 import 'package:purple_planet_packaging/app/features/auth/repository/auth_repository_impl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -60,5 +61,46 @@ class AuthStateNotifier extends _$AuthStateNotifier {
     }
 
     return 'Please check your email to reset your password';
+  }
+
+  FutureOr<AuthState> register(String email, String password, String firstName, String lastName) async {
+    state = state.copiedWithIsLoading(true);
+
+    final response = await ref
+        .read(authRepositoryProvider)
+        .createCustomer(email: email, password: password, firstName: firstName, lastName: lastName);
+
+    log(response?.data.toString() ?? 'no data', name: 'createCustomer');
+    log(response?.response.statusCode.toString() ?? 'no data', name: 'statusCode');
+    log(response?.data.toString() ?? 'no data', name: 'data');
+
+    if (response != null && response.response.statusCode == 201) {
+      state = AuthState(
+        result: AuthResult.success,
+        isLoading: false,
+        message: response.response.statusMessage,
+        authUserModel:
+            AuthUserModel(id: null, token: null, userEmail: email, userNicename: firstName, userDisplayName: lastName),
+      );
+    } else if (response?.response.statusCode == 400) {
+      state = AuthState(
+        result: AuthResult.failure,
+        isLoading: false,
+        message: response?.response.data['message'].split('.')[0],
+        authUserModel:
+            AuthUserModel(id: null, token: null, userEmail: email, userNicename: firstName, userDisplayName: lastName),
+      );
+    } else {
+      log(response?.data.toString() ?? 'no data', name: 'createCustomer else');
+
+      state = AuthState(
+        result: AuthResult.failure,
+        isLoading: false,
+        message: response?.response.statusMessage,
+        authUserModel: null,
+      );
+    }
+
+    return state;
   }
 }

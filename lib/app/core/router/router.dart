@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +24,7 @@ import '../../features/custom_print/view/custom_print_view.dart';
 import '../../features/featured_products/view/featured_products_view.dart';
 import '../../features/main/view/dashboard_view.dart';
 import '../../features/orders/views/order_completed.dart';
+import '../../features/profile/view/contact_us_view.dart';
 import '../../features/shop/view/product_details/product_details_view.dart';
 import '../../features/shop/view/products_view.dart';
 import '../../models/products/product.dart';
@@ -219,6 +222,11 @@ final routerProvider = Provider<GoRouter>(
                       name: AboutUsView.routeName,
                       path: AboutUsView.routeName,
                       builder: (context, state) => const AboutUsView(),
+                    ),
+                    GoRoute(
+                      name: ContactUsView.routeName,
+                      path: ContactUsView.routeName,
+                      builder: (context, state) => const ContactUsView(),
                     ),
                   ],
                 ),

@@ -46,3 +46,4 @@ app.*.map.json
 *.g.dart 
 .env
 .env
+lib/app/services/stripe_service.dart

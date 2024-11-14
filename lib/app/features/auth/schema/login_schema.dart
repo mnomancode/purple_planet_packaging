@@ -9,7 +9,9 @@ class LoginSchema with _$LoginSchema {
   const factory LoginSchema({
     required Field<String> email,
     required Field<String> password,
+    Field<String>? confirmPassword,
   }) = _LoginSchema;
 
-  factory LoginSchema.empty() => LoginSchema(email: const Field(value: ''), password: const Field(value: ''));
+  factory LoginSchema.empty() => LoginSchema(
+      email: const Field(value: ''), password: const Field(value: ''), confirmPassword: const Field(value: ''));
 }

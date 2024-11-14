@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:purple_planet_packaging/app/models/orders/order_body.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../provider/http_provider.dart';
 import 'storage_service.dart';
 
 class SharedPrefsService implements StorageService {
@@ -28,6 +29,7 @@ class SharedPrefsService implements StorageService {
   @override
   Future<void> clear() async {
     sharedPreferences = await initCompleter.future;
+    await cookieJar.deleteAll();
     await sharedPreferences!.clear();
   }
 

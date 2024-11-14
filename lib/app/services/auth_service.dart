@@ -13,4 +13,10 @@ abstract class AuthService {
   @POST('/wp-login.php?action=lostpassword')
   @FormUrlEncoded()
   Future<HttpResponse> lostPassword(@Field('user_login') String userLogin);
+
+  @POST('/wp-json/wc/v3/customers')
+  Future<HttpResponse> createCustomer(@Header('Authorization') String token, @Body() Map<String, dynamic> body);
+
+  @DELETE('wp-json/wc/v3/customers/{customer_id}?force=true')
+  Future<HttpResponse> deleteCustomer(@Header('Authorization') String token, @Path('customer_id') int customerId);
 }

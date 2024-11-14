@@ -11,12 +11,16 @@ import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/features/address/view/billing_address_view.dart';
 import 'package:purple_planet_packaging/app/features/address/view/shipping_address_view.dart';
+import 'package:purple_planet_packaging/app/features/auth/providers/auth_state_notifier.dart';
 import 'package:purple_planet_packaging/app/features/auth/view/auth_view.dart';
 import 'package:purple_planet_packaging/app/features/home/view/home_view.dart';
 import 'package:purple_planet_packaging/app/features/order_samples/view/order_samples_view.dart';
 import 'package:purple_planet_packaging/app/features/profile/view/about_us_view.dart';
 
+import '../../../provider/http_provider.dart';
 import '../../../provider/shared_preferences_storage_service_provider.dart';
+import '../../auth/repository/auth_repository_impl.dart';
+import '../widget/confitmation_dialog.dart';
 
 class ProfileView extends ConsumerWidget {
   const ProfileView({Key? key}) : super(key: key);
@@ -102,6 +106,46 @@ class ProfileView extends ConsumerWidget {
               leading: SvgPicture.asset(AppImages.svgLogout),
               trailing: SvgPicture.asset(AppImages.svgArrowForward),
             ),
+            Consumer(builder: (context, ref, child) {
+              return FutureBuilder(
+                  future: ref.read(storageServiceProvider).get('email'),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    }
+                    if (snapshot.data == null) return Container();
+                    return Column(
+                      children: [
+                        Divider(color: AppColors.greyColor, height: 1, endIndent: 20, indent: 20),
+                        ListTile(
+                          onTap: () async {
+                            final email = await ref.read(storageServiceProvider).get('email');
+
+                            showModalBottomSheet(
+                              context: context,
+                              showDragHandle: true,
+                              builder: (context) {
+                                return ConfirmationDialog(
+                                  email: '$email',
+                                  title: 'Confirm Delete',
+                                  content: 'This action will permanently delete your account',
+                                  onConfirm: () async {
+                                    ref.read(storageServiceProvider).clear();
+
+                                    context.go(AuthView.routeName);
+                                  },
+                                );
+                              },
+                            );
+                          },
+                          title: AppStyles.normalBoldText('Delete Account'),
+                          leading: SvgPicture.asset(AppImages.svgDelete),
+                          trailing: SvgPicture.asset(AppImages.svgArrowForward),
+                        ),
+                      ],
+                    );
+                  });
+            }),
           ],
         ),
       ),

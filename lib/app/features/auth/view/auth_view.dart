@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,9 +12,11 @@ import 'package:purple_planet_packaging/app/extensions/text_field_extension.dart
 import 'package:purple_planet_packaging/app/features/auth/providers/auth_state_notifier.dart';
 import 'package:purple_planet_packaging/app/features/auth/view/lost_pass_view.dart';
 import 'package:purple_planet_packaging/app/features/home/view/home_view.dart';
+import 'package:purple_planet_packaging/app/provider/http_provider.dart';
 
 import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_styles.dart';
+import '../../../provider/shared_preferences_storage_service_provider.dart';
 import '../model/auth_result.dart';
 import '../providers/login_form_notifier.dart';
 
@@ -27,6 +31,9 @@ class AuthView extends HookConsumerWidget {
 
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
+    final firstNameController = useTextEditingController();
+    final lastNameController = useTextEditingController();
+    final confirmPasswordController = useTextEditingController();
 
     return Scaffold(
       appBar: AppBar(
@@ -47,21 +54,67 @@ class AuthView extends HookConsumerWidget {
               // 0.1.sh.verticalSpace,
               Center(child: Image.asset(AppImages.pppIcon, width: 0.8.sw)),
               20.verticalSpace,
-              Center(child: Text(authController.isNewUser ? 'REGISTER' : 'LOGIN', style: AppStyles.largeStyle())),
-              50.verticalSpace,
-              Consumer(builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                final emailField = ref.watch(loginFormNotifierProvider).form.email;
+              if (!authController.isNewUser) Center(child: Text('LOGIN', style: AppStyles.largeStyle())),
+              if (!authController.isNewUser) 50.verticalSpace,
+              if (authController.isNewUser) ...[
+                Consumer(builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  final firstNameField = ref.watch(loginFormNotifierProvider).form.password;
+                  return TextFormField(
+                      controller: firstNameController,
+                      onChanged: (value) => ref.read(loginFormNotifierProvider.notifier).setFirstName(value),
+                      decoration: InputDecoration(
+                        hintText: 'Enter First Name',
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: SvgPicture.asset(AppImages.svgUser),
+                        ),
+                      )).withLabel('First Name', errorMessage: firstNameField.errorMessage);
+                }),
+                10.verticalSpace,
+                Consumer(builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  // final lastNameField = ref.watch(loginFormNotifierProvider).form.password;
+                  return TextFormField(
+                      controller: lastNameController,
+                      onChanged: (value) => ref.read(loginFormNotifierProvider.notifier).setLastName(value),
+                      decoration: InputDecoration(
+                        hintText: 'Enter Last Name',
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: SvgPicture.asset(AppImages.svgUser),
+                        ),
+                      )).withLabel('Last Name');
+                }),
+                10.verticalSpace,
+              ],
+              if (authController.isNewUser)
+                Consumer(builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  final emailField = ref.watch(loginFormNotifierProvider).form.email;
 
-                return TextFormField(
-                    controller: emailController,
-                    onChanged: (value) => ref.read(loginFormNotifierProvider.notifier).setEmail(value),
-                    decoration: InputDecoration(
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: SvgPicture.asset(AppImages.svgEmail),
-                      ),
-                    )).withLabel('Username or Email address', errorMessage: emailField.errorMessage);
-              }),
+                  return TextFormField(
+                      controller: emailController,
+                      onChanged: (value) => ref.read(loginFormNotifierProvider.notifier).setEmail(value.trim()),
+                      decoration: InputDecoration(
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: SvgPicture.asset(AppImages.svgEmail),
+                        ),
+                      )).withLabel('Email address', errorMessage: emailField.errorMessage);
+                }),
+              if (!authController.isNewUser)
+                Consumer(builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  final emailField = ref.watch(loginFormNotifierProvider).form.email;
+
+                  return TextFormField(
+                      controller: emailController,
+                      onChanged: (value) =>
+                          ref.read(loginFormNotifierProvider.notifier).setUserNameOrEmail(value.trim()),
+                      decoration: InputDecoration(
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: SvgPicture.asset(AppImages.svgEmail),
+                        ),
+                      )).withLabel('Username or Email  address', errorMessage: emailField.errorMessage);
+                }),
               20.verticalSpace,
               Consumer(builder: (BuildContext context, WidgetRef ref, Widget? child) {
                 final passwordField = ref.watch(loginFormNotifierProvider).form.password;
@@ -92,14 +145,20 @@ class AuthView extends HookConsumerWidget {
               ],
               if (authController.isNewUser) ...[
                 20.verticalSpace,
-                TextFormField(
-                    // controller: confirmPasswordController,
-                    decoration: InputDecoration(
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: SvgPicture.asset(AppImages.svgEyeOn),
-                  ),
-                )).withLabel('Confirm Password'),
+                Consumer(builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  final confirmPasswordField = ref.watch(loginFormNotifierProvider).form.confirmPassword;
+                  return TextFormField(
+                      controller: confirmPasswordController,
+                      onChanged: (value) => ref
+                          .read(loginFormNotifierProvider.notifier)
+                          .setConfirmPassword(value, passwordController.text),
+                      decoration: InputDecoration(
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: SvgPicture.asset(AppImages.svgEyeOn),
+                        ),
+                      )).withLabel('Confirm Password', errorMessage: confirmPasswordField.errorMessage);
+                }),
                 20.verticalSpace,
               ],
               10.verticalSpace,
@@ -120,15 +179,33 @@ class AuthView extends HookConsumerWidget {
                 child: Consumer(builder: (BuildContext context, WidgetRef ref, Widget? child) {
                   final field = ref.watch(loginFormNotifierProvider).form;
 
-                  bool isDisabled = !(field.email.isValid && field.password.isValid);
+                  bool isDisabled = !(field.email.isValid &&
+                      field.password.isValid &&
+                      (authController.isNewUser ? field.confirmPassword.isValid : true));
 
                   return ElevatedButton(
                     onPressed: isDisabled
                         ? null
                         : () async {
+                            if (authController.isNewUser) {
+                              final authState = await ref.read(authStateNotifierProvider.notifier).register(
+                                  emailController.text.trim(),
+                                  passwordController.text.trim(),
+                                  firstNameController.text,
+                                  lastNameController.text);
+
+                              if (authState.result != AuthResult.success) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(content: Text(authState.message ?? '')));
+                                await ref.read(storageServiceProvider).clear();
+
+                                return;
+                              }
+                            }
+
                             final authState = await ref
                                 .read(authStateNotifierProvider.notifier)
-                                .login(emailController.text, passwordController.text);
+                                .login(emailController.text.trim(), passwordController.text.trim());
 
                             if (authState.result != AuthResult.success) {
                               ScaffoldMessenger.of(context)

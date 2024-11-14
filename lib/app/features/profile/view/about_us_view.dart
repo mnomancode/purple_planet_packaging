@@ -2,10 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:purple_planet_packaging/app/commons/ppp_app_bar.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
+import 'package:purple_planet_packaging/app/features/profile/view/contact_us_view.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../order_samples/view/order_samples_view.dart';
 
 class AboutUsView extends StatelessWidget {
   const AboutUsView({super.key});
@@ -24,7 +29,7 @@ class AboutUsView extends StatelessWidget {
               RichText(
                 text: TextSpan(
                   text: 'WHO ARE',
-                  style: AppStyles.largeStyle(),
+                  style: AppStyles.largeStyle(color: AppColors.primaryColor, fontSize: 20.sp),
                   children: [
                     TextSpan(
                       text: ' PURPLE PLANET PACKAGING',
@@ -45,7 +50,7 @@ class AboutUsView extends StatelessWidget {
               RichText(
                 text: TextSpan(
                   text: 'WHY CHOOSE',
-                  style: AppStyles.largeStyle(),
+                  style: AppStyles.largeStyle(color: AppColors.primaryColor, fontSize: 20.sp),
                   children: [
                     TextSpan(
                       text: ' PURPLE PLANET PACKAGING?',
@@ -71,7 +76,11 @@ class AboutUsView extends StatelessWidget {
               AppStyles.normalText(
                   'While we are proud of the eco-friendliness of our products, we have evolved to offer more than just compostable packaging. We understand the changing dynamics of businesses, which is why we have expanded our product offerings to cater to various preferences and needs.'),
               16.verticalSpace,
-              ElevatedButton(onPressed: () {}, child: Text('Contact Us')),
+              ElevatedButton(
+                  onPressed: () async {
+                    context.pushNamed(ContactUsView.routeName);
+                  },
+                  child: Text('Contact Us')),
               16.verticalSpace,
             ],
           ),
