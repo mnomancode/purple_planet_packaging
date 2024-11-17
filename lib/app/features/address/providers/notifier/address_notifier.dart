@@ -28,28 +28,28 @@ class ShippingNotifier extends _$ShippingNotifier {
 
     switch (field) {
       case 'firstName':
-        state = AsyncData(state.value!.copyWith(firstName: value));
+        state = AsyncData(state.value?.copyWith(firstName: value));
         break;
       case 'lastName':
-        state = AsyncData(state.value!.copyWith(lastName: value));
+        state = AsyncData(state.value?.copyWith(lastName: value));
         break;
       case 'address1':
-        state = AsyncData(state.value!.copyWith(address1: value));
+        state = AsyncData(state.value?.copyWith(address1: value));
         break;
       case 'address2':
-        state = AsyncData(state.value!.copyWith(address2: value));
+        state = AsyncData(state.value?.copyWith(address2: value));
         break;
       case 'city':
-        state = AsyncData(state.value!.copyWith(city: value));
+        state = AsyncData(state.value?.copyWith(city: value));
         break;
       case 'state':
-        state = AsyncData(state.value!.copyWith(state: value));
+        state = AsyncData(state.value?.copyWith(state: value));
         break;
       case 'postcode':
-        state = AsyncData(state.value!.copyWith(postcode: value));
+        state = AsyncData(state.value?.copyWith(postcode: value));
         break;
       case 'country':
-        state = AsyncData(state.value!.copyWith(country: value));
+        state = AsyncData(state.value?.copyWith(country: value));
         break;
     }
   }
@@ -67,7 +67,8 @@ class BillingNotifier extends _$BillingNotifier {
     final billing = await ref.read(storageServiceProvider).get('billing');
     if (billing == null) return null;
 
-    state = AsyncData(Billing.fromJson(json.decode(billing.toString())));
+    final email = await ref.read(storageServiceProvider).getEmail();
+    state = AsyncData(Billing.fromJson(json.decode(billing.toString())).copyWith(email: email ?? "Guest@gmail.com"));
     return state.value;
   }
 
@@ -77,30 +78,34 @@ class BillingNotifier extends _$BillingNotifier {
   }
 
   updateField(String s, String value) {
+    if (state.value == null) {
+      state = AsyncData(Billing.empty());
+    }
+
     switch (s) {
       case 'firstName':
-        state = AsyncData(state.value!.copyWith(firstName: value));
+        state = AsyncData(state.value?.copyWith(firstName: value));
         break;
       case 'lastName':
-        state = AsyncData(state.value!.copyWith(lastName: value));
+        state = AsyncData(state.value?.copyWith(lastName: value));
         break;
       case 'address1':
-        state = AsyncData(state.value!.copyWith(address1: value));
+        state = AsyncData(state.value?.copyWith(address1: value));
         break;
       case 'address2':
-        state = AsyncData(state.value!.copyWith(address2: value));
+        state = AsyncData(state.value?.copyWith(address2: value));
         break;
       case 'city':
-        state = AsyncData(state.value!.copyWith(city: value));
+        state = AsyncData(state.value?.copyWith(city: value));
         break;
       case 'state':
-        state = AsyncData(state.value!.copyWith(state: value));
+        state = AsyncData(state.value?.copyWith(state: value));
         break;
       case 'postcode':
-        state = AsyncData(state.value!.copyWith(postcode: value));
+        state = AsyncData(state.value?.copyWith(postcode: value));
         break;
       case 'country':
-        state = AsyncData(state.value!.copyWith(country: value));
+        state = AsyncData(state.value?.copyWith(country: value));
         break;
     }
   }

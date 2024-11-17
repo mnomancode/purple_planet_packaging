@@ -62,35 +62,35 @@ class CartBottomSheet extends ConsumerWidget {
                 return CircularProgressIndicator();
               }),
               8.verticalSpace,
-              Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
-              8.verticalSpace,
-              Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
-              8.verticalSpace,
-              AppStyles.normalText('Do you have a promo code?'),
-              8.verticalSpace,
-              Row(
-                children: [
-                  Expanded(
-                    flex: 4,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Enter promo code',
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                      ),
-                    ),
-                  ),
-                  8.horizontalSpace,
-                  Expanded(
-                    flex: 2,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        ref.read(newCartNotifierProvider.notifier).applyCoupon(code: 'grab24');
-                      },
-                      child: Text('Apply', style: AppStyles.mediumBoldStyle()),
-                    ),
-                  ),
-                ],
-              ),
+              // Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
+              // 8.verticalSpace,
+              // Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
+              // 8.verticalSpace,
+              // AppStyles.normalText('Do you have a promo code?'),
+              // 8.verticalSpace,
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       flex: 4,
+              //       child: TextField(
+              //         decoration: InputDecoration(
+              //           hintText: 'Enter promo code',
+              //           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              //         ),
+              //       ),
+              //     ),
+              //     8.horizontalSpace,
+              //     Expanded(
+              //       flex: 2,
+              //       child: ElevatedButton(
+              //         onPressed: () {
+              //           ref.read(newCartNotifierProvider.notifier).applyCoupon(code: 'grab24');
+              //         },
+              //         child: Text('Apply', style: AppStyles.mediumBoldStyle()),
+              //       ),
+              //     ),
+              //   ],
+              // ),
               8.verticalSpace,
               Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
               8.verticalSpace,

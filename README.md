@@ -11,6 +11,15 @@ This project is a starting point for a Flutter application.
 
 
 
+
+Here's a possible addition to the README file:
+
+**Known Issues**
+
+* When a user is not logged in, their cart data is not saved locally or on the server.
+* Loading a new product for a category clears the cart.
+
+
 # Added to the settings.json
 hide all generated files from the view
 ```  

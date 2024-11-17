@@ -24,7 +24,7 @@ class CookieManagerInterceptor extends Interceptor {
         //Save response cookies into the CookieJar for cart-related responses
         // Uri uri = Uri.parse('${response.requestOptions.baseUrl}/cart');
         List<String>? setCookie = response.headers.map['set-cookie'];
-        if (setCookie != null && setCookie.length == 3) {
+        if (setCookie != null) {
           List<Cookie> cookies = setCookie.map((str) => Cookie.fromSetCookieValue(str)).toList();
           await HeaderStorageService.saveCookiesToPreferences(cookies);
         }

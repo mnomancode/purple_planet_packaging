@@ -105,6 +105,12 @@ class _BillingAddressViewState extends ConsumerState<BillingAddressView> {
                         ).withLabel('State'),
                         5.verticalSpace,
                         TextFormField(
+                          controller: _countryController,
+                          onChanged: (value) =>
+                              ref.read(billingNotifierProvider.notifier).updateField('country', value),
+                        ).withLabel('Country'),
+                        5.verticalSpace,
+                        TextFormField(
                           controller: _postcodeController,
                           onChanged: (value) =>
                               ref.read(billingNotifierProvider.notifier).updateField('postcode', value),

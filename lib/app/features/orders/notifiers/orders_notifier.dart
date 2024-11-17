@@ -52,6 +52,7 @@ class OrdersNotifier extends _$OrdersNotifier {
 
       List<ShippingLine> shippingLine = ref.read(selectedShippingMethodNotifierProvider.notifier).getShippingLines();
       Billing? billing = await ref.read(billingNotifierProvider.notifier).build();
+
       Shipping? shipping = await ref.read(shippingNotifierProvider.notifier).build();
 
       if (shipping == null) {
@@ -110,15 +111,17 @@ class OrdersNotifier extends _$OrdersNotifier {
 
 Billing getFromShipping(Shipping shipping) {
   return Billing(
-      firstName: shipping.firstName,
-      lastName: shipping.lastName,
-      address1: shipping.address1,
-      address2: shipping.address2,
-      city: shipping.city,
-      state: shipping.state,
-      postcode: shipping.postcode,
-      email: '',
-      country: shipping.country);
+    firstName: shipping.firstName,
+    lastName: shipping.lastName,
+    address1: shipping.address1,
+    address2: shipping.address2,
+    city: shipping.city,
+    state: shipping.state,
+    postcode: shipping.postcode,
+    email: 'Guest@gmail.com',
+    country: shipping.country,
+    phone: '0000000000',
+  );
 }
 
 // Shipping dummyShipping = Shipping(

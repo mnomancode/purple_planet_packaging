@@ -11,6 +11,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../models/cart/cart_model.dart';
 import '../../../models/orders/order_body.dart';
 import '../../notifications/notification_controller.dart';
+import '../../orders/notifiers/orders_notifier.dart';
 import '../repository/cart_repository_impl.dart';
 import '../view/cart_view.dart';
 
@@ -34,33 +35,43 @@ class NewCartNotifier extends _$NewCartNotifier {
 
   Future<void> addToCart(
       {required int productId, int quantity = 1, required BuildContext context, bool notify = true}) async {
-    await ref.read(notificationControllerProvider.notifier).scheduleNotification(
-          'Your Items are waiting!',
-          'Are you sure you want to leave this behind?',
-          DateTime.now().add(const Duration(days: 5)),
-          payload: '/home/cart',
-        );
+    try {
+      if (notify) {
+        ref.read(orderScreenLoadingNotifierProvider.notifier).setLoading(true);
+      }
 
-    _loadingItems.add(productId);
-    state = AsyncValue.data(state.value!.copyWith(loadingItems: _loadingItems.toList()));
+      await ref.read(notificationControllerProvider.notifier).scheduleNotification(
+            'Your Items are waiting!',
+            'Are you sure you want to leave this behind?',
+            DateTime.now().add(const Duration(days: 5)),
+            payload: '/home/cart',
+          );
 
-    final tempState = await ref.watch(cartRepositoryProvider).addToCart(productId, quantity: quantity);
+      _loadingItems.add(productId);
+      state = AsyncValue.data(state.value!.copyWith(loadingItems: _loadingItems.toList()));
 
-    if (notify) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(getQuantity(productId) == 0 ? 'Item added to cart successfully!' : 'Item updated successfully!',
-            style: AppStyles.mediumStyle(color: Colors.white)),
-        backgroundColor: AppColors.primaryColor,
-        action: SnackBarAction(
-          label: 'View Cart',
-          textColor: Colors.white,
-          onPressed: () => context.go(CartView.routeName),
-        ),
-      ));
+      final tempState = await ref.watch(cartRepositoryProvider).addToCart(productId, quantity: quantity);
+
+      if (notify) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(getQuantity(productId) == 0 ? 'Item added to cart successfully!' : 'Item updated successfully!',
+              style: AppStyles.mediumStyle(color: Colors.white)),
+          backgroundColor: AppColors.primaryColor,
+          action: SnackBarAction(
+            label: 'View Cart',
+            textColor: Colors.white,
+            onPressed: () => context.go(CartView.routeName),
+          ),
+        ));
+      }
+
+      _loadingItems.remove(productId);
+      state = AsyncValue.data(tempState.copyWith(loadingItems: _loadingItems.toList()));
+    } catch (e) {
+      log(e.toString());
+    } finally {
+      ref.read(orderScreenLoadingNotifierProvider.notifier).setLoading(false);
     }
-
-    _loadingItems.remove(productId);
-    state = AsyncValue.data(tempState.copyWith(loadingItems: _loadingItems.toList()));
   }
 
   getQuantity(int id) {

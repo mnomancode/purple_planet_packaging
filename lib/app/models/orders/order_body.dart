@@ -35,6 +35,21 @@ class Billing with _$Billing {
   }) = _Billing;
 
   factory Billing.fromJson(Map<String, dynamic> json) => _$BillingFromJson(json);
+
+  static Billing empty() {
+    return Billing(
+      firstName: '',
+      lastName: '',
+      address1: '',
+      address2: '',
+      city: '',
+      state: '',
+      postcode: '',
+      country: '',
+      email: '',
+      phone: '',
+    );
+  }
 }
 
 @freezed
