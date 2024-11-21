@@ -40,12 +40,14 @@ class NewCartNotifier extends _$NewCartNotifier {
         ref.read(orderScreenLoadingNotifierProvider.notifier).setLoading(true);
       }
 
-      await ref.read(notificationControllerProvider.notifier).scheduleNotification(
-            'Your Items are waiting!',
-            'Are you sure you want to leave this behind?',
-            DateTime.now().add(const Duration(days: 5)),
-            payload: '/home/cart',
-          );
+      try {
+        await ref.read(notificationControllerProvider.notifier).scheduleNotification(
+              'Your Items are waiting!',
+              'Are you sure you want to leave this behind?',
+              DateTime.now().add(const Duration(days: 5)),
+              payload: '/home/cart',
+            );
+      } catch (_) {}
 
       _loadingItems.add(productId);
       state = AsyncValue.data(state.value!.copyWith(loadingItems: _loadingItems.toList()));

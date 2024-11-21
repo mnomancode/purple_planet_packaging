@@ -126,6 +126,7 @@ class _AddressViewState extends ConsumerState<AddressView> {
                           },
                           child: const Text('Save'),
                         ),
+                        16.verticalSpace,
                       ],
                     ),
                   );
