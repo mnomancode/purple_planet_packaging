@@ -29,7 +29,7 @@ class SharedPrefsService implements StorageService {
   @override
   Future<void> clear() async {
     sharedPreferences = await initCompleter.future;
-    await cookieJar.deleteAll();
+    await clearCookies();
     await sharedPreferences!.clear();
   }
 

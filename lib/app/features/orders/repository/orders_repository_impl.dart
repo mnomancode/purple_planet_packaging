@@ -37,7 +37,11 @@ class OrdersRepositoryImpl extends OrdersRepository {
 
 @riverpod
 OrdersRepository ordersRepository(OrdersRepositoryRef ref) {
-  final http = ref.watch(httpProvider);
+  final http = ref.watch(httpProvider).value;
+
+  if (http == null) {
+    throw Exception('HTTP client is not initialized yet');
+  }
 
   return OrdersRepositoryImpl(ordersService: OrderService(http));
 }

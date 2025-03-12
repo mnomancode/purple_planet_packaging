@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart' show immutable;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'auth_result.dart';
 import 'auth_user_model.dart';

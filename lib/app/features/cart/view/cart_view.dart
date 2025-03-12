@@ -139,7 +139,7 @@ class _CartViewState extends ConsumerState<CartView> {
           children: [
             ref.watch(newCartNotifierProvider).when(
                   data: (data) {
-                    if (data.items.isEmpty) {
+                    if (data.items == null || data.items!.isEmpty) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -170,9 +170,12 @@ class _CartViewState extends ConsumerState<CartView> {
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 140),
                         child: ListView.builder(
-                          itemCount: data.items.length,
+                          itemCount: data.items?.length,
                           itemBuilder: (context, index) {
-                            final cartItem = data.items[index];
+                            final cartItem = data.items?[index];
+                            if (cartItem == null) {
+                              return const SizedBox.shrink();
+                            }
 
                             return CartItemWidget(item: cartItem);
                           },

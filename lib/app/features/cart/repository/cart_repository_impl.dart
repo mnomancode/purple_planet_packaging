@@ -52,7 +52,11 @@ class CartRepositoryImpl extends CartRepository {
 
 @riverpod
 CartRepository cartRepository(CartRepositoryRef ref) {
-  final http = ref.watch(httpProvider);
+  final http = ref.watch(httpProvider).value;
+
+  if (http == null) {
+    throw Exception('HTTP client is not initialized yet');
+  }
 
   return CartRepositoryImpl(cartService: CartService(http));
 }

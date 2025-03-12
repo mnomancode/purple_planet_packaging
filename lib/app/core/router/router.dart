@@ -1,11 +1,7 @@
-import 'dart:developer';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/features/address/view/billing_address_view.dart';
-import 'package:purple_planet_packaging/app/features/auth/providers/auth_state_notifier.dart';
 import 'package:purple_planet_packaging/app/features/auth/view/auth_view.dart';
 import 'package:purple_planet_packaging/app/features/auth/view/lost_pass_view.dart';
 import 'package:purple_planet_packaging/app/features/cart/view/cart_view.dart';
@@ -30,6 +26,10 @@ import '../../features/shop/view/products_view.dart';
 import '../../models/products/product.dart';
 import '../../provider/is_loading_provider.dart';
 
+final navigatorKeyProvider = Provider<GlobalKey<NavigatorState>>((ref) {
+  return GlobalKey<NavigatorState>();
+});
+
 ///
 /// for getting routers that are present in the app
 ///
@@ -45,7 +45,7 @@ final routerProvider = Provider<GoRouter>(
     // final authState = ref.watch(authStateNotifierProvider);
 
     return GoRouter(
-      navigatorKey: _rootNavigatorKey,
+      navigatorKey: ref.read(navigatorKeyProvider),
       initialLocation: SplashView.routeName,
       // refreshListenable: authState,
       // redirect: (context, state) {

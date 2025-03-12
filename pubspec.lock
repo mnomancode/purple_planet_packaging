@@ -9,6 +9,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "67.0.0"
+  agora_token_service:
+    dependency: "direct main"
+    description:
+      name: agora_token_service
+      sha256: ce2829fb4923ef6c4e16839a00982718f8335b3726e4971354e27cebcf74566e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.2"
   analyzer:
     dependency: transitive
     description:
@@ -165,18 +173,18 @@ packages:
     dependency: "direct main"
     description:
       name: cached_network_svg_image
-      sha256: a819160d2f53598b4ad41be57add30ef453f4e6a37596b1a3a7d138716545d94
+      sha256: fe9df0217c12e3903558dad14e1bb938c51296a1d96faa080415c6146bbd7a7d
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "1.2.0"
   carousel_slider:
     dependency: "direct main"
     description:
       name: carousel_slider
-      sha256: "9c695cc963bf1d04a47bd6021f68befce8970bcd61d24938e1fb0918cf5d9c42"
+      sha256: "7b006ec356205054af5beaef62e2221160ea36b90fb70a35e4deacd49d0349ae"
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.1"
+    version: "5.0.0"
   characters:
     dependency: transitive
     description:
@@ -237,10 +245,10 @@ packages:
     dependency: transitive
     description:
       name: collection
-      sha256: ee67cb0715911d28db6bf4af1026078bd6f0128b07a5f66fb2ed94ec6783c09a
+      sha256: a1ace0a119f20aabc852d165077c036cd864315bd99b7eaa10a60100341941bf
       url: "https://pub.dev"
     source: hosted
-    version: "1.18.0"
+    version: "1.19.0"
   convert:
     dependency: transitive
     description:
@@ -532,18 +540,18 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_widget_from_html
-      sha256: "22c911b6ccf82b83e0c457d987bac4e703440fea0fc88dab24f4dfe995a5f33f"
+      sha256: "0dfebf7417df2149de93926520c703db9be0c9017e60dc5cf43cebed37f4d11e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.14.11"
+    version: "0.16.0"
   flutter_widget_from_html_core:
     dependency: transitive
     description:
       name: flutter_widget_from_html_core
-      sha256: cc1d9be3d187ce668ee02091cd5442dfb050cdaf98e0ab9a4d12ad008f966979
+      sha256: f77ea1aa1ba29a38fcce04483f44f12382f541b9e8c2150df37166c23bbbd30f
       url: "https://pub.dev"
     source: hosted
-    version: "0.14.12"
+    version: "0.16.0"
   freezed:
     dependency: "direct dev"
     description:
@@ -572,50 +580,50 @@ packages:
     dependency: transitive
     description:
       name: fwfh_cached_network_image
-      sha256: "8e44226801bfba27930673953afce8af44da7e92573be93f60385d9865a089dd"
+      sha256: "8f4896109ff3e42424ccacf9058ba3afe5d575b58946c8ac646ac85ae882ce23"
       url: "https://pub.dev"
     source: hosted
-    version: "0.14.3"
+    version: "0.16.0"
   fwfh_chewie:
     dependency: transitive
     description:
       name: fwfh_chewie
-      sha256: "37bde9cedfb6dc5546176f7f0c56af1e814966cb33ec58f16c9565ed93ccb704"
+      sha256: "1ce7c56894db19881a997813b933835dec142878431370c0eb40f1f878396a25"
       url: "https://pub.dev"
     source: hosted
-    version: "0.14.8"
+    version: "0.16.0"
   fwfh_just_audio:
     dependency: transitive
     description:
       name: fwfh_just_audio
-      sha256: "209cf9644599e37b0edb6961c4f30ce80d156f5a53a50355f75fb4a22f9fdb0a"
+      sha256: "17816168de1fd180fd3d1fd4500e23136630a248a6889b553e2d2067e133c1a6"
       url: "https://pub.dev"
     source: hosted
-    version: "0.14.3"
+    version: "0.16.0"
   fwfh_svg:
     dependency: transitive
     description:
       name: fwfh_svg
-      sha256: c6bb6b513f7ce2766aba76d7276caf9a96b6fee729ac3a492c366a42f82ef02e
+      sha256: "82f3eb378186fe39b3e2e01ed48a1830d34b0b9a237d951077e74ff0d99e2ac3"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.2"
+    version: "0.16.0"
   fwfh_url_launcher:
     dependency: transitive
     description:
       name: fwfh_url_launcher
-      sha256: b9f5d55a5ae2c2c07243ba33f7ba49ac9544bdb2f4c16d8139df9ccbebe3449c
+      sha256: "5cf1b1baa16740abaef8eb41a8e16ba430295d5ec20b880e4cb94e2924774f0a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.1"
+    version: "0.16.0"
   fwfh_webview:
     dependency: transitive
     description:
       name: fwfh_webview
-      sha256: b828bb5ddd4361a866cdb8f1b0de4f3348f332915ecf2f4215ba17e46c656adc
+      sha256: "894aa7d98ebdc2d86d79ac2309173043dec7f102575de87bf9626ddb26104e49"
       url: "https://pub.dev"
     source: hosted
-    version: "0.14.8"
+    version: "0.15.4"
   glob:
     dependency: transitive
     description:
@@ -828,18 +836,18 @@ packages:
     dependency: transitive
     description:
       name: material_color_utilities
-      sha256: "0e0a020085b65b6083975e499759762399b4475f766c21668c4ecca34ea74e5a"
+      sha256: f7142bb1154231d7ea5f96bc7bde4bda2a0945d2806bb11670e30b850d56bdec
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.0"
+    version: "0.11.1"
   meta:
     dependency: transitive
     description:
       name: meta
-      sha256: "7687075e408b093f36e6bbf6c91878cc0d4cd10f409506f7bc996f68220b9136"
+      sha256: bdb68674043280c3428e9ec998512fb681678676b3c54e773629ffe74419f8c7
       url: "https://pub.dev"
     source: hosted
-    version: "1.12.0"
+    version: "1.15.0"
   mime:
     dependency: transitive
     description:
@@ -1204,7 +1212,7 @@ packages:
     dependency: transitive
     description: flutter
     source: sdk
-    version: "0.0.99"
+    version: "0.0.0"
   smooth_page_indicator:
     dependency: "direct main"
     description:

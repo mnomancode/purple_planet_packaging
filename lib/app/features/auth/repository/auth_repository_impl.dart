@@ -62,7 +62,11 @@ class AuthRepositoryImpl extends AuthRepository {
 
 @riverpod
 AuthRepository authRepository(AuthRepositoryRef ref) {
-  final http = ref.watch(httpProvider);
+  final http = ref.watch(httpProvider).value;
+
+  if (http == null) {
+    throw Exception('HTTP client is not initialized yet');
+  }
 
   return AuthRepositoryImpl(authService: AuthService(http));
 }

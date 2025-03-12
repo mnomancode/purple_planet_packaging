@@ -31,7 +31,7 @@ class _ImagesSliderViewState extends State<ImagesSliderView> {
   //   'https://images.unsplash.com/photo-1586953983027-d7508a64f4bb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1650&q=80',
   // ];
 
-  late final CarouselController _controller;
+  late final CarouselSliderController _controller;
 
   @override
   void initState() {
@@ -40,7 +40,7 @@ class _ImagesSliderViewState extends State<ImagesSliderView> {
         precacheImage(NetworkImage(imageUrl!), context);
       }
     });
-    _controller = CarouselController();
+    _controller = CarouselSliderController();
     super.initState();
   }
 

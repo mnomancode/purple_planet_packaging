@@ -28,14 +28,14 @@ class CartBottomSheet extends ConsumerWidget {
               8.verticalSpace,
               Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
               ref.watch(newCartNotifierProvider).when(data: (data) {
-                if (data.items.isEmpty) {
+                if (data.items == null || data.items!.isEmpty) {
                   return const Center(child: Text('Cart is empty'));
                 }
 
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ...data.items
+                    ...data.items!
                         .map((e) => ListTile(
                             minTileHeight: 10,
                             contentPadding: EdgeInsets.zero,
@@ -45,15 +45,16 @@ class CartBottomSheet extends ConsumerWidget {
                               style: AppStyles.mediumBoldStyle(),
                             )))
                         .toList(),
-                    ...data.shippingRates.first.shippingRates.map((e) => RadioListTile<ShippingRate>.adaptive(
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          value: e,
-                          dense: true,
-                          groupValue: ref.watch(selectedShippingMethodNotifierProvider),
-                          title: Text('${e.name} : ${e.formattedPrice}', style: AppStyles.mediumBoldStyle()),
-                          onChanged:
-                              ref.read(selectedShippingMethodNotifierProvider.notifier).setSelectedShippingMethod,
-                        )),
+                    if (data.shippingRates != null && data.shippingRates!.isNotEmpty)
+                      ...data.shippingRates!.first.shippingRates.map((e) => RadioListTile<ShippingRate>.adaptive(
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            value: e,
+                            dense: true,
+                            groupValue: ref.watch(selectedShippingMethodNotifierProvider),
+                            title: Text('${e.name} : ${e.formattedPrice}', style: AppStyles.mediumBoldStyle()),
+                            onChanged:
+                                ref.read(selectedShippingMethodNotifierProvider.notifier).setSelectedShippingMethod,
+                          )),
                   ],
                 );
               }, error: (Object error, StackTrace stackTrace) {

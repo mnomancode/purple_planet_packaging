@@ -4,10 +4,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_utils.dart';
 
-
 import 'core/router/router.dart';
 import 'core/theme/app_theme.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 class App extends ConsumerWidget {
   const App({super.key});
@@ -23,6 +24,7 @@ class App extends ConsumerWidget {
         builder: (_, child) {
           final appTheme = ref.read(appThemeProvider);
           return MaterialApp.router(
+            scaffoldMessengerKey: scaffoldMessengerKey,
             title: 'Purple Planet Packaging',
             color: AppColors.primaryColor,
             // localizationsDelegates: const [

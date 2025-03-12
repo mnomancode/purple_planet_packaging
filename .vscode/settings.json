@@ -1,14 +1,15 @@
 {
-    "cSpell.words": [
-        "chnoman",
-        "CONSUMERKEY",
-        "CONSUMERSECRET",
-        "dotenv",
-        "instock",
-        "lostpassword",
-        "Nicename",
-        "precache",
-        "Prefs",
-        "woocommerce"
-    ]
+  "cSpell.words": [
+    "chnoman",
+    "CONSUMERKEY",
+    "CONSUMERSECRET",
+    "dotenv",
+    "instock",
+    "lostpassword",
+    "Nicename",
+    "precache",
+    "Prefs",
+    "woocommerce"
+  ],
+  "dart.flutterSdkPath": ".fvm/versions/3.27.3"
 }

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
@@ -40,19 +39,21 @@ class NewCartNotifier extends _$NewCartNotifier {
         ref.read(orderScreenLoadingNotifierProvider.notifier).setLoading(true);
       }
 
-      try {
-        await ref.read(notificationControllerProvider.notifier).scheduleNotification(
-              'Your Items are waiting!',
-              'Are you sure you want to leave this behind?',
-              DateTime.now().add(const Duration(days: 5)),
-              payload: '/home/cart',
-            );
-      } catch (_) {}
+      // notifications-removed
+
+      // try {
+      //   await ref.read(notificationControllerProvider.notifier).scheduleNotification(
+      //         'Your Items are waiting!',
+      //         'Are you sure you want to leave this behind?',
+      //         DateTime.now().add(const Duration(days: 5)),
+      //         payload: '/home/cart',
+      //       );
+      // } catch (_) {}
 
       _loadingItems.add(productId);
       state = AsyncValue.data(state.value!.copyWith(loadingItems: _loadingItems.toList()));
 
-      final tempState = await ref.watch(cartRepositoryProvider).addToCart(productId, quantity: quantity);
+      final tempState = await ref.watch(cartRepositoryProvider).addToCart(productId);
 
       if (notify) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -70,7 +71,7 @@ class NewCartNotifier extends _$NewCartNotifier {
       _loadingItems.remove(productId);
       state = AsyncValue.data(tempState.copyWith(loadingItems: _loadingItems.toList()));
     } catch (e) {
-      log(e.toString());
+      // log(e.toString(), name: 'addToCartError');
     } finally {
       ref.read(orderScreenLoadingNotifierProvider.notifier).setLoading(false);
     }
@@ -78,7 +79,7 @@ class NewCartNotifier extends _$NewCartNotifier {
 
   getQuantity(int id) {
     try {
-      return state.value?.items.firstWhere((element) => element.id == id).quantity ?? 0;
+      return state.value?.items?.firstWhere((element) => element.id == id).quantity ?? 0;
     } catch (e) {
       return 0;
     }
@@ -90,7 +91,9 @@ class NewCartNotifier extends _$NewCartNotifier {
 
       state = AsyncValue.data(tempState);
     } else {
-      final item = state.value!.items.firstWhere((element) => element.key == itemKey);
+      final item = state.value!.items?.firstWhere((element) => element.key == itemKey);
+      if (item == null) return;
+
       _loadingItems.add(item.id);
       state = AsyncValue.data(state.value!.copyWith(loadingItems: _loadingItems.toList()));
 
@@ -118,13 +121,13 @@ class NewCartNotifier extends _$NewCartNotifier {
   }
 
   List<LineItem>? getLineItems() {
-    return state.value?.items.map((e) {
+    return state.value?.items?.map((e) {
       return LineItem(productId: e.id, quantity: e.quantity, variationId: 0);
     }).toList();
   }
 
   List<String> getKeys() {
-    return state.value?.items.map((e) {
+    return state.value?.items?.map((e) {
           return e.key;
         }).toList() ??
         [];

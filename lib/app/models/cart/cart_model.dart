@@ -11,21 +11,21 @@ class Cart with _$Cart {
   const Cart._();
 
   const factory Cart({
-    required List<CartItem> items,
-    required List<Coupon> coupons,
-    required List<dynamic> fees,
+    required List<CartItem>? items,
+    required List<Coupon>? coupons,
+    required List<dynamic>? fees,
     required CartTotals totals,
     @JsonKey(name: 'shipping_address') required Address shippingAddress,
     @JsonKey(name: 'billing_address') required Address billingAddress,
     @JsonKey(name: 'needs_payment') bool? needsPayment,
     @JsonKey(name: 'needs_shipping') bool? needsShipping,
-    @JsonKey(name: 'payment_requirements') required List<String> paymentRequirements,
+    @JsonKey(name: 'payment_requirements') required List<String>? paymentRequirements,
     @JsonKey(name: 'has_calculated_shipping') bool? hasCalculatedShipping,
-    @JsonKey(name: 'shipping_rates') required List<ShippingPackage> shippingRates,
+    @JsonKey(name: 'shipping_rates') required List<ShippingPackage>? shippingRates,
     @JsonKey(name: 'items_count') required int itemsCount,
     // required List<dynamic> crossSells,
     // required List<dynamic> errors,
-    @JsonKey(name: 'payment_methods') required List<String> paymentMethods,
+    @JsonKey(name: 'payment_methods') required List<String>? paymentMethods,
     // required Map<String, dynamic> extensions,
     @Default([]) List<int> loadingItems,
   }) = _Cart;
