@@ -55,3 +55,5 @@ lib/app/services/stripe_service.dart
 # FVM Version Cache
 .fvm/
 lib/app/services/stripe_service.dart
+lib/app/services/stripe_service.dart
+lib/app/services/stripe_service.dart
