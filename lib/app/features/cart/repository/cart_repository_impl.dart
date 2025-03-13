@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:purple_planet_packaging/app/core/utils/app_utils.dart';
 import 'package:purple_planet_packaging/app/provider/shared_preferences_storage_service_provider.dart';
 import 'package:retrofit/dio.dart';
@@ -21,6 +23,9 @@ class CartRepositoryImpl extends CartRepository {
     Cart response;
     final token = sharedPrefsService.getBearerToken();
     final cartKey = sharedPrefsService.getCartKey();
+
+    log(token.toString(), name: 'token');
+    log(cartKey.toString(), name: 'cartKey');
 
     if (token != null) {
       response = await _cartService.getCart(token: token);

@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/extensions/elevated_button_extensions.dart';
+import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
 
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_app_bar.dart';
@@ -40,11 +41,11 @@ class _CartViewState extends ConsumerState<CartView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Total', style: AppStyles.mediumBoldStyle()),
+                          Text('Subtotal', style: AppStyles.mediumBoldStyle()),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
-                              '£ abc}',
+                              '£ ${data.totals.subtotal.addDecimalFromEnd()}',
                               style: AppStyles.mediumBoldStyle(),
                             ),
                           ),
@@ -57,8 +58,7 @@ class _CartViewState extends ConsumerState<CartView> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
-                              // '${(data.totals.currencySymbol)} ${data.totals.formattedTotalTax}',
-                              '£ def}',
+                              '£ ${data.totals.subtotalTax.addDecimalFromEnd()}',
                               style: AppStyles.mediumBoldStyle(),
                             ),
                           ),
@@ -68,10 +68,9 @@ class _CartViewState extends ConsumerState<CartView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Subtotal', style: AppStyles.largeStyle()),
+                          Text('Total', style: AppStyles.largeStyle()),
                           Text(
-                            // '${(data.totals.currencySymbol)} ${(double.parse(data.totals.formattedTotalPrice))}',
-                            'ghi',
+                            '£ ${data.totals.total.addDecimalFromEnd()}',
                             style: AppStyles.largeStyle(),
                           )
                         ],

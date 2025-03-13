@@ -117,9 +117,9 @@ class Item with _$Item {
 class ItemTotals with _$ItemTotals {
   const factory ItemTotals({
     @JsonKey(name: 'subtotal') required String subtotal,
-    @JsonKey(name: 'subtotal_tax') required int subtotalTax,
-    required int total,
-    required int tax,
+    @JsonKey(name: 'subtotal_tax') required double subtotalTax,
+    required double total,
+    required double tax,
   }) = _ItemTotals;
 
   factory ItemTotals.fromJson(Map<String, dynamic> json) => _$ItemTotalsFromJson(json);
