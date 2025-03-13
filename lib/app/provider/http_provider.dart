@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cookie_jar/cookie_jar.dart';
@@ -12,6 +13,8 @@ import 'package:path_provider/path_provider.dart';
 
 import '../core/router/router.dart';
 import '../services/cookie_service.dart';
+import 'cocart_interseptor.dart';
+import 'cookie_interseptor.dart';
 
 part 'http_provider.g.dart';
 
@@ -28,14 +31,15 @@ Future<PersistCookieJar> _prepareJar() async {
 }
 
 Future<void> clearCookies() async {
-  final cookieJar = await _prepareJar();
-  await cookieJar.deleteAll();
+  final jar = await _prepareJar();
+  await jar.deleteAll();
 }
 
 @riverpod
 Future<Dio> http(HttpRef ref) async {
   final options = BaseOptions(
-    baseUrl: 'https://purpleplanetpackaging.co.uk/',
+    // baseUrl: 'https://purpleplanetpackaging.co.uk/',
+    baseUrl: 'https://staging.purpleplanetpackaging.co.uk/',
     responseType: ResponseType.json,
     connectTimeout: const Duration(seconds: 60),
     receiveTimeout: const Duration(seconds: 60),
@@ -48,21 +52,20 @@ Future<Dio> http(HttpRef ref) async {
 
   final dio = Dio(options);
 
-  final cookieJar = await _prepareJar();
+  // final cookieJar = await _prepareJar();
   final navigatorKey = ref.read(navigatorKeyProvider);
 
   dio.interceptors.addAll([
-    CookieManager(cookieJar),
+    // CookieManager(cookieJar),
     ref.watch(dummyInterceptorProvider),
-    CookieManagerInterceptor.instance,
-    // NonceInterceptor.instance,
-    // ErrorInterceptor(ref, scaffoldMessengerKey), // Handles errors like 401
-    ErrorInterceptor(navigatorKey), // Handle 401 errors and redirect to login
+    ErrorInterceptor(navigatorKey),
+    // CoCartInterceptor(),
+    CartValidationInterceptor(),
     if (kDebugMode)
       PrettyDioLogger(
         requestHeader: true,
-        // requestBody: true,
-        // responseBody: true,
+        requestBody: true,
+        responseBody: true,
         compact: true,
       ),
   ]);
@@ -82,14 +85,4 @@ InterceptorsWrapper dummyInterceptor(DummyInterceptorRef ref) {
     },
     onError: (error, handler) => handler.next(error),
   );
-}
-
-@riverpod
-class NonceState extends _$NonceState {
-  @override
-  String? build() => null;
-
-  void setNonce(String nonce) {
-    state = nonce;
-  }
 }

@@ -2,14 +2,12 @@ import 'package:purple_planet_packaging/app/models/cart/cart_model.dart';
 
 import '../model/shipping_methods.dart';
 
+import 'package:retrofit/dio.dart' as dio;
+
 abstract class CartRepository {
-  // bool isBasketExpanded = false;
-
-  // void toggleBasket();
-
   Map<String, dynamic>? responseHeaders;
 
-  Future<Cart> getCart(String cartToken);
+  Future<dio.HttpResponse> login();
 
   Future<Cart> addToCart(int productId, {int quantity = 1});
 
@@ -19,4 +17,6 @@ abstract class CartRepository {
   Future<Cart> clearCart(List<String> keys);
 
   Future<List<ShippingMethod>> getShippingMethod();
+
+  Future<Cart> getCart();
 }

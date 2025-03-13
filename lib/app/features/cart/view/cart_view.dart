@@ -12,11 +12,9 @@ import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifie
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_app_bar.dart';
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_bottom_sheet.dart';
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_item.dart';
-import 'package:purple_planet_packaging/app/features/orders/views/order_completed.dart';
 import 'package:purple_planet_packaging/app/features/shop/view/shop_view.dart';
 
 import '../../../core/utils/app_styles.dart';
-import '../../featured_products/view/featured_products_view.dart';
 
 class CartView extends ConsumerStatefulWidget {
   const CartView({Key? key}) : super(key: key);
@@ -43,11 +41,11 @@ class _CartViewState extends ConsumerState<CartView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Total', style: AppStyles.mediumBoldStyle()),
+                          Text('Subtotal', style: AppStyles.mediumBoldStyle()),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
-                              '£ ${data.totals.totalItems.addDecimalFromEnd(data.totals.currencyMinorUnit) ?? '0.00'}',
+                              '£ ${data.totals.subtotal.addDecimalFromEnd()}',
                               style: AppStyles.mediumBoldStyle(),
                             ),
                           ),
@@ -60,7 +58,7 @@ class _CartViewState extends ConsumerState<CartView> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
-                              '${(data.totals.currencySymbol)} ${data.totals.formattedTotalTax}',
+                              '£ ${data.totals.subtotalTax.addDecimalFromEnd()}',
                               style: AppStyles.mediumBoldStyle(),
                             ),
                           ),
@@ -70,16 +68,16 @@ class _CartViewState extends ConsumerState<CartView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Subtotal', style: AppStyles.largeStyle()),
+                          Text('Total', style: AppStyles.largeStyle()),
                           Text(
-                            '${(data.totals.currencySymbol)} ${(double.parse(data.totals.formattedTotalPrice))}',
+                            '£ ${data.totals.total.addDecimalFromEnd()}',
                             style: AppStyles.largeStyle(),
                           )
                         ],
                       ),
                       8.verticalSpace,
                       ElevatedButton(
-                          onPressed: data.itemsCount == 0
+                          onPressed: data.itemCount == 0
                               ? null
                               : () async {
                                   showModalBottomSheet(
@@ -96,13 +94,13 @@ class _CartViewState extends ConsumerState<CartView> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SvgPicture.asset(AppImages.svgCart,
-                                  colorFilter: data.itemsCount == 0
+                                  colorFilter: data.itemCount == 0
                                       ? null
                                       : const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
                               8.horizontalSpace,
                               Text('Proceed to checkout',
                                   style: AppStyles.mediumBoldStyle(
-                                      color: data.itemsCount == 0 ? AppColors.darkGrey : null)),
+                                      color: data.itemCount == 0 ? AppColors.darkGrey : null)),
                             ],
                           )),
                     ],

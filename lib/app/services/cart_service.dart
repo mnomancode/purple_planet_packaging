@@ -4,37 +4,42 @@ part of 'service.dart';
 abstract class CartService {
   factory CartService(Dio dio, {String baseUrl}) = _CartService;
 
-  @GET('/wp-json/wc/store/v1/cart')
-  Future<Cart> getCartFromServer(
-    @Header('Authorization') String token,
-  );
+  @POST('/wp-json/cocart/v2/login')
+  Future<HttpResponse> login();
 
-  @POST('/wp-json/wc/store/v1/cart/add-item?id={id}}&quantity={quantity}')
-  Future<Cart> addToCart(
-    @Path('id') int productId, {
-    @Path('quantity') int? quantity,
-  });
+  @GET('/wp-json/cocart/v2/cart')
+  Future<Cart> getCartGuestFirstTime();
 
-  @GET('/wp-json/wc/store/v1/cart')
-  Future<Cart> getCart();
+  @GET('/wp-json/cocart/v2/cart')
+  Future<Cart> getCart({@Header('Authorization') String? token});
 
-  @POST('/wp-json/wc/store/v1/cart/update-item?key={itemKey}&quantity={quantity}')
+  @GET('/wp-json/cocart/v2/cart?cart_key={cartKey}')
+  Future<Cart> getCartWithKey(@Path('cartKey') String cartKey);
+
+  @POST('/wp-json/cocart/v2/cart/add-item')
+  Future<Cart> addToCart(@Body() AddCartBody body, {@Header('Authorization') String? token});
+  @POST('/wp-json/cocart/v2/cart/add-item?cart_key={cartKey}')
+  Future<Cart> addToCartWithKey(@Body() AddCartBody body, @Path('cartKey') String cartKey);
+
+  @POST('/wp-json/cocart/v2/cart/item/{item_key}?quantity={quantity}')
   Future<Cart> updateItem(
-    @Path('itemKey') String key, {
+    @Path('item_key') String key, {
     @Path('quantity') int? quantity,
+    @Header('Authorization') String? token,
   });
 
-  @POST('/wp-json/wc/store/v1/cart/remove-item?key={itemKey}')
-  Future<Cart> removeItem(@Path('itemKey') String key);
+  @DELETE('/wp-json/cocart/v2/cart/item/{item_key}')
+  Future<Cart> removeItem(@Path('item_key') String key,
+      {@Header('Authorization') String? token, @Query('cart_key') String? cartKey});
 
   @GET('/wp-json/wc/v3/shipping/zones/2/methods')
   Future<List<ShippingMethod>> getShippingMethod(
     @Header('Authorization') String token,
   );
 
-  @POST('/wp-json/wc/store/v1/cart/apply-coupon/?code={code}')
+  @POST('/wp-json/cocart/v2/cart/apply-coupon/?code={code}')
   Future<Cart> applyCoupon(@Header('Authorization') String getAuthorizationHeader, @Path('code') String code);
 
-  @POST('/wp-json/wc/store/v1/cart/remove-item')
+  @POST('/wp-json/cocart/v2/cart/remove-item')
   Future<Cart> removeMultipleItems(@Query('key') List<String> keys);
 }

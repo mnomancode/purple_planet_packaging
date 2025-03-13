@@ -34,6 +34,17 @@ class AppStorage {
     return sharedPreferences.getString(key);
   }
 
+  String saveCartKey(String cartKey) {
+    log(cartKey, name: 'cartKey Saving');
+    sharedPreferences.setString('cart_key', cartKey);
+    return cartKey;
+  }
+
+  Future<String?> getCartKey() async {
+    log('getCartKey', name: 'getCartKey');
+    return sharedPreferences.getString('cart_key');
+  }
+
   /// for clearing all data in box
   Future<void> clearAllData() async {
     await sharedPreferences.clear();

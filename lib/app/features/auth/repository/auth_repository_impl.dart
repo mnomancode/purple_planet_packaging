@@ -6,6 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/utils/app_utils.dart';
 import '../../../provider/http_provider.dart';
 import '../../../services/service.dart';
+import '../../cart/repository/cart_repository_impl.dart';
 import '../model/auth_response.dart';
 import 'auth_repository.dart';
 
@@ -20,6 +21,8 @@ class AuthRepositoryImpl extends AuthRepository {
     final AuthResponse response = await _authService.getUserDetail(userLogin: name, password: pass);
 
     if (response.statusCode == 200) {
+      log(response.data.toString(), name: 'createCustomer');
+
       return response;
     } else {
       return AuthResponse.failure(message: response.message);

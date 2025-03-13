@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
+import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
 import 'package:purple_planet_packaging/app/models/cart/cart_model.dart';
 
@@ -11,7 +12,7 @@ class CartItemWidget extends ConsumerWidget {
   const CartItemWidget({Key? key, required this.item}) : super(key: key);
 
   //final CartModel cartModel;
-  final CartItem item;
+  final Item item;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,7 +29,7 @@ class CartItemWidget extends ConsumerWidget {
             width: 100.h,
             height: 100.h,
             padding: EdgeInsets.all(10.h),
-            child: CachedNetworkImage(imageUrl: item.images.first.src, width: 100.h, height: 100.h),
+            child: CachedNetworkImage(imageUrl: item.featuredImage, width: 100.h, height: 100.h),
           ),
           8.horizontalSpace,
           Expanded(
@@ -48,7 +49,7 @@ class CartItemWidget extends ConsumerWidget {
                   IconButton(
                     onPressed: () => ref
                         .read(newCartNotifierProvider.notifier)
-                        .updateItem(itemKey: item.key, quantity: item.quantity - 1),
+                        .updateItem(itemKey: item.itemKey, quantity: item.quantity.value - 1, id: item.id),
                     icon: const Icon(Icons.remove),
                     style: IconButton.styleFrom(backgroundColor: AppColors.lightPrimaryColor),
                   ),
@@ -63,7 +64,7 @@ class CartItemWidget extends ConsumerWidget {
                         )
                       : SizedBox(
                           width: 25.w,
-                          child: Text(cartNotifier.getQuantity(item.id).toString(),
+                          child: Text(item.quantity.value.toString(),
                               style: AppStyles.boldStyle(), textAlign: TextAlign.center),
                         ),
                   IconButton(
@@ -73,7 +74,7 @@ class CartItemWidget extends ConsumerWidget {
                     icon: const Icon(Icons.add),
                     style: IconButton.styleFrom(backgroundColor: AppColors.lightPrimaryColor),
                   ),
-                  Text('=${item.totals.formattedLineTotal}', style: AppStyles.boldStyle()),
+                  Text(item.totals.subtotal.addDecimalFromEnd(2) ?? '', style: AppStyles.boldStyle()),
                   Transform.translate(
                     offset: const Offset(0, 3),
                     child: Text(
@@ -93,7 +94,7 @@ class CartItemWidget extends ConsumerWidget {
             padding: EdgeInsets.zero,
             alignment: Alignment.topRight,
             icon: const Icon(Icons.close, color: Colors.red),
-            onPressed: () => ref.read(newCartNotifierProvider.notifier).removeItem(itemKey: item.key),
+            onPressed: () => ref.read(newCartNotifierProvider.notifier).removeItem(itemKey: item.itemKey),
           )
         ],
       ),

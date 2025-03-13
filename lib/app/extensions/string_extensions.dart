@@ -14,7 +14,7 @@ extension StringExtension on String {
     }
   }
 
-  String? addDecimalFromEnd(int? indexFromEnd) {
+  String? addDecimalFromEnd([int indexFromEnd = 2]) {
     if (indexFromEnd == null) {
       return this;
     }

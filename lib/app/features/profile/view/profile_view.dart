@@ -98,9 +98,9 @@ class ProfileView extends ConsumerWidget {
             ),
             Divider(color: AppColors.greyColor, height: 1, endIndent: 20, indent: 20),
             ListTile(
-              onTap: () {
-                ref.read(storageServiceProvider).clear();
-                context.go(AuthView.routeName);
+              onTap: () async {
+                await ref.read(storageServiceProvider).clear();
+                context.go(HomeView.routeName);
               },
               title: AppStyles.normalBoldText('Logout'),
               leading: SvgPicture.asset(AppImages.svgLogout),

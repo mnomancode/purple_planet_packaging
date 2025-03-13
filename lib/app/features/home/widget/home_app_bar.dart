@@ -11,8 +11,6 @@ import 'package:purple_planet_packaging/app/commons/search_text_field.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/features/auth/view/auth_view.dart';
-import 'package:purple_planet_packaging/app/features/custom_print/view/custom_print_view.dart';
-import 'package:purple_planet_packaging/app/features/order_samples/view/order_samples_view.dart';
 import 'package:purple_planet_packaging/app/features/profile/view/profile_view.dart';
 
 import '../../../core/utils/app_colors.dart';

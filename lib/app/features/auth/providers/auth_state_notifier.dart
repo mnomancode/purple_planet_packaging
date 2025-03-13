@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'package:purple_planet_packaging/app/core/utils/http_utils.dart';
 import 'package:purple_planet_packaging/app/features/auth/model/auth_user_model.dart';
 import 'package:purple_planet_packaging/app/features/auth/repository/auth_repository_impl.dart';
+import 'package:retrofit/retrofit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../provider/shared_preferences_storage_service_provider.dart';
+import '../../cart/repository/cart_repository_impl.dart';
 import '../model/auth_result.dart';
 import '../model/auth_state.dart';
 
@@ -28,6 +30,14 @@ class AuthStateNotifier extends _$AuthStateNotifier {
     final response = await ref.read(authRepositoryProvider).getUser(name: name, pass: pass);
 
     if (response != null && response.statusCode == 200) {
+      HttpResponse res = await ref.watch(cartRepositoryProvider).login();
+
+      try {
+        log(res.response.data.toString(), name: 'cocart Login');
+      } catch (e) {
+        log(e.toString());
+      }
+
       state = AuthState(
         result: AuthResult.success,
         isLoading: false,

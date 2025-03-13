@@ -28,7 +28,7 @@ class SharedPrefsService implements StorageService {
 
   @override
   Future<void> clear() async {
-    sharedPreferences = await initCompleter.future;
+    sharedPreferences = await SharedPreferences.getInstance();
     await clearCookies();
     await sharedPreferences!.clear();
   }
@@ -82,5 +82,15 @@ class SharedPrefsService implements StorageService {
 
   String? getToken() {
     return getString('token');
+  }
+
+  String? getBearerToken() {
+    final token = getToken();
+    if (token == null) return null;
+    return 'Bearer $token';
+  }
+
+  String? getCartKey() {
+    return getString('cart_key');
   }
 }
