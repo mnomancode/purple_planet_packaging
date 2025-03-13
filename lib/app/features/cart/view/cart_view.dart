@@ -6,17 +6,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_images.dart';
 import 'package:purple_planet_packaging/app/extensions/elevated_button_extensions.dart';
-import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
 
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_app_bar.dart';
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_bottom_sheet.dart';
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_item.dart';
-import 'package:purple_planet_packaging/app/features/orders/views/order_completed.dart';
 import 'package:purple_planet_packaging/app/features/shop/view/shop_view.dart';
 
 import '../../../core/utils/app_styles.dart';
-import '../../featured_products/view/featured_products_view.dart';
 
 class CartView extends ConsumerStatefulWidget {
   const CartView({Key? key}) : super(key: key);

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../models/cart/cart_model.dart';
 import '../../../models/orders/order_body.dart';
+import '../../../provider/shared_preferences_storage_service_provider.dart';
 import '../../notifications/notification_controller.dart';
 import '../../orders/notifiers/orders_notifier.dart';
 import '../repository/cart_repository_impl.dart';
@@ -22,7 +24,7 @@ class NewCartNotifier extends _$NewCartNotifier {
 
   @override
   FutureOr<Cart> build() {
-    return ref.watch(cartRepositoryProvider).getCart();
+    return getCart();
   }
 
   Future<Cart> getCart() async {

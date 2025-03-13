@@ -16,7 +16,6 @@ class CoCartInterceptor extends Interceptor {
       }
     }
     handler.next(options);
-    handler.next(options);
   }
 
   /// Get cart key
@@ -61,9 +60,13 @@ class CartValidationInterceptor extends Interceptor {
       if (response.data['cart_hash'] == "No items in cart so no hash") {
         log('No items in the cart.', name: 'No items in the cart.');
 
+        final cartKey = response.data['cart_key'];
+
+        log('Cart key: $cartKey', name: 'Cart key');
+
         response.data = {
           "cart_hash": "No items in cart so no hash",
-          "cart_key": "null",
+          "cart_key": cartKey,
           "currency": {
             "currency_code": "GBP",
             "currency_symbol": "£",
@@ -133,10 +136,7 @@ class CartValidationInterceptor extends Interceptor {
                     "html": "*Standard Delivery: £7.95",
                     "taxes": "159",
                     "chosen_method": true,
-                    "meta_data": {
-                      "items":
-                          "Planetware™ 16oz Double Wall Takeaway Christmas Cup 2024, Recyclable/Compostable (Case of 500) × 1"
-                    }
+                    "meta_data": {}
                   },
                   "flat_rate:6": {
                     "key": "flat_rate:6",
@@ -147,10 +147,7 @@ class CartValidationInterceptor extends Interceptor {
                     "html": "*Next Working Day - Pre noon £15.00/Item: £15.00",
                     "taxes": "300",
                     "chosen_method": false,
-                    "meta_data": {
-                      "items":
-                          "Planetware™ 16oz Double Wall Takeaway Christmas Cup 2024, Recyclable/Compostable (Case of 500) × 1"
-                    }
+                    "meta_data": {}
                   },
                   "flat_rate:7": {
                     "key": "flat_rate:7",
@@ -161,10 +158,7 @@ class CartValidationInterceptor extends Interceptor {
                     "html": "*Next Working Day - Pre 10am £25.00/Item: £25.00",
                     "taxes": "500",
                     "chosen_method": false,
-                    "meta_data": {
-                      "items":
-                          "Planetware™ 16oz Double Wall Takeaway Christmas Cup 2024, Recyclable/Compostable (Case of 500) × 1"
-                    }
+                    "meta_data": {}
                   },
                   "flat_rate:8": {
                     "key": "flat_rate:8",
@@ -175,10 +169,7 @@ class CartValidationInterceptor extends Interceptor {
                     "html": "*Saturday Delivery £15.00/item: £15.00",
                     "taxes": "300",
                     "chosen_method": false,
-                    "meta_data": {
-                      "items":
-                          "Planetware™ 16oz Double Wall Takeaway Christmas Cup 2024, Recyclable/Compostable (Case of 500) × 1"
-                    }
+                    "meta_data": {}
                   }
                 },
                 "package_details": "",
@@ -202,19 +193,23 @@ class CartValidationInterceptor extends Interceptor {
             "total": "0",
             "total_tax": "0"
           },
-          "removed_items": [
-            {
-              "item_key": "f1daf122cde863010844459363cd31db",
-              "id": 5892,
-              "name": "Planetware™ 16oz Double Wall Takeaway Christmas Cup 2024"
-            }
-          ]
+          "removed_items": []
         };
 
-        throw EmptyCartException('No items in the cart.');
+        // throw EmptyCartException('No items in the cart.');
+
+        dummyResponse = response;
       }
     } catch (e) {
-      log('Failed to validate cart: $e');
+      if (e is EmptyCartException) {
+        throw EmptyCartException(e.message);
+      }
+
+      if (e is AuthenticationException) {
+        throw AuthenticationException(e.message);
+      } else {
+        log(e.toString());
+      }
     }
     handler.next(dummyResponse);
   }
@@ -226,4 +221,12 @@ class EmptyCartException implements Exception {
 
   @override
   String toString() => message;
+}
+
+class AuthenticationException implements Exception {
+  final String message;
+  AuthenticationException(this.message);
+
+  @override
+  String toString() => 'AuthenticationException: $message';
 }

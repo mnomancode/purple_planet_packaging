@@ -1,9 +1,10 @@
-import 'dart:convert';
-
 import 'package:purple_planet_packaging/app/core/utils/app_utils.dart';
+import 'package:purple_planet_packaging/app/provider/shared_preferences_storage_service_provider.dart';
+import 'package:retrofit/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../models/cart/cart_model.dart';
 import '../../../provider/http_provider.dart';
+import '../../../services/local/shared_prefs_storage_service.dart';
 import '../../../services/service.dart';
 import '../model/shipping_methods.dart';
 import 'cart_repository.dart';
@@ -11,29 +12,69 @@ import 'cart_repository.dart';
 part 'cart_repository_impl.g.dart';
 
 class CartRepositoryImpl extends CartRepository {
-  CartRepositoryImpl({required CartService cartService}) : _cartService = cartService;
+  CartRepositoryImpl({required CartService cartService, required this.sharedPrefsService}) : _cartService = cartService;
   final CartService _cartService;
+  final SharedPrefsService sharedPrefsService;
 
   @override
-  Future<Cart> getCart([String? cartToken]) async {
-    final response = await _cartService.getCart();
+  Future<Cart> getCart() async {
+    Cart response;
+    final token = sharedPrefsService.getBearerToken();
+    final cartKey = sharedPrefsService.getCartKey();
+
+    if (token != null) {
+      response = await _cartService.getCart(token: token);
+    } else if (cartKey != null) {
+      response = await _cartService.getCartWithKey(cartKey);
+    } else {
+      response = await _cartService.getCart();
+      await saveCartKey(response.cartKey);
+    }
+
+    return response;
+  }
+
+  saveCartKey(String cartKey) async {
+    await sharedPrefsService.set('cart_key', cartKey);
+  }
+
+  @override
+  Future<HttpResponse> login() {
+    return _cartService.login();
+  }
+
+  @override
+  Future<Cart> addToCart(int productId, {int quantity = 1}) async {
+    Future<Cart> response;
+    final token = sharedPrefsService.getBearerToken();
+    final cartKey = sharedPrefsService.getCartKey();
+
+    final body = AddCartBody(id: '$productId', quantity: '$quantity');
+
+    if (token != null) {
+      response = _cartService.addToCart(body, token: token);
+    } else if (cartKey != null) {
+      response = _cartService.addToCartWithKey(body, cartKey);
+    } else {
+      response = getCart();
+    }
 
     return response;
   }
 
   @override
-  Future<Cart> addToCart(int productId, {int quantity = 1}) {
-    return _cartService.addToCart(AddCartBody(id: productId.toString(), quantity: quantity.toString()));
-  }
-
-  @override
   Future<Cart> updateItem(String itemKey, {required int quantity}) {
-    return _cartService.updateItem(itemKey, quantity: quantity);
+    final token = sharedPrefsService.getBearerToken();
+
+    return _cartService.updateItem(itemKey, quantity: quantity, token: token);
   }
 
   @override
   Future<Cart> removeItem(String itemKey) {
-    return _cartService.removeItem(itemKey);
+    final token = sharedPrefsService.getBearerToken();
+    final cartKey = sharedPrefsService.getCartKey();
+
+    return _cartService.removeItem(itemKey, token: token, cartKey: cartKey);
   }
 
   @override
@@ -59,8 +100,9 @@ CartRepository cartRepository(CartRepositoryRef ref) {
   if (http == null) {
     throw Exception('HTTP client is not initialized yet');
   }
+  final storageProvider = ref.watch(storageServiceProvider);
 
-  return CartRepositoryImpl(cartService: CartService(http));
+  return CartRepositoryImpl(cartService: CartService(http), sharedPrefsService: storageProvider);
 }
 
 class AddCartBody {
