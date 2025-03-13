@@ -47,7 +47,7 @@ class _CartViewState extends ConsumerState<CartView> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
-                              '£ ${data.totals.totalItems.addDecimalFromEnd(data.totals.currencyMinorUnit) ?? '0.00'}',
+                              '£ abc}',
                               style: AppStyles.mediumBoldStyle(),
                             ),
                           ),
@@ -60,7 +60,8 @@ class _CartViewState extends ConsumerState<CartView> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
-                              '${(data.totals.currencySymbol)} ${data.totals.formattedTotalTax}',
+                              // '${(data.totals.currencySymbol)} ${data.totals.formattedTotalTax}',
+                              '£ def}',
                               style: AppStyles.mediumBoldStyle(),
                             ),
                           ),
@@ -72,14 +73,15 @@ class _CartViewState extends ConsumerState<CartView> {
                         children: [
                           Text('Subtotal', style: AppStyles.largeStyle()),
                           Text(
-                            '${(data.totals.currencySymbol)} ${(double.parse(data.totals.formattedTotalPrice))}',
+                            // '${(data.totals.currencySymbol)} ${(double.parse(data.totals.formattedTotalPrice))}',
+                            'ghi',
                             style: AppStyles.largeStyle(),
                           )
                         ],
                       ),
                       8.verticalSpace,
                       ElevatedButton(
-                          onPressed: data.itemsCount == 0
+                          onPressed: data.itemCount == 0
                               ? null
                               : () async {
                                   showModalBottomSheet(
@@ -96,13 +98,13 @@ class _CartViewState extends ConsumerState<CartView> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SvgPicture.asset(AppImages.svgCart,
-                                  colorFilter: data.itemsCount == 0
+                                  colorFilter: data.itemCount == 0
                                       ? null
                                       : const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
                               8.horizontalSpace,
                               Text('Proceed to checkout',
                                   style: AppStyles.mediumBoldStyle(
-                                      color: data.itemsCount == 0 ? AppColors.darkGrey : null)),
+                                      color: data.itemCount == 0 ? AppColors.darkGrey : null)),
                             ],
                           )),
                     ],

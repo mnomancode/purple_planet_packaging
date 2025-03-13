@@ -22,7 +22,7 @@ class CartAppBar extends StatelessWidget implements PreferredSizeWidget {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      data.itemsCount < 10 ? '0${data.itemsCount} Items' : '${data.itemsCount} Items',
+                      data.itemCount < 10 ? '0${data.itemCount} Items' : '${data.itemCount} Items',
                       style: AppStyles.mediumBoldStyle(),
                     ),
                   );

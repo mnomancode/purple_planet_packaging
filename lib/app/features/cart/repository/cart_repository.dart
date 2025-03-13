@@ -9,7 +9,7 @@ abstract class CartRepository {
 
   Map<String, dynamic>? responseHeaders;
 
-  Future<Cart> getCart(String cartToken);
+  Future<Cart> getCart([String? cartToken]);
 
   Future<Cart> addToCart(int productId, {int quantity = 1});
 

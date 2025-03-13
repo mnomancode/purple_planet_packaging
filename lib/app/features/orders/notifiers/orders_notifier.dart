@@ -50,7 +50,8 @@ class OrdersNotifier extends _$OrdersNotifier {
 
       if (lineItems == null) return;
 
-      List<ShippingLine> shippingLine = ref.read(selectedShippingMethodNotifierProvider.notifier).getShippingLines();
+      // List<ShippingLine> shippingLine = ref.read(selectedShippingMethodNotifierProvider.notifier).getShippingLines();
+      List<ShippingLine> shippingLine = [];
       Billing? billing = await ref.read(billingNotifierProvider.notifier).build();
 
       Shipping? shipping = await ref.read(shippingNotifierProvider.notifier).build();

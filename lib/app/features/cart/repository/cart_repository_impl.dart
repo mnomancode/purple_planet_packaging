@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:purple_planet_packaging/app/core/utils/app_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../models/cart/cart_model.dart';
@@ -13,7 +15,7 @@ class CartRepositoryImpl extends CartRepository {
   final CartService _cartService;
 
   @override
-  Future<Cart> getCart(String cartToken) async {
+  Future<Cart> getCart([String? cartToken]) async {
     final response = await _cartService.getCart();
 
     return response;
@@ -21,7 +23,7 @@ class CartRepositoryImpl extends CartRepository {
 
   @override
   Future<Cart> addToCart(int productId, {int quantity = 1}) {
-    return _cartService.addToCart(productId, quantity: quantity);
+    return _cartService.addToCart(AddCartBody(id: productId.toString(), quantity: quantity.toString()));
   }
 
   @override
@@ -59,4 +61,25 @@ CartRepository cartRepository(CartRepositoryRef ref) {
   }
 
   return CartRepositoryImpl(cartService: CartService(http));
+}
+
+class AddCartBody {
+  AddCartBody({
+    required this.id,
+    required this.quantity,
+  });
+
+  final String id;
+  final String quantity;
+  // from json
+  factory AddCartBody.fromJson(Map<String, dynamic> json) => AddCartBody(
+        id: json["id"],
+        quantity: json["quantity"],
+      );
+
+  // to json
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "quantity": quantity,
+      };
 }

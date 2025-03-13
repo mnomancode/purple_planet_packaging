@@ -22,58 +22,52 @@ class NewCartNotifier extends _$NewCartNotifier {
 
   @override
   FutureOr<Cart> build() {
-    // this is like init method as in getx Controller
-    return ref.watch(cartRepositoryProvider).getCart('');
+    return ref.watch(cartRepositoryProvider).getCart();
   }
 
-  Future<void> getCart() async {
-    final tempState = await ref.watch(cartRepositoryProvider).getCart('');
+  Future<Cart> getCart() async {
+    final tempState = await ref.watch(cartRepositoryProvider).getCart();
 
     state = AsyncValue.data(tempState);
+
+    return tempState;
   }
 
-  Future<void> addToCart(
-      {required int productId, int quantity = 1, required BuildContext context, bool notify = true}) async {
+  Future<void> addToCart({
+    required BuildContext context,
+    required int productId,
+    bool notify = true,
+    int quantity = 1,
+  }) async {
     try {
       if (notify) {
         ref.read(orderScreenLoadingNotifierProvider.notifier).setLoading(true);
+      } else {
+        _loadingItems.add(productId);
+        state = AsyncValue.data(state.value!.copyWith(loadingItems: _loadingItems.toList()));
       }
 
-      // notifications-removed
+      final tempState = await ref.watch(cartRepositoryProvider).addToCart(productId, quantity: quantity);
 
-      // try {
-      //   await ref.read(notificationControllerProvider.notifier).scheduleNotification(
-      //         'Your Items are waiting!',
-      //         'Are you sure you want to leave this behind?',
-      //         DateTime.now().add(const Duration(days: 5)),
-      //         payload: '/home/cart',
-      //       );
-      // } catch (_) {}
-
-      _loadingItems.add(productId);
-      state = AsyncValue.data(state.value!.copyWith(loadingItems: _loadingItems.toList()));
-
-      final tempState = await ref.watch(cartRepositoryProvider).addToCart(productId);
-
+      state = AsyncValue.data(tempState);
       if (notify) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(getQuantity(productId) == 0 ? 'Item added to cart successfully!' : 'Item updated successfully!',
               style: AppStyles.mediumStyle(color: Colors.white)),
           backgroundColor: AppColors.primaryColor,
           action: SnackBarAction(
-            label: 'View Cart',
-            textColor: Colors.white,
-            onPressed: () => context.go(CartView.routeName),
-          ),
+              label: 'View Cart', textColor: Colors.white, onPressed: () => context.go(CartView.routeName)),
         ));
       }
-
-      _loadingItems.remove(productId);
-      state = AsyncValue.data(tempState.copyWith(loadingItems: _loadingItems.toList()));
     } catch (e) {
-      // log(e.toString(), name: 'addToCartError');
+      log(e.toString());
     } finally {
-      ref.read(orderScreenLoadingNotifierProvider.notifier).setLoading(false);
+      if (notify) {
+        ref.read(orderScreenLoadingNotifierProvider.notifier).setLoading(false);
+      } else {
+        _loadingItems.remove(productId);
+        state = AsyncValue.data(state.value!.copyWith(loadingItems: _loadingItems.toList()));
+      }
     }
   }
 
@@ -85,21 +79,21 @@ class NewCartNotifier extends _$NewCartNotifier {
     }
   }
 
-  Future<void> updateItem({required String itemKey, required int quantity}) async {
+  Future<void> updateItem({required String itemKey, required int quantity, int? id}) async {
+    if (id != null) {
+      _loadingItems.add(id);
+    }
+
     if (quantity == 0) {
       final tempState = await ref.watch(cartRepositoryProvider).removeItem(itemKey);
 
       state = AsyncValue.data(tempState);
     } else {
-      final item = state.value!.items?.firstWhere((element) => element.key == itemKey);
-      if (item == null) return;
-
-      _loadingItems.add(item.id);
       state = AsyncValue.data(state.value!.copyWith(loadingItems: _loadingItems.toList()));
 
       final tempState = await ref.watch(cartRepositoryProvider).updateItem(itemKey, quantity: quantity);
 
-      _loadingItems.remove(item.id);
+      _loadingItems.remove(id);
       state = AsyncValue.data(tempState.copyWith(loadingItems: _loadingItems.toList()));
     }
   }
@@ -122,13 +116,13 @@ class NewCartNotifier extends _$NewCartNotifier {
 
   List<LineItem>? getLineItems() {
     return state.value?.items?.map((e) {
-      return LineItem(productId: e.id, quantity: e.quantity, variationId: 0);
+      return LineItem(productId: e.id, quantity: e.quantity.value, variationId: 0);
     }).toList();
   }
 
   List<String> getKeys() {
     return state.value?.items?.map((e) {
-          return e.key;
+          return e.itemKey;
         }).toList() ??
         [];
   }
@@ -137,7 +131,7 @@ class NewCartNotifier extends _$NewCartNotifier {
     var tempState = await Future.wait(getKeys().map((e) => ref.watch(cartRepositoryProvider).removeItem(e)));
     await ref.read(notificationControllerProvider.notifier).cancelAllNotifications();
     for (var element in tempState) {
-      if (element.itemsCount == 0) {
+      if (element.itemCount == 0) {
         state = AsyncValue.data(element);
       }
     }

@@ -35,26 +35,26 @@ class CartBottomSheet extends ConsumerWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ...data.items!
-                        .map((e) => ListTile(
-                            minTileHeight: 10,
-                            contentPadding: EdgeInsets.zero,
-                            title: Text('Item ${e.name}', style: AppStyles.mediumStyle()),
-                            trailing: Text(
-                              '=${e.totals.formattedLineTotal}',
-                              style: AppStyles.mediumBoldStyle(),
-                            )))
-                        .toList(),
-                    if (data.shippingRates != null && data.shippingRates!.isNotEmpty)
-                      ...data.shippingRates!.first.shippingRates.map((e) => RadioListTile<ShippingRate>.adaptive(
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            value: e,
-                            dense: true,
-                            groupValue: ref.watch(selectedShippingMethodNotifierProvider),
-                            title: Text('${e.name} : ${e.formattedPrice}', style: AppStyles.mediumBoldStyle()),
-                            onChanged:
-                                ref.read(selectedShippingMethodNotifierProvider.notifier).setSelectedShippingMethod,
-                          )),
+                    //   ...data.items!
+                    //       .map((e) => ListTile(
+                    //           minTileHeight: 10,
+                    //           contentPadding: EdgeInsets.zero,
+                    //           title: Text('Item ${e.name}', style: AppStyles.mediumStyle()),
+                    //           trailing: Text(
+                    //             '=${e.totals.formattedLineTotal}',
+                    //             style: AppStyles.mediumBoldStyle(),
+                    //           )))
+                    //       .toList(),
+                    //   if (data.shippingRates != null && data.shippingRates!.isNotEmpty)
+                    //     ...data.shippingRates!.first.shippingRates.map((e) => RadioListTile<ShippingRate>.adaptive(
+                    //           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    //           value: e,
+                    //           dense: true,
+                    //           groupValue: ref.watch(selectedShippingMethodNotifierProvider),
+                    //           title: Text('${e.name} : ${e.formattedPrice}', style: AppStyles.mediumBoldStyle()),
+                    //           onChanged:
+                    //               ref.read(selectedShippingMethodNotifierProvider.notifier).setSelectedShippingMethod,
+                    //         )),
                   ],
                 );
               }, error: (Object error, StackTrace stackTrace) {
@@ -105,7 +105,8 @@ class CartBottomSheet extends ConsumerWidget {
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Text(
-                                '£ ${data.totals.totalItems.addDecimalFromEnd(data.totals.currencyMinorUnit) ?? '0.00'}',
+                                // '£ ${data.totals.total.addDecimalFromEnd(data.totals.currencyMinorUnit) ?? '0.00'}',
+                                'klm',
                                 style: AppStyles.mediumBoldStyle(),
                               ),
                             ),
@@ -118,7 +119,8 @@ class CartBottomSheet extends ConsumerWidget {
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Text(
-                                '${(data.totals.currencySymbol)} ${data.totals.formattedTotalTax}',
+                                // '${(data.totals.currencySymbol)} ${data.totals.formattedTotalTax}',
+                                'opq',
                                 style: AppStyles.mediumBoldStyle(),
                               ),
                             ),
@@ -129,7 +131,8 @@ class CartBottomSheet extends ConsumerWidget {
                           children: [
                             Text('Subtotal', style: AppStyles.largeStyle()),
                             Text(
-                              '${(data.totals.currencySymbol)} ${(double.parse(data.totals.formattedTotalPrice) + double.parse(ref.watch(selectedShippingMethodNotifierProvider)?.formattedPrice.addTwentyPercent() ?? '0')).toStringAsFixed(2)}',
+                              // '${(data.totals.currencySymbol)} ${(double.parse(data.totals.formattedTotalPrice) + double.parse(ref.watch(selectedShippingMethodNotifierProvider)?.formattedPrice.addTwentyPercent() ?? '0')).toStringAsFixed(2)}',
+                              'rst',
                               style: AppStyles.largeStyle(),
                             )
                           ],
