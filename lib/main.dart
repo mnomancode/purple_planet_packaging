@@ -15,8 +15,8 @@ Future<void> main() async {
   await appStorage.initAppStorage();
   await dotenv.load(fileName: ".env");
 
-  // test Key = 'pk_test_xEvkQAYbKoJv9fNOCPnih5Rh00exMSMgy8';
-  Stripe.publishableKey = 'pk_live_KhACjhma0Ui3fnqeKotp4kUL00wVD1cZRS';
+  Stripe.publishableKey = 'pk_test_xEvkQAYbKoJv9fNOCPnih5Rh00exMSMgy8';
+  // Stripe.publishableKey = 'pk_live_KhACjhma0Ui3fnqeKotp4kUL00wVD1cZRS';
   Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
   Stripe.urlScheme = 'flutterstripe';
   await Stripe.instance.applySettings();

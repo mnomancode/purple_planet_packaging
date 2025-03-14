@@ -21,10 +21,11 @@ abstract class CartService {
   @POST('/wp-json/cocart/v2/cart/add-item?cart_key={cartKey}')
   Future<Cart> addToCartWithKey(@Body() AddCartBody body, @Path('cartKey') String cartKey);
 
-  @POST('/wp-json/cocart/v2/cart/item/{item_key}?quantity={quantity}')
+  @POST('/wp-json/cocart/v2/cart/item/{item_key}')
   Future<Cart> updateItem(
     @Path('item_key') String key, {
-    @Path('quantity') int? quantity,
+    @Query('quantity') int? quantity,
+    @Query('cart_key') String? cartKey,
     @Header('Authorization') String? token,
   });
 

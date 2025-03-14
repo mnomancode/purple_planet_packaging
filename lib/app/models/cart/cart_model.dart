@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
 import 'package:purple_planet_packaging/app/models/orders/order_body.dart';
 
 part 'cart_model.freezed.dart';
@@ -206,6 +207,8 @@ class Shipping with _$Shipping {
 
   List<Rate> get rates =>
       packages.values.expand<Rate>((package) => package.rates?.values.cast<Rate>() ?? []).nonNulls.toList();
+
+  Rate get selectedRate => rates.firstWhere((rate) => rate.chosenMethod);
 }
 
 @freezed
@@ -224,6 +227,7 @@ class Package with _$Package {
 
 @freezed
 class Rate with _$Rate {
+  const Rate._(); // ✅ Needed for custom getters
   const factory Rate({
     required String key,
     @JsonKey(name: 'method_id') required String methodId,
@@ -236,4 +240,22 @@ class Rate with _$Rate {
   }) = _Rate;
 
   factory Rate.fromJson(Map<String, dynamic> json) => _$RateFromJson(json);
+  // ✅ Custom Getter to Extract Total Cost from HTML
+  String get shipping {
+    final RegExp regExp = RegExp(r'£(\d+\.\d{2})');
+    final matches = regExp.allMatches(html).toList();
+    if (matches.length > 1) {
+      return (matches[1].group(1) ?? '0.00'); // Return second match (total cost)
+    }
+    return '0.00';
+  }
+
+  // String get shippingTax {
+  //   final RegExp regExp = RegExp(r'£(\d+\.\d{2})');
+  //   final matches = regExp.allMatches(html).toList();
+  //   if (matches.length > 1) {
+  //     return (matches[1].group(1) ?? '0.00').twentyPercent();
+  //   }
+  //   return '0.00';
+  // }
 }

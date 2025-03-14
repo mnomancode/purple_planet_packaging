@@ -13,8 +13,9 @@ class ShippingMethodsWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedRate = ref.watch(selectedShippingMethodNotifierProvider);
 
-    return Column(
-      children: rates.map((e) {
+    return Column(children: [
+      const Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
+      ...rates.map((e) {
         return RadioListTile<Rate>(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           value: e,
@@ -26,6 +27,6 @@ class ShippingMethodsWidget extends ConsumerWidget {
           },
         );
       }).toList(),
-    );
+    ]);
   }
 }

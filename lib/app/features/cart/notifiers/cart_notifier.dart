@@ -15,6 +15,7 @@ import '../../notifications/notification_controller.dart';
 import '../../orders/notifiers/orders_notifier.dart';
 import '../repository/cart_repository_impl.dart';
 import '../view/cart_view.dart';
+import 'selected_shipping_provider.dart';
 
 part 'cart_notifier.g.dart';
 
@@ -31,6 +32,9 @@ class NewCartNotifier extends _$NewCartNotifier {
     final tempState = await ref.watch(cartRepositoryProvider).getCart();
 
     state = AsyncValue.data(tempState);
+    ref
+        .read(selectedShippingMethodNotifierProvider.notifier)
+        .setSelectedShippingMethod(tempState.shipping.selectedRate);
 
     return tempState;
   }

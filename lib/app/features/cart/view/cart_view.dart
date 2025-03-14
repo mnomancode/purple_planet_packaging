@@ -73,7 +73,7 @@ class _CartViewState extends ConsumerState<CartView> {
                         children: [
                           Text('Total', style: AppStyles.largeStyle()),
                           Text(
-                            '£ ${data.totals.total.addDecimalFromEnd()}',
+                            '£ ${(data.totals.subtotal.addDecimalFromEnd())?.sum(data.totals.subtotalTax.addDecimalFromEnd())}',
                             style: AppStyles.largeStyle(),
                           )
                         ],

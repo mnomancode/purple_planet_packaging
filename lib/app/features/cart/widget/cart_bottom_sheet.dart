@@ -9,6 +9,7 @@ import 'package:purple_planet_packaging/app/features/orders/notifiers/orders_not
 import 'package:purple_planet_packaging/app/models/cart/cart_model.dart';
 
 import '../notifiers/cart_notifier.dart';
+import '../notifiers/selected_shipping_provider.dart';
 import 'shipping_meathods_widget.dart';
 
 class CartBottomSheet extends ConsumerWidget {
@@ -44,9 +45,7 @@ class CartBottomSheet extends ConsumerWidget {
                               '£ ${e.totals.total}',
                             )))
                         .toList(),
-                    if (data.shipping.rates.isNotEmpty)
-                      Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
-                    ShippingMethodsWidget(rates: data.shipping.rates),
+                    if (data.shipping.rates.isNotEmpty) ShippingMethodsWidget(rates: data.shipping.rates),
                   ],
                 );
               }, error: (Object error, StackTrace stackTrace) {
@@ -110,7 +109,7 @@ class CartBottomSheet extends ConsumerWidget {
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Text(
-                                '£ ${data.totals.subtotalTax.addDecimalFromEnd()}',
+                                '£ ${data.totals.subtotalTax.addDecimalFromEnd()?.sum(ref.watch(selectedShippingMethodNotifierProvider)?.shipping.getTax())}',
                                 style: AppStyles.mediumBoldStyle(),
                               ),
                             ),
@@ -121,7 +120,7 @@ class CartBottomSheet extends ConsumerWidget {
                           children: [
                             Text('Total', style: AppStyles.largeStyle()),
                             Text(
-                              '£ ${data.totals.total.addDecimalFromEnd()}',
+                              '£ ${(data.totals.subtotal.addDecimalFromEnd()?.sum(data.totals.subtotalTax.addDecimalFromEnd()))?.sum(ref.watch(selectedShippingMethodNotifierProvider)?.shipping.addTax())}',
                               style: AppStyles.largeStyle(),
                             )
                           ],

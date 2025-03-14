@@ -70,8 +70,9 @@ class CartRepositoryImpl extends CartRepository {
   @override
   Future<Cart> updateItem(String itemKey, {required int quantity}) {
     final token = sharedPrefsService.getBearerToken();
+    final cartKey = sharedPrefsService.getCartKey();
 
-    return _cartService.updateItem(itemKey, quantity: quantity, token: token);
+    return _cartService.updateItem(itemKey, quantity: quantity, token: token, cartKey: cartKey);
   }
 
   @override
