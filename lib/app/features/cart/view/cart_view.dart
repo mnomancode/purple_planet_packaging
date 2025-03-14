@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,6 +15,7 @@ import 'package:purple_planet_packaging/app/features/cart/widget/cart_app_bar.da
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_bottom_sheet.dart';
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_item.dart';
 import 'package:purple_planet_packaging/app/features/shop/view/shop_view.dart';
+import 'package:purple_planet_packaging/app/models/cart/cart_model.dart';
 
 import '../../../core/utils/app_styles.dart';
 

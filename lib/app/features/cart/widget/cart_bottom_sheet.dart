@@ -5,11 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
-import 'package:purple_planet_packaging/app/features/cart/notifiers/shipping_meathods_notifier.dart';
 import 'package:purple_planet_packaging/app/features/orders/notifiers/orders_notifier.dart';
 import 'package:purple_planet_packaging/app/models/cart/cart_model.dart';
 
 import '../notifiers/cart_notifier.dart';
+import 'shipping_meathods_widget.dart';
 
 class CartBottomSheet extends ConsumerWidget {
   const CartBottomSheet({super.key});
@@ -44,15 +44,19 @@ class CartBottomSheet extends ConsumerWidget {
                               '£ ${e.totals.total}',
                             )))
                         .toList(),
-                    if (data.shipping.package.rates != null)
-                      ...data.shipping.package.rates!.entries.map((e) => ListTile(
-                            minTileHeight: 10,
-                            contentPadding: EdgeInsets.zero,
-                            title: Text(e.key, style: AppStyles.mediumStyle()),
-                            trailing: Text(
-                              '£ ${e.value}',
-                            ),
-                          ))
+                    if (data.shipping.rates.isNotEmpty)
+                      Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
+                    ShippingMethodsWidget(rates: data.shipping.rates),
+
+                    // ...data.shipping.rates.map((e) => RadioListTile<Rate>.adaptive(
+                    //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    //     value: e,
+                    //     dense: true,
+                    //     groupValue: e,
+                    //     title: Text(e.html, style: AppStyles.mediumBoldStyle()),
+                    //     onChanged: (_) {}
+                    //     // ref.read(selectedShippingMethodNotifierProvider.notifier).setSelectedShippingMethod,
+                    //     )),
 
                     // if (data.shippingRates != null && data.shippingRates!.isNotEmpty)
                     //   ...data.shippingRates!.first.shippingRates.map((e) => RadioListTile<ShippingRate>.adaptive(

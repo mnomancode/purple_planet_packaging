@@ -65,7 +65,7 @@ Future<Dio> http(HttpRef ref) async {
       PrettyDioLogger(
         requestHeader: true,
         requestBody: true,
-        responseBody: true,
+        responseBody: false,
         compact: true,
       ),
   ]);

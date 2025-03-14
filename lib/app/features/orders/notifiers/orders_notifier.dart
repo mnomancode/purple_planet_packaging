@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:purple_planet_packaging/app/features/address/providers/notifier/address_notifier.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
-import 'package:purple_planet_packaging/app/features/cart/notifiers/shipping_meathods_notifier.dart';
+import 'package:purple_planet_packaging/app/features/cart/notifiers/selected_shipping_provider.dart';
 import 'package:purple_planet_packaging/app/features/splash/view/splash_view.dart';
 import 'package:purple_planet_packaging/app/models/orders/order_body.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

@@ -78,6 +78,7 @@ dependencies:
   timezone: ^0.9.4
   flutter_timezone: ^3.0.1
   agora_token_service: ^0.1.2
+  collection: ^1.19.0
  
 
 

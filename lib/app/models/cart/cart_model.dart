@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:collection/collection.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:purple_planet_packaging/app/models/orders/order_body.dart';
 
@@ -191,14 +192,20 @@ class Dimensions with _$Dimensions {
 
 @freezed
 class Shipping with _$Shipping {
+  const Shipping._(); // ✅ Private constructor
   const factory Shipping({
     @JsonKey(name: 'total_packages') required int totalPackages,
     @JsonKey(name: 'show_package_details') required bool showPackageDetails,
     @JsonKey(name: 'has_calculated_shipping') required bool hasCalculatedShipping,
-    @JsonKey(name: 'packages') required Package package,
+    // @JsonKey(name: 'packages') required Package package,
+    required Map<String, Package> packages,
   }) = _Shipping;
 
   factory Shipping.fromJson(Map<String, dynamic> json) => _$ShippingFromJson(json);
+  // Custom getter to return all rates as a list
+
+  List<Rate> get rates =>
+      packages.values.expand<Rate>((package) => package.rates?.values.cast<Rate>() ?? []).nonNulls.toList();
 }
 
 @freezed
