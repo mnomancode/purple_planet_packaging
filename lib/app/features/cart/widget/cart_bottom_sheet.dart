@@ -47,27 +47,6 @@ class CartBottomSheet extends ConsumerWidget {
                     if (data.shipping.rates.isNotEmpty)
                       Divider(thickness: 1, color: Colors.grey, endIndent: 10, indent: 10),
                     ShippingMethodsWidget(rates: data.shipping.rates),
-
-                    // ...data.shipping.rates.map((e) => RadioListTile<Rate>.adaptive(
-                    //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    //     value: e,
-                    //     dense: true,
-                    //     groupValue: e,
-                    //     title: Text(e.html, style: AppStyles.mediumBoldStyle()),
-                    //     onChanged: (_) {}
-                    //     // ref.read(selectedShippingMethodNotifierProvider.notifier).setSelectedShippingMethod,
-                    //     )),
-
-                    // if (data.shippingRates != null && data.shippingRates!.isNotEmpty)
-                    //   ...data.shippingRates!.first.shippingRates.map((e) => RadioListTile<ShippingRate>.adaptive(
-                    //         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    //         value: e,
-                    //         dense: true,
-                    //         groupValue: ref.watch(selectedShippingMethodNotifierProvider),
-                    //         title: Text('${e.name} : ${e.formattedPrice}', style: AppStyles.mediumBoldStyle()),
-                    //         onChanged:
-                    //             ref.read(selectedShippingMethodNotifierProvider.notifier).setSelectedShippingMethod,
-                    //       )),
                   ],
                 );
               }, error: (Object error, StackTrace stackTrace) {
