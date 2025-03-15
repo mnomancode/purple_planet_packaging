@@ -79,6 +79,9 @@ dependencies:
   flutter_timezone: ^3.0.1
   agora_token_service: ^0.1.2
   collection: ^1.19.0
+  fresh_dio: ^0.4.3
+  flutter_secure_storage: ^4.2.1
+  jwt_decoder: ^2.0.1
  
 
 

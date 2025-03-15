@@ -38,7 +38,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
                 children: [
                   Text('Hello,', style: AppStyles.largeStyle(color: AppColors.white)),
                   Consumer(builder: (context, ref, child) {
-                    final name = ref.read(storageServiceProvider).get('name');
+                    final name = ref.watch(storageServiceProvider).get('name');
 
                     return FutureBuilder(
                         future: name,

@@ -1,11 +1,9 @@
 import 'dart:convert';
 
-import 'package:purple_planet_packaging/app/extensions/string_extensions.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../models/cart/cart_model.dart';
 import '../../../provider/shared_preferences_storage_service_provider.dart';
 import '../../../services/local/shared_prefs_storage_service.dart';
-import 'cart_notifier.dart';
 
 part 'selected_shipping_provider.g.dart';
 

@@ -12,19 +12,26 @@ class ErrorInterceptor extends InterceptorsWrapper {
   BuildContext? get context => navigatorKey.currentContext;
 
   @override
-  void onError(DioException err, ErrorInterceptorHandler handler) {
-    log(err.response?.data.toString() ?? 'errrr');
-
-    if (err.response?.statusCode == 401 && context != null) {
-      // Show snackbar
-      ScaffoldMessenger.of(context!).showSnackBar(
-        const SnackBar(
-          content: Text('Session expired. Please log in again.'),
-          backgroundColor: Colors.red,
-          duration: Duration(seconds: 3),
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    if (response.statusCode == 404) {
+      // show snackbar
+      final message = response.data['message'];
+      final snackBar = SnackBar(
+        content: Text(message),
+        behavior: SnackBarBehavior.floating,
+        clipBehavior: Clip.antiAlias,
+        hitTestBehavior: HitTestBehavior.opaque,
+        action: SnackBarAction(
+          label: 'OK',
+          textColor: Colors.white,
+          onPressed: () {
+            context?.pop();
+          },
         ),
       );
+      ScaffoldMessenger.of(context!).showSnackBar(snackBar);
     }
-    handler.next(err);
+
+    handler.next(response);
   }
 }

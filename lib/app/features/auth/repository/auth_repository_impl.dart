@@ -1,12 +1,12 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:fresh_dio/fresh_dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../../core/utils/app_utils.dart';
 import '../../../provider/http_provider.dart';
 import '../../../services/service.dart';
-import '../../cart/repository/cart_repository_impl.dart';
 import '../model/auth_response.dart';
 import 'auth_repository.dart';
 
@@ -21,7 +21,11 @@ class AuthRepositoryImpl extends AuthRepository {
     final AuthResponse response = await _authService.getUserDetail(userLogin: name, password: pass);
 
     if (response.statusCode == 200) {
-      log(response.data.toString(), name: 'createCustomer');
+      // log(response.data.toString(), name: 'createCustomer');
+      // final token = response.data!.first.token!;
+      // final HttpResponse refreshResponse = await _authService.refreshToken(token);
+
+      // log(refreshResponse.data.toString(), name: 'refreshToken');
 
       return response;
     } else {

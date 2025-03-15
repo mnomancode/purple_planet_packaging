@@ -3,6 +3,7 @@ import 'package:html/parser.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../../features/cart/model/shipping_methods.dart';
 
@@ -16,6 +17,24 @@ class AppUtils {
 
   static String get getAuthorizationHeader =>
       'Basic ${base64Encode(utf8.encode('${dotenv.get('CONSUMERKEY')}:${dotenv.get('CONSUMERSECRET')}'))}';
+
+  static DateTime? getTokenExpiry(String? token) {
+    if (token == null) {
+      return null;
+    }
+    if (JwtDecoder.isExpired(token)) {
+      return null;
+    }
+
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+    int? expiryTimestamp = decodedToken['exp'];
+
+    if (expiryTimestamp != null) {
+      return DateTime.fromMillisecondsSinceEpoch(expiryTimestamp * 1000);
+    }
+
+    return null;
+  }
 
   static double? getShippingCost(ShippingMethod? shippingMethod, {int quantity = 1}) {
     if (shippingMethod == null) {

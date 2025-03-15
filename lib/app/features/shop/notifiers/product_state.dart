@@ -42,19 +42,6 @@ class ProductNotifier extends _$ProductNotifier {
         defaultVariation: _findMatchingVariation(defaultAttributeOption));
   }
 
-  // Future<void> loadProduct(int productId) async {
-  //   state = state.copyWith(isLoading: true, error: null);
-  //   try {
-  //     final product = await ref.read(shopRepositoryProvider).getProduct(productId);
-  //     state = state.copyWith(product: product, isLoading: false);
-  //   } catch (e) {
-  //     state = state.copyWith(
-  //       error: e.toString(),
-  //       isLoading: false,
-  //     );
-  //   }
-  // }
-
   void updateSelectedOption({required String option}) async {
     String price = state.product.pricesList[findIndex(option)];
     state = state.copyWith(

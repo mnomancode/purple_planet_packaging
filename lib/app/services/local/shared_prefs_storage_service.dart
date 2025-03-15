@@ -80,8 +80,16 @@ class SharedPrefsService implements StorageService {
     putString('token', s);
   }
 
+  void saveRefreshToken(String s) {
+    putString('refresh_token', s);
+  }
+
   String? getToken() {
     return getString('token');
+  }
+
+  String? getRefreshToken() {
+    return getString('refresh_token');
   }
 
   String? getBearerToken() {
@@ -92,5 +100,10 @@ class SharedPrefsService implements StorageService {
 
   String? getCartKey() {
     return getString('cart_key');
+  }
+
+  clearTokens() {
+    remove('token');
+    remove('refresh_token');
   }
 }

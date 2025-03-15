@@ -1,37 +1,33 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fresh_dio/fresh_dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:purple_planet_packaging/app/provider/error_interceptor.dart';
-import 'package:purple_planet_packaging/app/provider/nonce_interseptor.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../core/router/router.dart';
-import '../services/cookie_service.dart';
+import '../core/utils/app_utils.dart';
+import '../services/local/shared_prefs_storage_service.dart';
 import 'cocart_interseptor.dart';
-import 'cookie_interseptor.dart';
+import 'shared_preferences_storage_service_provider.dart';
 
 part 'http_provider.g.dart';
 
-Future<PersistCookieJar> _prepareJar() async {
-  final Directory appDocDir = await getApplicationDocumentsDirectory();
-  final String appDocPath = appDocDir.path;
-
-  final jar = PersistCookieJar(
+Future<CookieJar> initializeCookieJar() async {
+  final appDocDir = await getApplicationDocumentsDirectory();
+  final appDocPath = appDocDir.path;
+  return PersistCookieJar(
     ignoreExpires: true,
-    storage: FileStorage("$appDocPath/.cookies/"),
+    storage: FileStorage('$appDocPath/.cookies/'),
   );
-
-  return jar;
 }
 
 Future<void> clearCookies() async {
-  final jar = await _prepareJar();
+  final jar = await initializeCookieJar();
   await jar.deleteAll();
 }
 
@@ -52,20 +48,18 @@ Future<Dio> http(HttpRef ref) async {
 
   final dio = Dio(options);
 
-  // final cookieJar = await _prepareJar();
   final navigatorKey = ref.read(navigatorKeyProvider);
+  final cookieJar = await initializeCookieJar();
 
   dio.interceptors.addAll([
-    // CookieManager(cookieJar),
-    ref.watch(dummyInterceptorProvider),
     ErrorInterceptor(navigatorKey),
-    // CoCartInterceptor(),
+    CoCartInterceptor(cookieJar),
     CartValidationInterceptor(),
     if (kDebugMode)
       PrettyDioLogger(
         requestHeader: true,
         requestBody: true,
-        responseBody: false,
+        responseBody: true,
         compact: true,
       ),
   ]);

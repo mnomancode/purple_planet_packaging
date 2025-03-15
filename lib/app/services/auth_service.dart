@@ -10,6 +10,9 @@ abstract class AuthService {
     @Path('password') required String password,
   });
 
+  // @POST('/wp-json/jwt-auth/v1/token/refresh')
+  // Future<HttpResponse> refreshToken(@Header('Authorization') String token);
+
   @POST('/wp-login.php?action=lostpassword')
   @FormUrlEncoded()
   Future<HttpResponse> lostPassword(@Field('user_login') String userLogin);

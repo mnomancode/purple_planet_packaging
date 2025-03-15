@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:purple_planet_packaging/app/core/utils/http_utils.dart';
 import 'package:purple_planet_packaging/app/features/auth/model/auth_user_model.dart';
 import 'package:purple_planet_packaging/app/features/auth/repository/auth_repository_impl.dart';
@@ -30,14 +31,6 @@ class AuthStateNotifier extends _$AuthStateNotifier {
     final response = await ref.read(authRepositoryProvider).getUser(name: name, pass: pass);
 
     if (response != null && response.statusCode == 200) {
-      HttpResponse res = await ref.watch(cartRepositoryProvider).login();
-
-      try {
-        log(res.response.data.toString(), name: 'cocart Login');
-      } catch (e) {
-        log(e.toString());
-      }
-
       state = AuthState(
         result: AuthResult.success,
         isLoading: false,
@@ -45,6 +38,7 @@ class AuthStateNotifier extends _$AuthStateNotifier {
         authUserModel: response.data!.first,
       );
       ref.read(storageServiceProvider).saveToken(response.data!.first.token!);
+
       ref
           .read(storageServiceProvider)
           .putString('name', response.data!.first.userDisplayName ?? response.data!.first.userNicename ?? '');

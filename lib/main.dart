@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'app/app.dart';
 import 'app/core/local_storage/app_storage.dart';
+import 'app/provider/http_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,7 @@ Future<void> main() async {
   final appStorage = AppStorage();
   await appStorage.initAppStorage();
   await dotenv.load(fileName: ".env");
+  await initializeCookieJar();
 
   Stripe.publishableKey = 'pk_test_xEvkQAYbKoJv9fNOCPnih5Rh00exMSMgy8';
   // Stripe.publishableKey = 'pk_live_KhACjhma0Ui3fnqeKotp4kUL00wVD1cZRS';

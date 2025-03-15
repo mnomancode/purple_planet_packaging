@@ -1,53 +1,40 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:cookie_jar/cookie_jar.dart';
 
 class CoCartInterceptor extends Interceptor {
+  final CookieJar cookieJar;
+
+  CoCartInterceptor(this.cookieJar);
+
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (options.path.contains('cocart')) {
-      final cartKey = await getCartKey();
-
-      log('Trying to get cart key: $cartKey');
-
-      if (cartKey != null) {
-        options.queryParameters['cart_key'] = cartKey;
+      final cookies = await cookieJar.loadForRequest(Uri.parse(options.baseUrl));
+      if (cookies.isNotEmpty) {
+        String cookieHeader = cookies.map((cookie) => '${cookie.name}=${cookie.value}').join('; ');
+        options.headers['Cookie'] = cookieHeader;
+        log('Attached cookies: $cookieHeader');
       }
     }
     handler.next(options);
   }
 
-  /// Get cart key
-  Future<String?> getCartKey() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('cart_key');
-  }
-
-  /// Save cart key
-  Future<void> saveCartKey(String cartKey) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('cart_key', cartKey);
-  }
-
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) async {
-    try {
-      if (response.data != null && response.data['cart_key'] != null) {
-        log('Saving cart key: ${response.data['cart_key']}');
-        await saveCartKey(response.data['cart_key']);
+    if (response.requestOptions.path.contains('cocart')) {
+      // Save cookies from response
+      final uri = Uri.parse(response.requestOptions.baseUrl);
+      if (response.headers['set-cookie'] != null) {
+        final cookies = response.headers['set-cookie']!.map((cookie) => Cookie.fromSetCookieValue(cookie)).toList();
+        await cookieJar.saveFromResponse(uri, cookies);
+        log('Saved cookies: ${cookies.map((c) => c.toString()).join('; ')}');
       }
-    } catch (e) {
-      log('Failed to save cart key: $e');
     }
 
     handler.next(response);
-  }
-
-  @override
-  void onError(DioException err, ErrorInterceptorHandler handler) {
-    print('Error occurred: ${err.message}');
-    handler.next(err);
   }
 }
 
@@ -61,8 +48,6 @@ class CartValidationInterceptor extends Interceptor {
         log('No items in the cart.', name: 'No items in the cart.');
 
         final cartKey = response.data['cart_key'];
-
-        log('Cart key: $cartKey', name: 'Cart key');
 
         response.data = {
           "cart_hash": "No items in cart so no hash",
@@ -196,8 +181,6 @@ class CartValidationInterceptor extends Interceptor {
           "removed_items": []
         };
 
-        // throw EmptyCartException('No items in the cart.');
-
         dummyResponse = response;
       }
     } catch (e) {
@@ -208,7 +191,7 @@ class CartValidationInterceptor extends Interceptor {
       if (e is AuthenticationException) {
         throw AuthenticationException(e.message);
       } else {
-        log(e.toString());
+        log(e.toString(), name: 'CoCartInterceptor');
       }
     }
     handler.next(dummyResponse);

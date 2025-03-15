@@ -16,8 +16,10 @@ import 'package:purple_planet_packaging/app/features/cart/widget/cart_bottom_she
 import 'package:purple_planet_packaging/app/features/cart/widget/cart_item.dart';
 import 'package:purple_planet_packaging/app/features/shop/view/shop_view.dart';
 import 'package:purple_planet_packaging/app/models/cart/cart_model.dart';
+import 'package:purple_planet_packaging/app/provider/shared_preferences_storage_service_provider.dart';
 
 import '../../../core/utils/app_styles.dart';
+import '../../../core/utils/app_utils.dart';
 
 class CartView extends ConsumerStatefulWidget {
   const CartView({Key? key}) : super(key: key);
@@ -33,6 +35,7 @@ class _CartViewState extends ConsumerState<CartView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CartAppBar(),
+
       bottomSheet: Container(
         padding: AppStyles.scaffoldPadding,
         height: 170.h,
