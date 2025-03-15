@@ -1,64 +1,62 @@
-import 'dart:developer';
+// import 'package:freezed_annotation/freezed_annotation.dart';
+// import 'package:purple_planet_packaging/app/models/products/product.dart';
+// import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:purple_planet_packaging/app/models/products/product.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
+// part 'product_state.g.dart';
 
-part 'product_state.g.dart';
+// part 'product_state.freezed.dart';
 
-part 'product_state.freezed.dart';
+// @freezed
+// class ProductState with _$ProductState {
+//   const factory ProductState({
+//     required Product product,
+//     String? selectedAttributeOption,
+//     @Default('') String selectedPrice,
+//     int? defaultVariation,
+//     @Default(false) bool isLoading,
+//     @Default(null) String? error,
+//   }) = _ProductState;
+// }
 
-@freezed
-class ProductState with _$ProductState {
-  const factory ProductState({
-    required Product product,
-    String? selectedAttributeOption,
-    @Default('') String selectedPrice,
-    int? defaultVariation,
-    @Default(false) bool isLoading,
-    @Default(null) String? error,
-  }) = _ProductState;
-}
+// @riverpod
+// class ProductNotifier extends _$ProductNotifier {
+//   @override
+//   ProductState build(Product product) {
+//     String? defaultAttributeOption;
 
-@riverpod
-class ProductNotifier extends _$ProductNotifier {
-  @override
-  ProductState build(Product product) {
-    String? defaultAttributeOption;
+//     if (product.defaultAttributes == null || product.defaultAttributes!.isEmpty) {
+//       defaultAttributeOption = null;
+//     } else {
+//       defaultAttributeOption = product.defaultAttributes?.first.option;
+//     }
+//     if (defaultAttributeOption == null) {
+//       return ProductState(product: product, defaultVariation: product.id, selectedPrice: product.price);
+//     }
 
-    if (product.defaultAttributes == null || product.defaultAttributes!.isEmpty) {
-      defaultAttributeOption = null;
-    } else {
-      defaultAttributeOption = product.defaultAttributes?.first.option;
-    }
-    if (defaultAttributeOption == null) {
-      return ProductState(product: product, defaultVariation: product.id, selectedPrice: product.price);
-    }
+//     return ProductState(
+//         product: product,
+//         selectedAttributeOption: defaultAttributeOption,
+//         selectedPrice: product.pricesList[findIndex(defaultAttributeOption)],
+//         defaultVariation: _findMatchingVariation(defaultAttributeOption));
+//   }
 
-    return ProductState(
-        product: product,
-        selectedAttributeOption: defaultAttributeOption,
-        selectedPrice: product.pricesList[findIndex(defaultAttributeOption)],
-        defaultVariation: _findMatchingVariation(defaultAttributeOption));
-  }
+//   void updateSelectedOption({required int id}) async {
+//     String price = state.product.pricesList[findIndex(option)];
+//     state = state.copyWith(
+//         selectedAttributeOption: option, selectedPrice: price, defaultVariation: _findMatchingVariation(option));
+//   }
 
-  void updateSelectedOption({required String option}) async {
-    String price = state.product.pricesList[findIndex(option)];
-    state = state.copyWith(
-        selectedAttributeOption: option, selectedPrice: price, defaultVariation: _findMatchingVariation(option));
-  }
+//   int findIndex(String option) {
+//     List<String> options = product.attributes.first.options!;
 
-  int findIndex(String option) {
-    List<String> options = product.attributes.first.options!;
+//     return options.indexOf(option);
+//   }
 
-    return options.indexOf(option);
-  }
+//   int _findMatchingVariation(String? option) {
+//     if (option == null) {
+//       return product.id;
+//     }
 
-  int _findMatchingVariation(String? option) {
-    if (option == null) {
-      return product.id;
-    }
-
-    return product.variations[findIndex(option)];
-  }
-}
+//     return product.variations[findIndex(option)];
+//   }
+// }

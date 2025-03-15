@@ -9,11 +9,14 @@ import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
 import 'package:purple_planet_packaging/app/extensions/elevated_button_extensions.dart';
 import 'package:purple_planet_packaging/app/features/cart/notifiers/cart_notifier.dart';
+import 'package:purple_planet_packaging/app/features/shop/notifiers/product_by_id_provider.dart';
 import 'package:purple_planet_packaging/app/features/shop/widget/product_details/images_slider.dart';
 import 'package:purple_planet_packaging/app/features/shop/widget/product_price_widget.dart';
 
 import '../../../../models/products/product.dart';
 import '../../notifiers/product_state.dart';
+import 'product_varients.dart';
+import 'related_products.dart';
 
 class ProductDetailsView extends ConsumerStatefulWidget {
   const ProductDetailsView({super.key, required this.title, required this.product});
@@ -29,7 +32,9 @@ class ProductDetailsView extends ConsumerStatefulWidget {
 class _ProductDetailsViewState extends ConsumerState<ProductDetailsView> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(productNotifierProvider(widget.product));
+    // final state = ref.watch(selectedProductVariantNotifierProvider(defaultProduct: widget.product));
+    final state = ref.watch(selectedProductVariantNotifierProvider(defaultProduct: widget.product));
+
     return Scaffold(
       appBar: PPPAppBar(title: widget.title),
       body: Padding(
@@ -44,74 +49,46 @@ class _ProductDetailsViewState extends ConsumerState<ProductDetailsView> {
                 children: [
                   Expanded(
                       child: Text(
-                    widget.product.name,
-                    style: AppStyles.mediumBoldStyle(fontSize: 16.sp),
+                    state!.name,
+                    style: AppStyles.mediumBoldStyle(fontSize: 14.sp),
                   )),
                 ],
               ),
               10.verticalSpace,
-
               Row(
                 children: [
                   Text('Price: ', style: AppStyles.boldStyle()),
                   5.horizontalSpace,
-                  ProductPriceWidget(state.selectedPrice.replaceAll('£', '')),
+                  ProductPriceWidget(state.price.replaceAll('£', '')),
                 ],
               ),
               10.verticalSpace,
-              const Divider(color: AppColors.primaryColor),
-              10.verticalSpace,
-              if (widget.product.variations.isNotEmpty)
-                ...widget.product.attributes.first.options!
-                    .map((e) => RadioListTile.adaptive(
-                          dense: true,
-                          contentPadding: EdgeInsets.zero,
-                          visualDensity: VisualDensity.compact,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                          groupValue: state.selectedAttributeOption,
-                          title: Text(e, style: AppStyles.mediumStyle()),
-                          value: e,
-                          onChanged: (value) {
-                            ref
-                                .read(productNotifierProvider(widget.product).notifier)
-                                .updateSelectedOption(option: value!);
-                          },
-                        ))
-                    .toList(),
-
+              if (widget.product.variations.isNotEmpty) ProductVariantList(product: widget.product),
               Text('Description', style: AppStyles.mediumBoldStyle()),
               10.verticalSpace,
               HtmlWidget(widget.product.description),
-
               20.verticalSpace,
               Row(
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {
-                        if (state.defaultVariation == null) {
-                          log('No default variation');
-                          return;
-                        }
+                      onPressed: widget.product.stockStatus == StockStatus.outofstock
+                          ? null
+                          : () {
+                              final productId = ref.read(newCartNotifierProvider.notifier).getDefaultProductId(state);
 
-                        ref
-                            .read(newCartNotifierProvider.notifier)
-                            .addToCart(productId: state.defaultVariation!, context: context);
-                      },
+                              ref
+                                  .read(newCartNotifierProvider.notifier)
+                                  .addToCart(productId: productId, context: context);
+                            },
                       child: Text("Add to Cart", style: AppStyles.mediumBoldStyle()),
-                    ).alterP(),
+                    ),
                   ),
                   20.horizontalSpace,
-                  // Expanded(
-                  //   child: ElevatedButton(
-                  //     onPressed: () {},
-                  //     child: Text("Buy Now", style: AppStyles.mediumStyle()),
-                  //   ),
-                  // ),
                 ],
               ),
               20.verticalSpace,
-              // const FeaturedProducts(title: 'You might also like', padding: EdgeInsets.zero, leftMargin: 0),
+              RelatedProductsWidget(widget.product.relatedIds),
             ],
           ),
         ),

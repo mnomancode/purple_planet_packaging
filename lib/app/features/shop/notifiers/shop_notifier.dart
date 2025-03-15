@@ -19,6 +19,7 @@ class ShopNotifier extends _$ShopNotifier {
     int removeIndex = categories.indexWhere((element) => element.image == null);
 
     categories.removeAt(removeIndex);
+    categories.removeWhere((element) => element.slug == 'cleaning-supplies');
 
     return categories;
   }

@@ -142,6 +142,7 @@ class Attribute with _$Attribute {
     dynamic position,
     dynamic visible,
     bool? variation,
+    String? option,
     List<String>? options,
   }) = _Attribute;
 

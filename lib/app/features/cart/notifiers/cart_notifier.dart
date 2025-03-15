@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_colors.dart';
 import 'package:purple_planet_packaging/app/core/utils/app_styles.dart';
+import 'package:purple_planet_packaging/app/models/products/product.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../models/cart/cart_model.dart';
@@ -37,6 +38,26 @@ class NewCartNotifier extends _$NewCartNotifier {
         .setSelectedShippingMethod(tempState.shipping.selectedRate);
 
     return tempState;
+  }
+
+  int getDefaultProductId(Product product) {
+    if (product.defaultAttributes?.isEmpty ?? true) {
+      return product.id;
+    }
+
+    final String? defaultOption = product.defaultAttributes?.first.option;
+    final List<String>? options = product.attributes.first.options;
+
+    if (defaultOption == null || options == null || options.isEmpty) {
+      return product.id;
+    }
+
+    final int index = options.indexOf(defaultOption);
+    if (index == -1 || index >= product.variations.length) {
+      return product.id;
+    }
+
+    return product.variations[index];
   }
 
   Future<void> addToCart({

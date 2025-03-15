@@ -145,6 +145,7 @@ final routerProvider = Provider<GoRouter>(
                   name: FaqsView.routeName, path: FaqsView.routeName, builder: (context, state) => const FaqsView()),
             ]),
         StatefulShellRoute.indexedStack(
+          // parentNavigatorKey: _rootNavigatorKey,
           builder: (BuildContext context, GoRouterState state, StatefulNavigationShell navigationShell) {
             return Consumer(builder: (context, ref, child) {
               ref.listen<bool>(

@@ -91,6 +91,7 @@ class ProductListItem extends ConsumerWidget {
                 style: AppStyles.mediumBoldStyle(color: AppColors.primaryColor, fontSize: 13.sp),
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis),
+            const Spacer(),
             const Divider(color: AppColors.lightGreyColor),
             ProductPriceWidget(product.price, columnView: true),
           ],

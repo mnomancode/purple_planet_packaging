@@ -62,7 +62,15 @@ class AppTheme {
       }),
       maximumSize: WidgetStateProperty.all(const Size(double.infinity, 60)),
       minimumSize: WidgetStateProperty.all(const Size(double.infinity, 50)),
-      shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+      shape: WidgetStateProperty.resolveWith((states) {
+        if (states.contains(WidgetState.disabled)) {
+          return (RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+            side: const BorderSide(color: AppColors.primaryColor),
+          ));
+        }
+        return (RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)));
+      }),
       foregroundColor: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.disabled)) {
           return AppColors.primaryColor;

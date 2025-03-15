@@ -27,65 +27,76 @@ class DashboardView extends ConsumerWidget {
     // final cartAsyncValue = ref.watch(cartFutureProvider);
     final notificationController = ref.watch(notificationControllerProvider);
 
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: Theme(
-        data: ThemeData(
-          splashFactory: NoSplash.splashFactory,
-          splashColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-        ),
-        child: BottomNavigationBar(
-          // elevation: 1,
-          showUnselectedLabels: true,
-          backgroundColor: AppColors.white,
-          selectedItemColor: AppColors.primaryColor,
-          unselectedItemColor: AppColors.greyColor,
-          selectedFontSize: 12.sp,
-          unselectedFontSize: 12.sp,
-          selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),
-          type: BottomNavigationBarType.fixed,
-          currentIndex: navigationShell.currentIndex,
-          onTap: (int index) => _onTap(context, index),
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-                icon: SvgPicture.asset(AppImages.svgHome),
-                activeIcon: SvgPicture.asset(AppImages.svgHomeSelected),
-                label: 'Home'),
-            BottomNavigationBarItem(
-                icon: SvgPicture.asset(AppImages.svgShop),
-                activeIcon: SvgPicture.asset(AppImages.svgShopSelected),
-                label: 'Shop'),
-            BottomNavigationBarItem(
-                icon: Stack(
-                  children: [
-                    SvgPicture.asset(AppImages.svgCart),
-                    Consumer(builder: (context, ref, child) {
-                      String totalQuantity = '0';
+    return PopScope(
+      canPop: navigationShell.currentIndex == 0, // Only allow pop if on the first tab
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) {
+          if (navigationShell.currentIndex > 0) {
+            _onTap(context, 0);
+          }
+        }
+      },
+      child: Scaffold(
+        body: navigationShell,
+        bottomNavigationBar: Theme(
+          data: ThemeData(
+            splashFactory: NoSplash.splashFactory,
+            splashColor: Colors.transparent,
+            hoverColor: Colors.transparent,
+          ),
+          child: BottomNavigationBar(
+            // elevation: 1,
+            showUnselectedLabels: true,
+            backgroundColor: AppColors.white,
+            selectedItemColor: AppColors.primaryColor,
+            unselectedItemColor: AppColors.greyColor,
+            selectedFontSize: 12.sp,
+            unselectedFontSize: 12.sp,
+            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w700),
+            type: BottomNavigationBarType.fixed,
+            currentIndex: navigationShell.currentIndex,
+            onTap: (int index) => _onTap(context, index),
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                  icon: SvgPicture.asset(AppImages.svgHome),
+                  activeIcon: SvgPicture.asset(AppImages.svgHomeSelected),
+                  label: 'Home'),
+              BottomNavigationBarItem(
+                  icon: SvgPicture.asset(AppImages.svgShop),
+                  activeIcon: SvgPicture.asset(AppImages.svgShopSelected),
+                  label: 'Shop'),
+              BottomNavigationBarItem(
+                  icon: Stack(
+                    children: [
+                      SvgPicture.asset(AppImages.svgCart),
+                      Consumer(builder: (context, ref, child) {
+                        String totalQuantity = '0';
 
-                      try {
-                        totalQuantity = '${ref.watch(newCartNotifierProvider).value?.itemCount ?? 0}';
-                      } catch (e) {}
+                        try {
+                          totalQuantity = '${ref.watch(newCartNotifierProvider).value?.itemCount ?? 0}';
+                        } catch (e) {}
 
-                      return Positioned(
-                        top: 0,
-                        right: 0,
-                        child: CircleAvatar(
-                          radius: 7.r,
-                          backgroundColor: AppColors.primaryColor,
-                          child: Text(totalQuantity, style: AppStyles.lightStyle(color: Colors.white, fontSize: 7.sp)),
-                        ),
-                      );
-                    }),
-                  ],
-                ),
-                activeIcon: SvgPicture.asset(AppImages.svgCartSelected),
-                label: 'Cart'),
-            BottomNavigationBarItem(
-                icon: SvgPicture.asset(AppImages.svgUser),
-                activeIcon: SvgPicture.asset(AppImages.svgUserSelected),
-                label: 'Account'),
-          ],
+                        return Positioned(
+                          top: 0,
+                          right: 0,
+                          child: CircleAvatar(
+                            radius: 7.r,
+                            backgroundColor: AppColors.primaryColor,
+                            child:
+                                Text(totalQuantity, style: AppStyles.lightStyle(color: Colors.white, fontSize: 7.sp)),
+                          ),
+                        );
+                      }),
+                    ],
+                  ),
+                  activeIcon: SvgPicture.asset(AppImages.svgCartSelected),
+                  label: 'Cart'),
+              BottomNavigationBarItem(
+                  icon: SvgPicture.asset(AppImages.svgUser),
+                  activeIcon: SvgPicture.asset(AppImages.svgUserSelected),
+                  label: 'Account'),
+            ],
+          ),
         ),
       ),
     );
